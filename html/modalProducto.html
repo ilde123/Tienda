@@ -1,0 +1,111 @@
+<!-- The Modal -->
+<div class="modal fade" id="modalProducto">
+	<div class="modal-dialog modal-dialog-scrollable modal-xl">
+		<div class="modal-content">
+
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<h4 class="modal-title">Modal Heading</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+
+			<!-- Modal body -->
+			<div class="modal-body">
+
+				<div class="form-group">
+					<label for="codigoAgregar" class="label">Código:</label>
+					<input type="text" class="form-control" id="codigoAgregar" placeholder="Código..." name="codigo" required>
+					<div class="valid-feedback">
+						Campo válido
+					</div>
+					<div class="invalid-feedback">
+						Rellene este campo
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="descripcionAgregar" class="label">Descripcion:</label>
+					<textarea type="text" class="form-control" id="descripcionAgregar" placeholder="Descripcion..." name="descripcion" required></textarea>
+					<div class="valid-feedback">
+						Campo válido
+					</div>
+					<div class="invalid-feedback">
+						Rellene este campo
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-9">
+							<label for="precioConsultar" class="label">Precio:</label>
+							<input type="text" class="form-control" id="precioConsultar" placeholder="Precio..." name="precio">
+						</div>
+						<div class="col-md-3">
+							<label for="ivaAgregar" class="label">IVA:</label>
+							<select id="ivaAgregar" placeholder="IVA..." name="iva" class="custom-select mb-2 mr-sm-2" required>
+								<option value="0">Sin IVA</option>
+								<option value="4%">4%</option>
+								<option value="10%">10%</option>
+								<option value="21%">21%</option>
+							</select>
+							<div class="valid-feedback">
+								Campo válido
+							</div>
+							<div class="invalid-feedback">
+								Rellene este campo
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="familiaAgregar" class="label">Familia:</label>
+					<select name="familia" id="familiaAgregar" class="custom-select mb-2 mr-sm-2" required="">
+						<option value="Alimentación">Alimentación</option>
+						<option value="Bebidas">Bebidas</option>
+						<option value="Drogería">Drogería</option>
+						<option value="Tabaco">Tabaco</option>
+					</select>
+					<div class="valid-feedback">
+						Campo válido
+					</div>
+					<div class="invalid-feedback">
+						Rellene este campo
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="proveedorAgregar" class="label">Proveedor:</label>
+					<select name="proveedor" id="proveedorAgregar" class="custom-select mb-2 mr-sm-2" required="">
+						<option value="1">Ayala</option>
+					</select>
+					<div class="valid-feedback">
+						Campo válido
+					</div>
+					<div class="invalid-feedback">
+						Rellene este campo
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm">
+							<label for="stockConsultar" class="label">Stock:</label>
+							<input type="text" class="form-control" id="stockConsultar" placeholder="Stock..." name="stock">
+						</div>
+						<div class="col-sm">
+							<label for="stockMinConsultar" class="label">Stock min.:</label>
+							<input type="text" class="form-control" id="stockMinConsultar" placeholder="Stock min..." name="stockMin">
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+			</div>
+
+		</div>
+	</div>
+</div>

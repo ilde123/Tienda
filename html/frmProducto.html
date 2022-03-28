@@ -1,0 +1,316 @@
+<div class="row">
+	<div class="col-sm-2">
+		<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+			<a class="nav-link text-center active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-agregar" role="tab" aria-controls="v-pills-agregar" aria-selected="true">Agregar</a>
+			<a class="nav-link text-center" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-consultar" role="tab" aria-controls="v-pills-consultar" aria-selected="false">Consultar</a>
+		</div>
+	</div>
+	<div class="col-sm-10">
+		<div class="tab-content" id="v-pills-tabContent">
+			<div class="tab-pane fade show active" id="v-pills-agregar" role="tabpanel" aria-labelledby="v-pills-agregar-tab">
+				<form action="" method="POST" id="formAgregarProducto" class="needs-validation" name="formAgregarProducto" novalidate>
+					<div class="row">
+						<div class="col-sm">
+							<div class="form-group">
+								<label for="codigoAgregar" class="label">Código:</label>
+								<input type="text" class="form-control" id="codigoAgregar" placeholder="Código..." name="codigo" required>
+								<div class="valid-feedback">
+									Campo válido
+								</div>
+								<div class="invalid-feedback">
+									Rellene este campo
+								</div>
+							</div>
+						</div>
+						<div class="col-sm">
+							<div class="form-group">
+								<label for="descripcionAgregar" class="label">Descripcion:</label>
+								<textarea type="text" class="form-control" id="descripcionAgregar" placeholder="Descripcion..." name="descripcion" required></textarea>
+								<div class="valid-feedback">
+									Campo válido
+								</div>
+								<div class="invalid-feedback">
+									Rellene este campo
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md">
+								<label for="precioAgregar" class="label">Precio:</label>
+								<input type="number" class="form-control" id="precioAgregar" placeholder="Precio..." name="precio" data-decimals="2" step="0.05" required>
+								<div class="valid-feedback">
+									Campo válido
+								</div>
+								<div class="invalid-feedback">
+									Rellene este campo
+								</div>
+							</div>
+							<div class="col-md">
+								<label for="ivaAgregar" class="label">IVA:</label>
+								<select id="ivaAgregar" placeholder="IVA..." name="iva" class="custom-select mb-2 mr-sm-2" required>
+									<option value="0">Sin IVA</option>
+									<option value="4">4%</option>
+									<option value="10">10%</option>
+									<option value="21">21%</option>
+								</select>
+								<div class="valid-feedback">
+									Campo válido
+								</div>
+								<div class="invalid-feedback">
+									Rellene este campo
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm">
+							<div class="form-group">
+								<label for="familiaAgregar" class="label">Familia:</label>
+								<select name="familia" id="familiaAgregar" class="custom-select mb-2 mr-sm-2" required></select>
+								<div class="valid-feedback">
+									Campo válido
+								</div>
+								<div class="invalid-feedback">
+									Rellene este campo
+								</div>
+							</div>
+						</div>
+						<div class="col-sm">							
+							<div class="form-group">
+								<label for="proveedorAgregar" class="label">Proveedor:</label>
+								<select name="proveedor" id="proveedorAgregar" class="custom-select mb-2 mr-sm-2" required></select>
+								<div class="valid-feedback">
+									Campo válido
+								</div>
+								<div class="invalid-feedback">
+									Rellene este campo
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm">
+								<label for="stockAgregar" class="label">Stock:</label>
+								<input type="number" class="form-control" id="stockAgregar" placeholder="Stock..." name="stock" required>
+								<div class="valid-feedback">
+									Campo válido
+								</div>
+								<div class="invalid-feedback">
+									Rellene este campo
+								</div>
+							</div>
+							<div class="col-sm">
+								<label for="stockMinAgregar" class="label">Stock min.:</label>
+								<input type="number" class="form-control" id="stockMinAgregar" placeholder="Stock min..." name="stockMin" required>
+								<div class="valid-feedback">
+									Campo válido
+								</div>
+								<div class="invalid-feedback">
+									Rellene este campo
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary" name="enviar" id="btnAgregarProducto">
+							<i class="fas fa-cart-plus"></i>
+						</button>
+						<button type="button" class="btn btn-primary btn-volver">
+							<i class="fas fa-arrow-left"></i>
+						</button>
+					</div>
+				</form>
+			</div>
+			<div class="tab-pane fade" id="v-pills-consultar" role="tabpanel" aria-labelledby="v-pills-consultar-tab">
+				<form action="" method="POST" id="" class="needs-validation" name="formConsultarProducto">
+					<div class="form-group">
+						<label for="codigoConsultar" class="label">Código:</label>
+						<input type="text" class="form-control" id="codigoConsultar" placeholder="Código..." name="codigo">
+					</div>
+
+					<div class="form-group">
+						<label for="descripcionConsultar" class="label">Descripcion:</label>
+						<textarea type="text" class="form-control" id="descripcionConsultar" placeholder="Descripcion..." name="descripcion"></textarea>
+					</div>
+
+					<div class="form-group">
+						<button id="btnBuscarProducto" type="submit" class="btn btn-primary" name="enviar">
+							<i class="fas fa-search"></i>
+						</button>
+						<button type="submit" class="btn btn-primary btn-volver">
+							<i class="fas fa-arrow-left"></i>
+						</button>
+					</div>
+				</form>
+
+				<div class="contenido-oculto">
+					<table class="table table-bordered table-hover" id="tablaProducto">
+						<thead class="thead-dark">
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Descripción</th>
+								<th scope="col"></th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+				<!-- The Modal -->
+				<div class="modal fade" id="modalProducto">
+					<div class="modal-dialog modal-dialog-scrollable">
+						<div class="modal-content">
+
+							<!-- Modal Header -->
+							<div class="modal-header">
+								<h4 class="modal-title">Producto</h4>
+								<i id="productoFavorito" class="far fa-star text-warning fa-lg mt-1" aria-hidden="true"></i>
+								<!--
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								-->
+							</div>
+
+							<!-- Modal body -->
+							<div class="modal-body">
+<!--
+								<div class="card" style="width: 18rem;">
+									<img class="card-img-top" alt="..." src="img/logo.png">
+
+									<div class="card-body">
+										<i class="fas fa-tags"></i><a href="#" class="badge badge-pill badge-light"><i class="fas fa-hashtag"></i>alimentación</a><a href="#" class="badge badge-pill badge-light"><i class="fas fa-hashtag"></i>alimentación</a>
+									</div>
+								</div>
+-->
+								<form class="needs-validation" name="formModalProducto">
+									<div class="form-group">
+										<label for="codigoModalProducto" class="label">Código:</label>
+										<input type="text" class="form-control" id="codigoModalProducto" placeholder="Código..." name="codigo">
+										<div class="valid-feedback">
+											Campo válido
+										</div>
+										<div class="invalid-feedback">
+											Rellene este campo
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="descripcionModalProducto" class="label">Descripcion:</label>
+										<textarea type="text" class="form-control" id="descripcionModalProducto" placeholder="Descripcion..." name="descripcion"></textarea>
+										<div class="valid-feedback">
+											Campo válido
+										</div>
+										<div class="invalid-feedback">
+											Rellene este campo
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="row">
+											<div class="col-md-9">
+												<label for="precioModalProducto" class="label">Precio:</label>
+												<input type="number" class="form-control" id="precioModalProducto" placeholder="Precio..." name="precio" data-decimals="2" step="0.05">
+											</div>
+											<div class="col-md-3">
+												<label for="ivaModalProducto" class="label">IVA:</label>
+												<select id="ivaModalProducto" placeholder="IVA..." name="iva" class="custom-select mb-2 mr-sm-2" required>
+													<option value="0">Sin IVA</option>
+													<option value="4">4%</option>
+													<option value="10">10%</option>
+													<option value="21">21%</option>
+												</select>
+												<div class="valid-feedback">
+													Campo válido
+												</div>
+												<div class="invalid-feedback">
+													Rellene este campo
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="familiaModalProducto" class="label">Familia:</label>
+										<select name="familia" id="familiaModalProducto" class="custom-select mb-2 mr-sm-2" required></select>
+										<div class="valid-feedback">
+											Campo válido
+										</div>
+										<div class="invalid-feedback">
+											Rellene este campo
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="proveedorModalProducto" class="label">Proveedor:</label>
+										<select name="proveedor" id="proveedorModalProducto" class="custom-select mb-2 mr-sm-2" required="">
+											<option value="1">Ayala</option>
+										</select>
+										<div class="valid-feedback">
+											Campo válido
+										</div>
+										<div class="invalid-feedback">
+											Rellene este campo
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm">
+												<label for="stockModalProducto" class="label">Stock:</label>
+												<input type="number" class="form-control" id="stockModalProducto" placeholder="Stock..." name="stock" data-decimals="0" step="1">
+											</div>
+											<div class="col-sm">
+												<label for="stockMinModalProducto" class="label">Stock min.:</label>
+												<input type="number" class="form-control" id="stockMinModalProducto" placeholder="Stock min..." name="stockMin" data-decimals="0" step="1">
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+
+							<!-- Modal footer -->
+							<div class="modal-footer">
+								<button type="button" id="btnEditarProducto" class="btn btn-success">
+									<i class="fa fa-check" aria-hidden="true"></i>
+								</button>
+								<button type="button" class="btn btn-danger" data-dismiss="modal">
+									<i class="fa fa-times" aria-hidden="true"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- The Modal -->
+				<div class="modal fade" id="modalEliminarProducto">
+					<div class="modal-dialog">
+						<div class="modal-content">
+
+							<!-- Modal Header -->
+							<div class="modal-header">
+								<h4 class="modal-title">¿Seguro que quiere borrar el producto?</h4>
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
+
+							<!-- Modal footer -->
+							<div class="modal-footer">
+								<button type="button" class="btn btn-danger" data-dismiss="modal">
+									<i class="fa fa-times"></i>
+								</button>
+								<button id="btnEliminarProducto" type="button" class="btn btn-success" data-dismiss="modal">
+									<i class="fa fa-check"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

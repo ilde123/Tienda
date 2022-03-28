@@ -1,0 +1,89 @@
+<form class="needs-validation" name="formProveedores" novalidate>
+	<div class="form-group">
+		<label for="proveedores" class="label">Proveedores:</label>
+		<select name="proveedores[]" id="proveedores" class="custom-select mb-2 mr-sm-2" multiple required></select>
+		<div class="valid-feedback">
+			Campo válido
+		</div>
+		<div class="invalid-feedback">
+			Seleccione algún proveedor
+		</div>
+	</div>
+	<div class="form-group">
+		<button type="button" id="btnAgregarProveedor" class="btn btn-success" name="" data-toggle="modal" data-target="#modalProveedor">
+			<i class="fas fa-plus"></i>
+		</button>
+		<button type="button" id="btnBorrarProveedor" class="btn btn-danger" name="">
+			<i class="fas fa-trash"></i>
+		</button>
+		<button type="button" id="" class="btn btn-primary btn-volver">
+			<i class="fas fa-arrow-left"></i>
+		</button>
+	</div>
+</form>
+
+<!-- The Modal -->
+<div class="modal fade" id="modalProveedor">
+	<div class="modal-dialog modal-dialog-scrollable">
+		<div class="modal-content">
+
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<h4 class="modal-title">Proveedor</h4>
+				<i id="proveedorFavorito" class="far fa-star text-warning fa-lg mt-1" aria-hidden="true"></i>
+				<!--
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				-->
+			</div>
+
+			<!-- Modal body -->
+			<div class="modal-body">
+
+				<form class="needs-validation" name="formModalProveedor">
+					<div class="form-group">
+						<label for="descripcionModalProveedor" class="label">Descripcion:</label>
+						<textarea type="text" class="form-control" id="descripcionModalProveedor" placeholder="Descripcion..." name="descripcion"></textarea>
+						<div class="valid-feedback">
+							Campo válido
+						</div>
+						<div class="invalid-feedback">
+							Rellene este campo
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="direccionModalProveedor" class="label">Dirección:</label>
+						<input type="text" class="form-control" id="direccionModalProveedor" placeholder="Dirección..." name="direccion">
+						<div class="valid-feedback">
+							Campo válido
+						</div>
+						<div class="invalid-feedback">
+							Rellene este campo
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="telefonoModalProveedor" class="label">Teléfono:</label>
+						<input type="text" class="form-control" id="telefonoModalProveedor" placeholder="Teléfono..." name="telefono" data-decimals="0" min="600000000" min="799999999" step="1">
+						<div class="valid-feedback">
+							Campo válido
+						</div>
+						<div class="invalid-feedback">
+							Formato de teléfono incorrecto
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" id="btnAgregarProveedorModal" class="btn btn-success">
+					<i class="fa fa-check" aria-hidden="true"></i>
+				</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">
+					<i class="fa fa-times" aria-hidden="true"></i>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

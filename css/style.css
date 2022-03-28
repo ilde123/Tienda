@@ -1,0 +1,382 @@
+#toTop, #btnAddRow {
+	display: none;
+    position: fixed;
+    bottom: 20px;
+	right: 1em;
+	z-index: 99;
+/*	transition: background-color 1.5s ease 0s, border-color 1.5s ease 0s;*/
+}
+
+/*
+	color domingos en el calendario
+*/
+
+.datepicker table tbody tr td:last-child {
+	color: #dc3545!important;
+}
+
+.cursor-wait {
+	cursor: wait!important;
+}
+
+.fa-qrcode, .fa-copy {
+	color: #337abe;
+	cursor: pointer;
+}
+
+/*
+	ICONOS MENU CONTEXTUAL
+*/
+
+.context-menu-item {
+	font-weight: normal;
+}
+
+.context-menu-disabled:hover {
+	cursor: no-drop;
+}
+
+/*
+	MODAL CALCULADORA
+*/
+
+#btnCalc {
+	display: none;
+	position: fixed;
+    bottom: 20px;
+	right: 1em;
+	z-index: 99;
+}
+
+#modalCalculadora .modal-content {
+	width: min-content;
+}
+
+#modalCalculadora iframe {
+	width: 21.1rem;
+	height: 29.4rem;
+}
+
+/*
+	LOADER
+*/
+
+#loader {
+	z-index: 3000;
+	background-image: url('img/logo.png');
+	background-position: center;
+	background-size: 35rem;
+	background-repeat: no-repeat;
+	top: 0;
+}
+
+/*
+	COLUMNAS DE LA TABLA
+*/
+
+.col-unidades {
+	width: 15%;
+}
+
+.col-precio {
+	width: 15%;
+}
+
+.col-codigo {
+	width: 25%;
+}
+
+/*
+	LOGO NAVBAR
+*/
+
+.navbar-brand {
+	transform: rotate(-180deg);
+	transition-duration: 1.25s;
+	transform-origin: center;
+}
+
+.navbar-brand:hover {
+	transform: rotate(180deg);
+	transition-duration: 1.25s;
+	transform-origin: center;
+}
+
+/*
+	MENSAJE DE ALERTA
+*/
+
+.alert {
+	position: fixed;
+	top: -4em;
+	transition: width 2s, height 2s, transform 2s;
+	left: 10%;
+	z-index: 20;
+	width: 80%;
+}
+
+.alert .close {
+	width: 20px;
+	height: 0;
+}
+
+/*
+	BARRA DE SCROLL
+*/
+
+::-webkit-scrollbar {
+	width: 7px;
+	height: 7px;
+}
+
+::-webkit-scrollbar-button {
+	width: 0px;
+	height: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #A4A4A4;
+	border: 0px none #ffffff;
+	border-radius: 14px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #999999;
+}
+
+::-webkit-scrollbar-thumb:active {
+	background: #888888;
+}
+
+::-webkit-scrollbar-track {
+	background: #f5f5f5;
+	border: 0px none #ffffff;
+	border-radius: 50px;
+}
+
+::-webkit-scrollbar-track:hover {
+	background: #f5f5f5;
+	transform: scaleX(1rem);
+}
+
+::-webkit-scrollbar-track:active {
+	background: #f5f5f5;
+}
+
+::-webkit-scrollbar-corner {
+	background: transparent;
+}
+
+html {
+	scrollbar-color: #A4A4A4;
+	scrollbar-width: thin;
+}
+
+html:hover {
+	scrollbar-color: #999999;
+	scrollbar-width: thin;
+}
+
+html:active {
+	scrollbar-color: #888888;
+	scrollbar-width: thin;
+}
+
+/*
+	BARRA SCROLL MODAL
+*/
+
+.modal-dialog-scrollable .modal-body::-webkit-scrollbar {
+    width: 8px;     /* Tamaño del scroll en vertical */
+    height: 8px;    /* Tamaño del scroll en horizontal */
+/*	display: none;  /* Ocultar scroll */
+}
+
+/* Ponemos un color de fondo y redondeamos las esquinas del thumb */
+.modal-dialog-scrollable .modal-body::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+
+/* Cambiamos el fondo y agregamos una sombra cuando esté en hover */
+.modal-dialog-scrollable .modal-body::-webkit-scrollbar-thumb:hover {
+    background: #b3b3b3;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Cambiamos el fondo cuando esté en active */
+.modal-dialog-scrollable .modal-body::-webkit-scrollbar-thumb:active {
+    background-color: #999999;
+}
+
+/* Ponemos un color de fondo y redondeamos las esquinas del track */
+.modal-dialog-scrollable .modal-body::-webkit-scrollbar-track {
+    background: #e1e1e1;
+    border-radius: 4px;
+}
+
+/* Cambiamos el fondo cuando esté en active o hover */
+.modal-dialog-scrollable .modal-body::-webkit-scrollbar-track:hover,
+.modal-dialog-scrollable .modal-body::-webkit-scrollbar-track:active {
+	background: #d4d4d4;
+}
+
+/*
+	SUBMENU
+*/
+
+.rotar::after {
+	transition-duration: 0.5s;
+	transform: rotate(0deg) !important;
+}
+
+.dropdown-submenu {
+	position: relative;
+}
+
+.dropdown-submenu a::after {
+	transform: rotate(-90deg);
+	position: absolute;
+	right: 6px;
+	top: .8em;
+}
+
+.dropdown-submenu .dropdown-menu {
+	top: 0;
+	left: 100%;
+	margin-left: .1rem;
+	margin-right: .1rem;
+}
+
+.dropdown-submenu.dropright .dropdown-menu {
+	margin-left: 1px;
+}
+
+.dropdown-submenu.dropleft .dropdown-menu {
+	margin-right: 1px;
+}
+
+[x-placement^="bottom-"] .dropdown-submenu .dropdown-menu, .navbar .dropdown-submenu .dropdown-menu {
+	bottom: auto;
+	margin-top: calc(-0.5rem - 1px);
+}
+
+[x-placement^="top-"] .dropdown-submenu .dropdown-menu {
+	top: auto;
+	bottom: 0;
+	margin-bottom: calc(-0.5rem - 1px);
+}
+
+.dropdown-submenu.dropright > .dropdown-toggle {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.dropdown-submenu.dropright > .dropdown-toggle::after {
+	margin-right: -12px;
+}
+
+.fa-times {
+	font-size: large!important;
+}
+
+.contenido-oculto {
+	display: none;
+}
+
+#productoFavorito, #proveedorFavorito {
+	cursor: pointer;
+	transition-duration: 0.25s;
+}
+
+#productoFavorito:active, #proveedorFavorito:active {
+	transition-duration: 0.25s;
+	transform-origin: center center 0px;
+	transform: scale(1.5);
+}
+
+#qrcode {
+	width: fit-content;
+}
+
+.navbar-texto {
+	position: absolute;
+	right: 50%;
+	left: 50%;
+	top: 10%;
+}
+
+/*
+	LECTOR QR
+*/
+
+.scanner-laser{
+	position: absolute;
+	margin: 40px;
+	height: 30px;
+	width: 30px;
+}
+.laser-leftTop{
+	top: 0;
+	left: 0;
+	border-top: solid red 5px;
+	border-left: solid red 5px;
+}
+.laser-leftBottom{
+	bottom: 0;
+	left: 0;
+	border-bottom: solid red 5px;
+	border-left: solid red 5px;
+}
+.laser-rightTop{
+	top: 0;
+	right: 0;
+	border-top: solid red 5px;
+	border-right: solid red 5px;
+}
+.laser-rightBottom{
+	bottom: 0;
+	right: 0;
+	border-bottom: solid red 5px;
+	border-right: solid red 5px;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+	table th, table td, table input {
+		font-size: 10px!important;
+	}
+
+	.col-precio {
+		width: 25%;
+	}
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+	.col-precio {
+		width: 20%;
+	}
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+	#total {
+		font-size: 2em;
+	}
+}
+	
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+	#total {
+		font-size: 3em;
+	}
+}
+	
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+	#total {
+		font-size: 3.5em;
+	}
+}
