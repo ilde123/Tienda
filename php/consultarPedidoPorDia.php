@@ -23,7 +23,7 @@
 			INNER JOIN producto USING(codigo)
 			WHERE fecha BETWEEN ? AND ? AND DATE_FORMAT(pedido.fecha, '%H:%i') BETWEEN ? AND ? AND UPPER(producto.familia) != 'TABACO'
 			GROUP BY DATE_FORMAT(pedido.fecha, '%d %m %Y')
-			ORDER BY pedido.fecha, producto.descripcion;";
+			ORDER BY pedido.fecha DESC, producto.descripcion DESC;";
 
 	$datos = [];
 
