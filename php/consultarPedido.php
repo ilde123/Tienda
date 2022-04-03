@@ -18,24 +18,11 @@
 	$ff = $fechaFin.' '.$horaFin;
 	$respuesta;
 
-	$sql = "SELECT SUM(lpedido.unidades * lpedido.precio) total, DATE_FORMAT(pedido.fecha, '%d %m %Y') fecha FROM pedido
-			INNER JOIN lpedido USING(npedido)
-			INNER JOIN producto USING(codigo)
-			WHERE fecha BETWEEN '2021-7-1' AND '2021-8-17' AND UPPER(producto.familia) != 'TABACO'
-			GROUP BY DATE_FORMAT(pedido.fecha, '%d %m %Y')
-			ORDER BY pedido.fecha, producto.descripcion;";
-
-	$sql = "SELECT producto.codigo, producto.descripcion, lpedido.precio, lpedido.unidades, pedido.fecha, pedido.npedido, lpedido.nlinea, lpedido.unidades * lpedido.precio total FROM pedido
-			INNER JOIN lpedido USING(npedido)
-			INNER JOIN producto USING(codigo)
-			WHERE fecha BETWEEN ? AND ? AND UPPER(producto.familia) != 'TABACO'
-			ORDER BY pedido.fecha, producto.descripcion;";
-
-	$sql = "SELECT pedido.npedido, producto.descripcion, lpedido.unidades, lpedido.precio, pedido.fecha, lpedido.nlinea
+	$sql = "SELECT pedido.npedido, producto.descripcion, lpedido.unidades, lpedido.precio, DATE_FORMAT(pedido.fecha, '%H:%i %d/%m/%Y') fecha, lpedido.nlinea
 			FROM lpedido
 			INNER JOIN producto ON lpedido.codigo = producto.codigo
 			INNER JOIN pedido ON pedido.npedido = lpedido.npedido
-			WHERE fecha BETWEEN ? AND ? AND UPPER(producto.familia) != 'TABACO'
+			WHERE fecha BETWEEN ? AND ? AND DATE_FORMAT(pedido.fecha, '%H:%i') BETWEEN ? AND ? AND UPPER(producto.familia) != 'TABACO'
 			ORDER BY pedido.fecha DESC;";
 
 	$datos = [];
@@ -44,7 +31,7 @@
 	try {
 		if ($stmt = $conexion->prepare($sql)) {
 	
-			$stmt->bind_param('ss', $fi, $ff);
+			$stmt->bind_param('ssss', $fechaInicio, $fechaFin, $horaInicio, $horaFin);
 	
 			// ejecuta sentencias prepradas
 			$stmt->execute();
@@ -53,8 +40,8 @@
 	
 			/* obtener valores */
 			while ($fila = $result->fetch_array(MYSQLI_ASSOC)) {
-//				$datos[] = $fila;
 				$datos[$fila['npedido']][$fila['nlinea']] = $fila;
+//				$datos[$fila['npedido']]['fecha'] = $fila['fecha'];
 			}
 	
 			// cierra sentencia y conexión

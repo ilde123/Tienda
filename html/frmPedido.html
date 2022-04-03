@@ -1,40 +1,40 @@
 <form class="needs-validation" name="formPedido" novalidate>
 	<div class="form-group">
 		<div class="row">
-			<div class="col-sm-8">
+			<div class="col-sm-3">
 				<label for="fechaInicioPedido" class="font-weight-bold">Fecha Inicio</label>
 				<input type="text" id="fechaInicioPedido" class="form-control bg-white" name="fecha" readonly>
 			</div>
-			<div class="col-sm-4">
-				<label for="horaInicio" class="mb-2 mr-sm-2 font-weight-bold">Hora Inicio</label>
-				<input name="horaInicio" id="horaInicio" class="form-control bg-white" readonly">
-			</div>
-		</div>
-	</div>
-	<div class="form-group">
-		<div class="row">
-			<div class="col-sm-8">
+			<div class="col-sm-3">
 				<label for="fechaFinPedido" class="font-weight-bold">Fecha Fin</label>
 				<input type="text" id="fechaFinPedido" class="form-control bg-white" name="fecha" readonly>
 			</div>
-			<div class="col-sm-4">
+			<div class="col-sm-3">
+				<label for="horaInicio" class="mb-2 mr-sm-2 font-weight-bold">Hora Inicio</label>
+				<input name="horaInicio" id="horaInicio" class="form-control bg-white" readonly">
+			</div>
+			<div class="col-sm-3">
 				<label for="horaFin" class="mb-2 mr-sm-2 font-weight-bold">Hora Fin</label>
 				<input name="horaFin" id="horaFin" class="form-control bg-white" readonly>
 			</div>
 		</div>
 	</div>
-	<div class="form-group">
-		<label for="" class="font-weight-bold">Mostrar:</label>
-		<div class="custom-control custom-radio">
-			<input type="radio" id="radioMostrarTotal" name="opcion" class="custom-control-input" value="total" checked>
-			<label class="custom-control-label" for="radioMostrarTotal">Total</label>
-		</div>
-		<div class="custom-control custom-radio">
-			<input type="radio" id="radioMostrarProducto" name="opcion" class="custom-control-input" value="producto">
-			<label class="custom-control-label" for="radioMostrarProducto">Pedidos</label>
+	<div class="form-group d-none">
+		<div class="row">
 		</div>
 	</div>
-	<div class="form-group contenido-oculto">
+	<div class="form-group form-inline">
+		<label for="" class="font-weight-bold">Mostrar:</label>
+		<div class="custom-control custom-radio ml-2">
+			<input type="radio" id="radioMostrarTotal" name="opcion" class="custom-control-input" value="total" checked>
+			<label class="custom-control-label pt-1" for="radioMostrarTotal">Total vendido</label>
+		</div>
+		<div class="custom-control custom-radio ml-2">
+			<input type="radio" id="radioMostrarProducto" name="opcion" class="custom-control-input" value="producto">
+			<label class="custom-control-label pt-1" for="radioMostrarProducto">Pedidos</label>
+		</div>
+	</div>
+	<div class="form-group d-none">
 		<label for="" class="font-weight-bold">Familias:</label>
 		<div class="custom-control custom-checkbox">
 			<input type="checkbox" id="" class="custom-control-input" value="alimentacion" checked>
@@ -57,7 +57,7 @@
 		<button type="button" id="btnConsultarPedido" class="btn btn-primary" name="enviar">
 			<i class="fas fa-search"></i>
 		</button>
-		<button type="button" id="" class="btn btn-primary btn-volver">
+		<button type="button" class="btn btn-primary btn-volver">
 			<i class="fas fa-arrow-left"></i>
 		</button>
 	</div>

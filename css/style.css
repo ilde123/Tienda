@@ -11,8 +11,20 @@
 	color domingos en el calendario
 */
 
-.datepicker table tbody tr td:last-child {
-	color: #dc3545!important;
+.tabla-activa, .tabla-activa td {
+	background-color: #007bff;
+	color: #ffffff;
+}
+
+.tabla-activa, .tabla-activa td::selection {
+	background-color: #ffffff;
+	color: #007bff;
+	font-weight: bolder;
+}
+
+.table-hover .tabla-activa:hover, .table-hover .tabla-activa:hover td {
+	background-color: #0062cc;
+	color: #ffffff;
 }
 
 .cursor-wait {

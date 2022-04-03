@@ -751,8 +751,8 @@ gj.core.messages['es-es'] = {
     weekDays: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
     am: 'AM',
     pm: 'PM',
-    ok: 'OK',
-    cancel: 'Cancelar',
+    ok: '<i class="fas fa-check text-success"></i>',
+    cancel: '<i class="fas fa-times text-danger"></i>',
     titleFormat: 'mmmm yyyy'
 };
 

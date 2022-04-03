@@ -27,7 +27,7 @@
 	$height = 80;
 	$height += count($data) * 3.2;
 
-	$pdf = new PDF();
+	$pdf = new Ticket();
 	$pdf->AliasNbPages();
 	$pdf->AddPage('p' ,array(80, $height));
 

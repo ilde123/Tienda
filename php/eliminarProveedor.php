@@ -9,7 +9,7 @@
 	foreach ($proveedores as $k => $v) {
 		if ($stmt = $conexion->prepare("DELETE FROM proveedor WHERE descripcion = ?;")) {
 
-			$stmt->bind_param('i', $v);
+			$stmt->bind_param('s', $v);
 
 			// ejecuta sentencias prepradas
 			$stmt->execute();

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<title>Tienda</title>
 		<!-- Required meta tags -->
@@ -394,6 +394,9 @@
 		<script src="js/popper.min.js" crossorigin="anonymous"></script>
 		<script src="js/bootstrap.min.js" crossorigin="anonymous"></script>
 
+		<script src="js/index.js"></script>
+		<script src="js/submenu.js"></script>
+
 		<!-- Pickers -->
 		<script src="js/number-spinner.js"></script>
 		<script src="js/pickers/core.js"></script>
@@ -407,34 +410,8 @@
 		<!-- Include the image-diff library -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
 		<script src="js/barcode.js"></script>
-		<!-- 
-		<script src="js/qrcodelib.js"></script>
-		<script src="js/webcodecamjquery.js"></script>
-		-->
 
 		<!-- Autocomplete-->
 		<script src="js/autocomplete.js"></script>
-
-		<script src="js/index.js"></script>
-		<script src="js/submenu.js"></script>
-
-		<!-- 
-		<script type="text/javascript">
-            var arg = {
-                resultFunction: function(result) {
-                    $('body').append($('<li>' + result.format + ': ' + result.code + '</li>'));
-                }
-            };
-            var decoder = $("canvas").WebCodeCamJQuery(arg).data().plugin_WebCodeCamJQuery;
-            decoder.buildSelectMenu("select");
-            decoder.play();
-            /*  Without visible select menu
-            */
-		   decoder.buildSelectMenu(document.createElement('select'), 'environment|back').init(arg).play();
-            $('select').on('change', function(){
-                decoder.stop().play();
-            });
-		</script>
-		-->
 	</body>
 </html>

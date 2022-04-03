@@ -21,7 +21,7 @@
 	$sql = "SELECT SUM(lpedido.unidades * lpedido.precio) total, DATE_FORMAT(pedido.fecha, '%d/%m/%Y') fecha FROM pedido
 			INNER JOIN lpedido USING(npedido)
 			INNER JOIN producto USING(codigo)
-			WHERE fecha BETWEEN ? AND ? AND UPPER(producto.familia) != 'TABACO'
+			WHERE fecha BETWEEN ? AND ? AND DATE_FORMAT(pedido.fecha, '%H:%i') BETWEEN ? AND ? AND UPPER(producto.familia) != 'TABACO'
 			GROUP BY DATE_FORMAT(pedido.fecha, '%d %m %Y')
 			ORDER BY pedido.fecha, producto.descripcion;";
 
@@ -30,7 +30,7 @@
 	try {
 		if ($stmt = $conexion->prepare($sql)) {
 	
-			$stmt->bind_param('ss', $fi, $ff);
+			$stmt->bind_param('ssss', $fechaInicio, $fechaFin, $horaInicio, $horaFin);
 	
 			// ejecuta sentencias prepradas
 			$stmt->execute();

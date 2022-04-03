@@ -1,0 +1,101 @@
+document.oncontextmenu = (e) => {
+	e.preventDefault();
+}
+
+$.contextMenu({
+	selector: '.context-menu-one',
+	build: ($trigger, e) => {
+		let disabledDelete = false;
+		let disabledEdit = false;
+
+		if (TBODY.find('tr').length == 1) {
+			disabledDelete = true;
+		}
+
+		if ($($trigger[0]).find('th input').val() == '') {
+			disabledEdit = true;
+		}
+
+		return {
+			callback: (key, options, _e) => {
+
+				// Fila afectada
+				let fila = $(options.$trigger[0]);
+
+				switch (key) {
+					case 'delete':
+						fila.remove();
+						actualizarTotal();
+						contador--;
+						actualizarContador();
+						break;
+
+					case 'limpiar':
+						fila.find('input').val('');
+						fila.find('.col-descripcion').text('');
+						actualizarTotal();
+						break;
+
+					case 'add':
+						agregarFila();
+						break;
+
+					case 'copy':
+						fila.find('th input').select();
+						navigator.clipboard.writeText(fila.find('th input').val());
+						break;
+
+					case 'paste':
+						fila.find('th.col-codigo input').focus().select();
+						navigator.clipboard.readText()
+							.then(texto => { // Promesa
+								fila.find('th.col-codigo input').val(texto);
+							})
+							.catch(error => {
+								// Por si el usuario no da permiso u ocurre un error
+								msg(`Hubo un error: ${error}`, 'rojo');
+							});
+						break;
+
+					case 'edit':
+						let codigo = fila.find('th input').val();
+
+						$('#btnConsultarProducto').trigger('click');
+
+						// ABRIR CONSULTAR PRODUCTO
+						setTimeout(() => {
+							$('#codigoConsultar').val(codigo);
+
+							$('#btnBuscarProducto').trigger('click');
+
+							setTimeout(() => {
+								$('.btn-warning').trigger('click');
+							}, 500);
+						}, 1000);
+						break;
+
+					case 'quit':
+						limpiarTabla();
+						break;
+
+					default:
+						break;
+				}
+			},
+			items: {
+				"add": { name: "Añadir", icon: "add", accesskey: 'a' },
+				"edit": { name: "Modificar", icon: "edit", disabled: disabledEdit, accesskey: 'm' },
+				copy: { name: "Copiar", icon: "copy", accesskey: 'c' },
+				'paste': { name: "Pegar", icon: "paste", accesskey: 'p' },
+				"limpiar": { name: "Limpiar", icon: "fa-eraser", accesskey: 'l' },
+				"delete": { name: "Eliminar", icon: "delete", disabled: disabledDelete, accesskey: 'e' },
+				"sep1": "---------",
+				"quit": {
+					name: "Cancelar", icon: () => {
+						return 'context-menu-icon context-menu-icon-quit';
+					}
+				}
+			}
+		};
+	}
+});

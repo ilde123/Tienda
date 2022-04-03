@@ -65,7 +65,8 @@ gj.timepicker.config = {
             input: 'gj-textbox-md',
             clock: 'gj-picker gj-picker-md timepicker',
             footer: '',
-            button: 'gj-button-md'
+//          button: 'gj-button-md'
+            button: 'btn'
         }
     },
 

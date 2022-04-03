@@ -30,7 +30,6 @@ function autocomplete(inp, arr) {
 				/*execute a function when someone clicks on the item value (DIV element):*/
 				b.addEventListener("click", function (e) {
 					/*insert the value for the autocomplete text field:*/
-					console.log(this.getElementsByTagName("input")[0].value);
 					inp.value = this.getElementsByTagName("input")[0].value;
 					//inp.value = arr[i].codigo;
 					/*close the list of autocompleted values,

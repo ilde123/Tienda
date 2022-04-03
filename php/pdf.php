@@ -1,7 +1,7 @@
 <?php
 	require("fpdf/fpdf.php");
 
-	class PDF extends FPDF {
+	class Ticket extends FPDF {
 		function Header() {
 			$this->SetFont('Arial', 'BI', 12);
 			# $this->Image('../img/logo.png', null, null, 25, 25, 'PNG');
@@ -68,94 +68,107 @@
 			$this->SetFont('Arial', 'B', 10);
 			$this->Text(40, $y, utf8_decode("TOTAL... ".$total));
 		}
+	}
 
+	class PDF extends FPDF {
+		function CrearTablaPedidos($header, $data) {
+			$margenIzquierda = 3; // 3 mm
+			$euro = "\xc2\x80"; // Símbolo del euro
 
-		function TextWithDirection($x, $y, $txt, $direction='R')
-		{
-			if ($direction=='R')
-				$s=sprintf('BT %.2F %.2F %.2F %.2F %.2F %.2F Tm (%s) Tj ET',1,0,0,1,$x*$this->k,($this->h-$y)*$this->k,$this->_escape($txt));
-			elseif ($direction=='L')
-				$s=sprintf('BT %.2F %.2F %.2F %.2F %.2F %.2F Tm (%s) Tj ET',-1,0,0,-1,$x*$this->k,($this->h-$y)*$this->k,$this->_escape($txt));
-			elseif ($direction=='U')
-				$s=sprintf('BT %.2F %.2F %.2F %.2F %.2F %.2F Tm (%s) Tj ET',0,1,-1,0,$x*$this->k,($this->h-$y)*$this->k,$this->_escape($txt));
-			elseif ($direction=='D')
-				$s=sprintf('BT %.2F %.2F %.2F %.2F %.2F %.2F Tm (%s) Tj ET',0,-1,1,0,$x*$this->k,($this->h-$y)*$this->k,$this->_escape($txt));
-			else
-				$s=sprintf('BT %.2F %.2F Td (%s) Tj ET',$x*$this->k,($this->h-$y)*$this->k,$this->_escape($txt));
-			if ($this->ColorFlag)
-				$s='q '.$this->TextColor.' '.$s.' Q';
-			$this->_out($s);
-		}
+			$this->SetX($margenIzquierda);
+			$this->SetFont('Arial', 'B', 12);
+			// Anchuras de las columnas
+			$w = array(35.5, 35.5);
 
-		//***** Aquí comienza código para ajustar texto *************
-		//***********************************************************
-		function CellFit($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link='', $scale=false, $force=true)
-		{
-			//Get string width
-			$str_width=$this->GetStringWidth($txt);
-	
-			//Calculate ratio to fit cell
-			if($w==0)
-				$w = $this->w-$this->rMargin-$this->x;
-			$ratio = ($w-$this->cMargin*2)/$str_width;
-	
-			$fit = ($ratio < 1 || ($ratio > 1 && $force));
-			if ($fit)
-			{
-				if ($scale)
-				{
-					//Calculate horizontal scaling
-					$horiz_scale=$ratio*100.0;
-					//Set horizontal scaling
-					$this->_out(sprintf('BT %.2F Tz ET',$horiz_scale));
-				}
-				else
-				{
-					//Calculate character spacing in points
-					$char_space=($w-$this->cMargin*2-$str_width)/max($this->MBGetStringLength($txt)-1,1)*$this->k;
-					//Set character spacing
-					$this->_out(sprintf('BT %.2F Tc ET',$char_space));
-				}
-				//Override user alignment (since text will fill up cell)
-				$align='';
+			$mesAnterior = explode("/", $data[0][0])[1];
+			$year = explode("/", $data[0][0])[2]; // año
+
+			// Nombrar mes español
+			setlocale(LC_ALL, 'es_es'); // Establecer el lenguaje a español
+			$dateObj = DateTime::createFromFormat('!m', $mesAnterior); // Crear objeto de fecha
+			$monthName = strftime('%B', $dateObj->getTimestamp()); // Obtener el nombre del mes
+			$this->Cell(array_sum($w), 6, utf8_decode(ucfirst($monthName.' '.$year)), 1, 0, 'C'); // Imprimir el nombre del mes
+
+			$this->SetY($this->GetY() + 6); // Bajar celda
+			$this->SetX($margenIzquierda);
+
+			$this->SetFont('Arial', 'B', 11); // Cambiar fuente
+
+			// Cabeceras
+			for ($i=0; $i < count($header); $i++) {
+				$this->Cell($w[$i], 6, utf8_decode($header[$i]), 1, 0, 'C');
 			}
-	
-			//Pass on to Cell method
-			$this->Cell($w,$h,$txt,$border,$ln,$align,$fill,$link);
-	
-			//Reset character spacing/horizontal scaling
-			if ($fit)
-				$this->_out('BT '.($scale ? '100 Tz' : '0 Tc').' ET');
-		}
-	
-		function CellFitSpace($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link='')
-		{
-			$this->CellFit($w,$h,$txt,$border,$ln,$align,$fill,$link,false,false);
-		}
-	
-		//Patch to also work with CJK double-byte text
-		function MBGetStringLength($s)
-		{
-			if($this->CurrentFont['type']=='Type0')
-			{
-				$len = 0;
-				$nbbytes = strlen($s);
-				for ($i = 0; $i < $nbbytes; $i++)
-				{
-					if (ord($s[$i])<128)
-						$len++;
-					else
-					{
-						$len++;
-						$i++;
+
+			$this->SetFont('Arial', '', 11);
+
+			$this->Ln();
+			$this->SetFillColor(240, 240, 240);
+
+			$x = $this->GetX();
+			$fill = true;
+			
+			$this->SetX($margenIzquierda);
+			$h = 5;
+
+			// Datos
+			foreach ($data as $row) {
+				// mes
+				$mes = explode("/", $row[0])[1];
+				// año
+				$year = explode("/", $row[0])[2];
+
+				if ($mes == $mesAnterior) { // Si el mes es el mismo que el anterior
+					$this->SetX($margenIzquierda); // Se posiciona al mismo nivel
+				} else { // Cambiar tabla
+					// Línea de cierre
+					$this->SetX($margenIzquierda);
+					$this->Cell(array_sum($w), 0, '', 'T');
+
+					// Añadir nueva página
+					$this->AddPage('p' ,array(80, 200));
+					$this->SetX($margenIzquierda);
+
+					// Nombrar mes español
+					$this->SetFont('Arial', 'B', 12);
+					$dateObj = DateTime::createFromFormat('!m', $mes);
+					$monthName = strftime('%B', $dateObj->getTimestamp());
+					$this->Cell(array_sum($w), 6, utf8_decode(ucfirst($monthName.' '.$year)), 1, 0, 'C');
+
+					$this->SetY($this->GetY() + 6); // Bajar celda
+					$this->SetX($margenIzquierda); // Margen izquierdo
+
+					$this->SetFont('Arial', 'B', 11);
+
+					// Pintar cabecera
+					$this->SetX($margenIzquierda);
+					for ($i=0; $i < count($header); $i++) {
+						$this->Cell($w[$i], 6, utf8_decode($header[$i]), 1, 0, 'C');
 					}
+
+					$this->SetFont('Arial', '', 11);
+
+					$this->SetY($this->GetY() + 5.5); // Bajar celda
+					$this->SetX($margenIzquierda); // Margen izquierdo
+
+					$mesAnterior = $mes;
 				}
-				return $len;
+
+				// Pintar celdas
+				$fecha = $row[0];
+				$total = number_format($row[1], 2, ',', '.'). " ".$euro; // Formatear divisa
+
+				$this->CellFitSpace($w[0], $h, utf8_decode($fecha), 'LR', 0, 'C', $fill);
+				$this->CellFitSpace($w[1], $h, utf8_decode($total), 'LR', 0, 'C', $fill);
+
+				$this->SetY($this->GetY() + 5); // Bajar celda
+
+				$x = $this->GetX();
+				$fill = !$fill;
 			}
-			else
-				return strlen($s);
+
+			// Línea de cierre
+			$this->SetX($x - 6.75);
+			$this->Cell(array_sum($w), 0, '', 'T');
 		}
-		//************** Fin del código para ajustar texto *****************
-		//******************************************************************
 	}
 ?>
