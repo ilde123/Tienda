@@ -399,8 +399,9 @@ function eventoCeldas() {
 			let fila = celda.parents('tr');
 			let codigo = fila.find('.col-codigo input').val();
 			let precio = fila.find('.col-precio input').val();
+			fila.find('.col-precio input').val(formatNumber(precio));
 
-			let datos = `codigo=${codigo}&precio=${numerosDecimales(precio)}`;
+			let datos = `codigo=${codigo}&precio=${formatNumber(precio)}`;
 
 			if (parseInt(codigo) > 5) {
 				$.post("php/actualizarPrecio.php", datos,
@@ -420,7 +421,7 @@ function eventoCeldas() {
 			if (isNaN(numerosDecimales(celda.val()))) {
 				celda.val('0,00');
 			} else {
-				celda.val(numerosDecimales(celda.val()));
+				celda.val(formatNumber(celda.val()));
 			}
 		}).attr('evento', true);
 	});
