@@ -21,7 +21,7 @@
 	$ff = $fechaFin.' '.$horaFin;
 	$respuesta;
 
-	$sql = "SELECT pedido.npedido, producto.descripcion, lpedido.unidades, lpedido.precio, DATE_FORMAT(pedido.fecha, '%H:%i %d/%m/%Y') fecha, lpedido.nlinea
+	$sql = "SELECT pedido.npedido, producto.codigo, producto.descripcion, lpedido.unidades, lpedido.precio, DATE_FORMAT(pedido.fecha, '%H:%i %d/%m/%Y') fecha, lpedido.nlinea
 			FROM lpedido
 			INNER JOIN producto ON lpedido.codigo = producto.codigo
 			INNER JOIN pedido ON pedido.npedido = lpedido.npedido

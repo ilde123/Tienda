@@ -479,7 +479,24 @@ function cargarFormularioPedido() {
 				boton.addClass('btn btn-warning').append(icon).click((e) => {
 					e.preventDefault();
 
-					// imprimirPedido();
+					let url = "php/ticket.php?nombre=&telefono=";
+					let filaLineaPedido = $(`tr.pedido-${npedido}`);
+
+					filaLineaPedido.each((_index, fila) => {
+						let nlinea = $(fila).data('nlinea');
+						let codigo = $(fila).data('codigo');
+						let descripcion = $(fila).data('descripcion');
+						let unidades = $(fila).data('unidades');
+						let precio = $(fila).data('precio');
+						let total = precio * unidades;
+
+						url += `&descripcion[]=${descripcion}&unidades[]=${unidades}&precio[]=${precio}&total[]=${total}&`;
+					});
+
+					// Borrar último carácter
+					url = url.slice(0, -1);
+					let ventana = window.open(url, '_blank');
+					ventana.print();
 				});
 
 				div.append(boton);
@@ -513,8 +530,27 @@ function cargarFormularioPedido() {
 
 			// Filas linea de pedido
 			function agregarFilaLineaPedido(pedido) {
+				// datos pedido
+				let npedido = pedido.npedido;
+				let nlinea = pedido.nlinea;
+				let codigo = pedido.codigo;
+				let descripcion = pedido.descripcion;
+				let unidades = pedido.unidades;
+				let precio = pedido.precio;
+
 				let fila = $("<tr>");
-				fila.addClass(`pedido-${pedido.npedido}`).hide();
+				fila.addClass(`pedido-${npedido}`).hide();
+
+				// Añaadir datos a fila
+				fila.data({
+					npedido: npedido,
+					nlinea: nlinea,
+					codigo: codigo,
+					descripcion: descripcion,
+					unidades: unidades,
+					precio: precio,
+					total: (unidades * precio)
+				});
 
 				// PRIMERA CELDA
 				let celda = $("<th>");
@@ -530,7 +566,7 @@ function cargarFormularioPedido() {
 
 				// SEGUNDA CELDA
 				celda = $('<td>');
-				let enlace = $('<a>').text(pedido.descripcion).attr({
+				let enlace = $('<a>').text(descripcion).attr({
 					'href': '#'
 				});
 
@@ -541,20 +577,24 @@ function cargarFormularioPedido() {
 				celda = $('<td>');
 				celda.attr('scope', 'row').addClass('col-unidades');
 
-				if (pedido.unidades == 1) {
-					celda.text(`${pedido.unidades} Unidad`);
+				if (unidades == 1) {
+					celda.text(`${unidades} Unidad`);
 				} else {
-					celda.text(`${pedido.unidades} Unidades`);
+					celda.text(`${unidades} Unidades`);
 				}
 				fila.append(celda);
 
 				// CUARTA CELDA
 				celda = $('<td>');
-				celda.attr('scope', 'row').addClass('col-precio').text(`${numerosDecimalesMostrar(numerosDecimales(pedido.precio))} €`);
+				celda.attr('scope', 'row').addClass('col-precio').text(`${numerosDecimalesMostrar(numerosDecimales(precio))} €`);
 				fila.append(celda);
 
 				// AGREGAR CELDAS
 				TBODY_TABLA_PEDIDO.prepend(fila);
+			}
+
+			function imprimirPedido() {
+				
 			}
 		});
 	});
