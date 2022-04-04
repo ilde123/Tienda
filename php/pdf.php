@@ -158,7 +158,7 @@
 					$totalAcumulado = 0; // Reiniciar total acumulado
 
 					// Añadir nueva página
-					$this->AddPage('p', array(80, 200));
+					$this->AddPage('p', array(80, 210));
 					$this->SetX($margenIzquierda);
 					$fill = true;
 

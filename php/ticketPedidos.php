@@ -22,7 +22,7 @@
 	$height += count($data) * 3.2;
 
 	$pdf = new PDF();
-	$pdf->AddPage('p' ,array(80, 200));
+	$pdf->AddPage('p' ,array(80, 210));
 
 	$pdf->SetFont('Arial', '', 7);
 	$pdf->SetY(5);
