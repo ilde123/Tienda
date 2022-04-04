@@ -173,7 +173,8 @@ function cargarFormularioPedido() {
 						let fecha = $(celda).find('.col-codigo').text();
 						let total = $(celda).find('.col-precio').text();
 
-						datos = `&fecha[]=${fecha}&total[]=${formatNumber(total)}`; // Agregar fecha y total al URL
+						// Agregar fecha y total al principio de la URL
+						datos = `&fecha[]=${fecha}&total[]=${formatNumber(total)}`;
 						parametros = `${datos}${parametros}`; // Agregar parámetros al URL
 					}
 				});
