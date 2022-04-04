@@ -72,14 +72,16 @@
 
 	class PDF extends FPDF {
 		function Footer()
-			{
-				$pageNo = 'Página '.$this->PageNo().'/{nb}'; // '{nb}' is a special tag for total number of pages
-				$this->SetX(10);
-				// Select Arial italic 8
-				$this->SetFont('Arial', 'I', 8);
-				// Print current and total page numbers
-				$this->Cell(0, 10, utf8_decode($pageNo), 0, 0, 'C');
-			}
+		{
+			$pageNo = 'Página '.$this->PageNo().'/{nb}'; // '{nb}' is a special tag for total number of pages
+			$this->SetX(10);
+			$this->SetY($this->GetY() + 5);
+			// Select Arial italic 8
+			$this->SetFont('Arial', 'I', 8);
+			// Print current and total page numbers
+			$this->Cell(0, 10, utf8_decode($pageNo), 0, 0, 'C');
+		}
+
 		function CrearTablaPedidos($header, $data) {
 			$margenIzquierda = 3; // 3 mm
 			$euro = "\xc2\x80"; // Símbolo del euro
@@ -120,6 +122,8 @@
 			$this->SetX($margenIzquierda);
 			$h = 5;
 
+			$totalAcumulado = 0;
+
 			// Datos
 			foreach ($data as $row) {
 				$dia = explode("/", $row[0])[0]; // dia
@@ -131,6 +135,22 @@
 				if ($mes == $mesAnterior) { // Si el mes es el mismo que el anterior
 					$this->SetX($margenIzquierda); // Se posiciona al mismo nivel
 				} else { // Cambiar tabla
+					// Línea de cierre
+					$this->SetX($margenIzquierda);
+					$this->Cell(array_sum($w), 0, '', 'T');
+					
+					$this->SetX($margenIzquierda);
+
+					$this->SetFont('Arial', 'B', 11); // Cambiar fuente
+
+					// Fila de totales
+					$this->CellFitSpace($w[0], $h, utf8_decode('Total mes'), 'LR', 0, 'C', $fill);
+					$this->CellFitSpace($w[1], $h, utf8_decode(number_format($totalAcumulado, 2, ',', '.'). " ".$euro), 'LR', 0, 'C', $fill);
+
+					$this->SetY($this->GetY() + 5); // Bajar celda
+
+					$this->SetFont('Arial', '', 11); // Cambiar fuente
+
 					// Línea de cierre
 					$this->SetX($margenIzquierda);
 					$this->Cell(array_sum($w), 0, '', 'T');
@@ -169,6 +189,7 @@
 
 				$fecha = intval($dia).'/'.intval($mes).'/'.$year; // Fecha
 				$total = number_format($row[1], 2, ',', '.'). " ".$euro; // Formatear divisa
+				$totalAcumulado += $row[1]; // Acumular total
 
 				$this->CellFitSpace($w[0], $h, utf8_decode($fecha), 'LR', 0, 'C', $fill);
 				$this->CellFitSpace($w[1], $h, utf8_decode($total), 'LR', 0, 'C', $fill);
@@ -179,6 +200,21 @@
 				$fill = !$fill;
 			}
 
+			// Línea de cierre
+			$this->SetX($x - 6.75);
+			$this->Cell(array_sum($w), 0, '', 'T');
+
+			$this->SetX($margenIzquierda);
+
+			$this->SetFont('Arial', 'B', 11); // Cambiar fuente
+
+			// Fila de totales
+			$this->CellFitSpace($w[0], $h, utf8_decode('Total mes'), 'LR', 0, 'C', $fill);
+			$this->CellFitSpace($w[1], $h, utf8_decode(number_format($totalAcumulado, 2, ',', '.'). " ".$euro), 'LR', 0, 'C', $fill);
+
+			$this->SetY($this->GetY() + 5); // Bajar celda
+
+			$this->SetFont('Arial', '', 11); // Cambiar fuente
 			// Línea de cierre
 			$this->SetX($x - 6.75);
 			$this->Cell(array_sum($w), 0, '', 'T');
