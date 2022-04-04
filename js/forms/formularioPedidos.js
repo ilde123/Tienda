@@ -156,6 +156,10 @@ function cargarFormularioPedido() {
 				return fecha;
 			}
 
+			function capitalize(palabra) {
+				return palabra[0].toUpperCase() + palabra.slice(1);
+			}			  
+
 			function crearUrlBotonImprimir() {
 				let botonImprimir = $('.btn-imprimir');
 				botonImprimir.fadeIn(); // Mostrar botón de imprimir
@@ -170,7 +174,7 @@ function cargarFormularioPedido() {
 					let checkbox = $(celda).find('input[type=checkbox]'); // Checkbox de la fila de la tabla de pedidos
 
 					if (checkbox.is(':checked')) { // Si el checkbox está seleccionado
-						let fecha = $(celda).find('.col-codigo').text();
+						let fecha = $(celda).find('.col-codigo').data('fecha');
 						let total = $(celda).find('.col-precio').text();
 
 						// Agregar fecha y total al principio de la URL
@@ -377,11 +381,23 @@ function cargarFormularioPedido() {
 				label.addClass('custom-control-label'); // Agregar clase
 				customControl.append(label); // Agregar label a custom control
 
+				let dia = parseInt(fecha.split('/')[0]); // Obtener día
+				let mes = parseInt(fecha.split('/')[1]); // Obtener mes
+				let anio = fecha.split('/')[2]; // Obtener año
+
+				let date = new Date(anio, mes - 1, dia); // Crear fecha
+				let nombreDia = date.toLocaleString('es-ES', { weekday: 'long' }); // Obtener nombre día en español
+				let nombreMes = date.toLocaleString('es-ES', { month: 'long' }); // Obtener nombre mes en español
+
+				let fechaCompleta = `${capitalize(nombreDia)}, ${dia} de ${capitalize(nombreMes)} de ${anio}`; // Crear fecha completa
+
 				if (horaInicio != '' && horaFin != '') { // Si hay horas
-					label.text(`${fecha} ${horaInicio} - ${horaFin}`); // Agregar fecha y hora
+					label.text(`${fechaCompleta} ${horaInicio} - ${horaFin}`); // Agregar fecha y hora
 				} else {
-					label.text(fecha); // Agregar fecha
+					label.text(`${fechaCompleta}`); // Agregar fecha
 				}
+
+				celda.data('fecha', fecha); // Agregar datos fecha
 
 				celda.append(customControl); // Agregar custom control a celda
 				fila.append(celda); // Agregar celda a fila
