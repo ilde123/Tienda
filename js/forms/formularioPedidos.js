@@ -63,7 +63,8 @@ function cargarFormularioPedido() {
 					value: hoy,
 					minDate: () => {
 						return FECHA_INICIO.val();
-					}
+					},
+					maxDate: hoy
 				});
 
 				let jsonHora = {

@@ -6,6 +6,9 @@
 	$horaInicio = trim($_POST['horaInicio']);
 	$horaFin = trim($_POST['horaFin']);
 
+	// Sumar un día a la fecha de fin para que incluya la fecha de fin
+	$fechaFin = date('Y-m-d', strtotime($fechaFin . ' + 1 day'));
+
 	if ($horaInicio == '') {
 		$horaInicio = '00:00:00';
 	}
