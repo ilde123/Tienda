@@ -30,6 +30,8 @@
 
 	$pdf->CrearTablaPedidos($header, $data);
 
+	$pdf->AliasNbPages();
+
 	echo $pdf->Output('I', 'ticket'.date('dmY.His'));
 	$conexion->close();
 ?>

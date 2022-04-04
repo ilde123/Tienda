@@ -71,6 +71,15 @@
 	}
 
 	class PDF extends FPDF {
+		function Footer()
+			{
+				$pageNo = 'Página '.$this->PageNo().'/{nb}'; // '{nb}' is a special tag for total number of pages
+				$this->SetX(10);
+				// Select Arial italic 8
+				$this->SetFont('Arial', 'I', 8);
+				// Print current and total page numbers
+				$this->Cell(0, 10, utf8_decode($pageNo), 0, 0, 'C');
+			}
 		function CrearTablaPedidos($header, $data) {
 			$margenIzquierda = 3; // 3 mm
 			$euro = "\xc2\x80"; // Símbolo del euro
@@ -83,11 +92,13 @@
 			$mesAnterior = explode("/", $data[0][0])[1];
 			$year = explode("/", $data[0][0])[2]; // año
 
+			$this->SetFillColor(240, 240, 240);
+
 			// Nombrar mes español
 			setlocale(LC_ALL, 'es_es'); // Establecer el lenguaje a español
 			$dateObj = DateTime::createFromFormat('!m', $mesAnterior); // Crear objeto de fecha
 			$monthName = strftime('%B', $dateObj->getTimestamp()); // Obtener el nombre del mes
-			$this->Cell(array_sum($w), 6, utf8_decode(ucfirst($monthName.' '.$year)), 1, 0, 'C'); // Imprimir el nombre del mes
+			$this->Cell(array_sum($w), 6, utf8_decode(ucfirst($monthName.' '.$year)), 1, 0, 'C', true); // Imprimir el nombre del mes
 
 			$this->SetY($this->GetY() + 6); // Bajar celda
 			$this->SetX($margenIzquierda);
@@ -102,7 +113,6 @@
 			$this->SetFont('Arial', '', 11);
 
 			$this->Ln();
-			$this->SetFillColor(240, 240, 240);
 
 			$x = $this->GetX();
 			$fill = true;
@@ -125,14 +135,15 @@
 					$this->Cell(array_sum($w), 0, '', 'T');
 
 					// Añadir nueva página
-					$this->AddPage('p' ,array(80, 200));
+					$this->AddPage('p', array(80, 200));
 					$this->SetX($margenIzquierda);
+					$fill = true;
 
 					// Nombrar mes español
 					$this->SetFont('Arial', 'B', 12);
 					$dateObj = DateTime::createFromFormat('!m', $mes);
 					$monthName = strftime('%B', $dateObj->getTimestamp());
-					$this->Cell(array_sum($w), 6, utf8_decode(ucfirst($monthName.' '.$year)), 1, 0, 'C');
+					$this->Cell(array_sum($w), 6, utf8_decode(ucfirst($monthName.' '.$year)), 1, 0, 'C', true);
 
 					$this->SetY($this->GetY() + 6); // Bajar celda
 					$this->SetX($margenIzquierda); // Margen izquierdo
