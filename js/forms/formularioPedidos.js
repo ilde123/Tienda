@@ -194,6 +194,27 @@ function cargarFormularioPedido() {
 				}
 			}
 
+			function crearUrlBotonImprimirPedido(npedido) {
+				let url = "php/ticket.php?nombre=&telefono=";
+				let filaLineaPedido = $(`tr.pedido-${npedido}`);
+		
+				filaLineaPedido.each((_index, fila) => {
+					let nlinea = $(fila).data('nlinea');
+					let codigo = $(fila).data('codigo');
+					let descripcion = $(fila).data('descripcion');
+					let unidades = $(fila).data('unidades');
+					let precio = $(fila).data('precio');
+					let total = precio * unidades;
+		
+					url += `&descripcion[]=${descripcion}&unidades[]=${unidades}&precio[]=${precio}&total[]=${total}&`;
+				});
+		
+				// Borrar último carácter
+				url = url.slice(0, -1);
+				let ventana = window.open(url, '_blank');
+				ventana.print();
+			}
+
 			function cargarTablaPedidos() {
 				let nombresFilas = ['#', 'Acciones', 'Fecha', 'Total']; // Nombres cabeceras tabla pedidos
 
@@ -479,24 +500,7 @@ function cargarFormularioPedido() {
 				boton.addClass('btn btn-warning').append(icon).click((e) => {
 					e.preventDefault();
 
-					let url = "php/ticket.php?nombre=&telefono=";
-					let filaLineaPedido = $(`tr.pedido-${npedido}`);
-
-					filaLineaPedido.each((_index, fila) => {
-						let nlinea = $(fila).data('nlinea');
-						let codigo = $(fila).data('codigo');
-						let descripcion = $(fila).data('descripcion');
-						let unidades = $(fila).data('unidades');
-						let precio = $(fila).data('precio');
-						let total = precio * unidades;
-
-						url += `&descripcion[]=${descripcion}&unidades[]=${unidades}&precio[]=${precio}&total[]=${total}&`;
-					});
-
-					// Borrar último carácter
-					url = url.slice(0, -1);
-					let ventana = window.open(url, '_blank');
-					ventana.print();
+					crearUrlBotonImprimirPedido(npedido);
 				});
 
 				div.append(boton);
