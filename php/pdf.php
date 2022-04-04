@@ -144,8 +144,8 @@
 					$this->SetFont('Arial', 'B', 11); // Cambiar fuente
 
 					// Fila de totales
-					$this->CellFitSpace($w[0], $h, utf8_decode('Total mes'), 'LR', 0, 'C', $fill);
-					$this->CellFitSpace($w[1], $h, utf8_decode(number_format($totalAcumulado, 2, ',', '.'). " ".$euro), 'LR', 0, 'C', $fill);
+					$this->CellFitSpace($w[0], $h, utf8_decode('Total mes'), 'LR', 0, 'C');
+					$this->CellFitSpace($w[1], $h, utf8_decode(number_format($totalAcumulado, 2, ',', '.'). " ".$euro), 'LR', 0, 'C');
 
 					$this->SetY($this->GetY() + 5); // Bajar celda
 
