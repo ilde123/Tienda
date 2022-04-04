@@ -161,6 +161,8 @@ function cargarFormularioPedido() {
 				botonImprimir.fadeIn(); // Mostrar botón de imprimir
 				botonImprimir.removeClass('disabled'); // Habilitar botón de imprimir
 				let url = `php/ticketPedidos.php?`; // URL para consultar el ticket de pedido
+				let parametros = ''; // Parámetros para consultar el ticket de pedido
+				let datos = ''; // Fecha y total de pedidos
 
 				let filas = TBODY_TABLA_PEDIDO.find('tr:not(.table-secondary)'); // Filas de la tabla de pedidos
 
@@ -170,11 +172,14 @@ function cargarFormularioPedido() {
 					if (checkbox.is(':checked')) { // Si el checkbox está seleccionado
 						let fecha = $(celda).find('.col-codigo').text();
 						let total = $(celda).find('.col-precio').text();
-						url += `fecha[]=${fecha}&total[]=${formatNumber(total)}&`; // Agregar fecha y total al URL
+
+						datos = `&fecha[]=${fecha}&total[]=${formatNumber(total)}`; // Agregar fecha y total al URL
+						parametros = `${datos}${parametros}`; // Agregar parámetros al URL
 					}
 				});
 
-				url = url.slice(0, -1); // Eliminar último caracter
+				parametros = parametros.slice(1); // Eliminar primer caracter
+				url = `${url}${parametros}`; // Agregar parámetros al URL
 
 				botonImprimir.attr('href', url); // Agregar URL al botón de imprimir
 

@@ -59,7 +59,7 @@ function cargarFormularioProveedores() {
 					datos += `proveedores[]=${element.value}&`; // Agregar proveedor a la cadena de datos
 				});
 
-				datos = datos.substring(0, datos.length - 1); // Borra el último carácter
+				datos = datos.slice(0, -1); // Borra el último carácter
 
 				$.post("php/eliminarProveedor.php", datos,
 					(json) => {

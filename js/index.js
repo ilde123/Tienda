@@ -485,7 +485,7 @@ function imprimirTicket() {
 	});
 
 	// Borrar último carácter
-	url = url.substring(0, url.length - 1);
+	url = url.slice(0, -1);
 	// Abrir nueva pestaña
 	let ventana = window.open(url, '_blank');
 
