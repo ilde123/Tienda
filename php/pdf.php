@@ -122,10 +122,11 @@
 
 			// Datos
 			foreach ($data as $row) {
-				// mes
-				$mes = explode("/", $row[0])[1];
-				// año
-				$year = explode("/", $row[0])[2];
+				$dia = explode("/", $row[0])[0]; // dia
+
+				$mes = explode("/", $row[0])[1]; // mes
+
+				$year = explode("/", $row[0])[2]; // año
 
 				if ($mes == $mesAnterior) { // Si el mes es el mismo que el anterior
 					$this->SetX($margenIzquierda); // Se posiciona al mismo nivel
@@ -165,7 +166,8 @@
 				}
 
 				// Pintar celdas
-				$fecha = $row[0];
+
+				$fecha = intval($dia).'/'.intval($mes).'/'.$year; // Fecha
 				$total = number_format($row[1], 2, ',', '.'). " ".$euro; // Formatear divisa
 
 				$this->CellFitSpace($w[0], $h, utf8_decode($fecha), 'LR', 0, 'C', $fill);
