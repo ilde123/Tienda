@@ -155,6 +155,8 @@
 					$this->SetX($margenIzquierda);
 					$this->Cell(array_sum($w), 0, '', 'T');
 
+					$totalAcumulado = 0; // Reiniciar total acumulado
+
 					// Añadir nueva página
 					$this->AddPage('p', array(80, 200));
 					$this->SetX($margenIzquierda);
