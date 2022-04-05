@@ -566,7 +566,7 @@ function cargarFormularioPedido() {
 					// Si se pulsa el botón no se marca la fila
 					if (e.target.nodeName != "BUTTON" && e.target.nodeName != "I") {
 						// Marcar fila seleccionada						
-						filaPedido.toggleClass('tabla-activa');
+						filaPedido.toggleClass('fila-activa');
 						$(`.pedido-${npedido}`).toggle(500);
 					}
 				});
