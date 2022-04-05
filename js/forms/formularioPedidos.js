@@ -268,14 +268,18 @@ function cargarFormularioPedido() {
 					autocomplete: 'off'
 				}); // Agregar placeholder
 
-				input.keyup(function (e) {
-					let valorBuscado = $(this).val().toLowerCase();
+				input.keyup((e) => {
+					TBODY_TABLA_PEDIDO.find("tr.fila-activa").click(); // Desactivar filtro de tabla
+					let valorBuscado = $(e.target).val().toLowerCase();
+					let npedido;
 
 					TBODY_TABLA_PEDIDO.find("tr.pedido").filter(function() {
-						let npedido = $(this).data('npedido');
+						let fila = $(this);
+						npedido = fila.data('npedido');
 
-						$(this).toggle($(this).text().toLowerCase().indexOf(valorBuscado) > -1);
+						fila.toggle(fila.text().toLowerCase().indexOf(valorBuscado) > -1);
 					});
+
 				});
 
 				$(celda).append(input); // Agregar input a la celda
@@ -568,7 +572,7 @@ function cargarFormularioPedido() {
 					if (e.target.nodeName != "BUTTON" && e.target.nodeName != "I") {
 						// Marcar fila seleccionada						
 						filaPedido.toggleClass('fila-activa');
-						$(`.pedido-${npedido}`).toggle(500);
+						$(`.pedido-${npedido}`).toggle(250); // Mostrar/ocultar fila linea pedido
 					}
 				});
 
