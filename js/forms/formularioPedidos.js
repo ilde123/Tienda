@@ -231,17 +231,17 @@ function cargarFormularioPedido() {
 			}
 
 			function cargarTablaPedidos() {
-				let nombresFilas = ['#', 'Acciones', 'Fecha', 'Total']; // Nombres cabeceras tabla pedidos
+				let nombresFilas = ['', 'Acciones', 'Fecha', 'Total']; // Nombres cabeceras tabla pedidos
 
 				cabeceraTablaPedidos(nombresFilas); // Cambiar nombres cabeceras tabla pedidos
+				crearBotonesTablaPedidos(); // Agregar botones a la tabla
 			}
 
 			function cargarTablaPedidosTotal() {
 				let nombresFilas = ['Fecha', 'Precio', null, null]; // Nombres cabeceras tabla pedidos total
 
 				cabeceraTablaPedidos(nombresFilas); // Cambiar nombres de cabeceras tabla pedidos total
-
-				crearBotonesTabla(); // Agregar botones a la tabla
+				crearBotonesTablaPedidosTotal(); // Agregar botones a la tabla
 			}
 
 			function cabeceraTablaPedidos(nombresFilas) {
@@ -257,7 +257,31 @@ function cargarFormularioPedido() {
 				});
 			}
 
-			function crearBotonesTabla() {
+			function crearBotonesTablaPedidos() {
+				let celda = THEAD_TABLA_PEDIDO.find('th:first-child'); // Primera celda de la tabla
+
+				let input = $("<input>"); // Crear input
+				input.attr('type', 'text'); // Agregar atributo type
+				input.addClass('form-control'); // Agregar clase
+				input.attr({
+					placeholder: 'Buscar pedido',
+					autocomplete: 'off'
+				}); // Agregar placeholder
+
+				input.keyup(function (e) {
+					let valorBuscado = $(this).val().toLowerCase();
+
+					TBODY_TABLA_PEDIDO.find("tr.pedido").filter(function() {
+						let npedido = $(this).data('npedido');
+
+						$(this).toggle($(this).text().toLowerCase().indexOf(valorBuscado) > -1);
+					});
+				});
+
+				$(celda).append(input); // Agregar input a la celda
+			}
+
+			function crearBotonesTablaPedidosTotal() {
 				let celda = THEAD_TABLA_PEDIDO.find('th:first-child'); // Primera celda de la tabla
 
 				// Crear div para botones
@@ -472,6 +496,8 @@ function cargarFormularioPedido() {
 			// Filas tabla pedido
 			function agregarFilaTablaPedido(npedido, total, fecha) {
 				let filaPedido = $("<tr>");
+				filaPedido.addClass('pedido');
+				filaPedido.data('npedido', npedido); // Agregar datos npedido
 
 				// Primera columna
 				let celda = $("<td>");
