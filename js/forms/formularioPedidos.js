@@ -159,7 +159,24 @@ function cargarFormularioPedido() {
 
 			function capitalize(palabra) {
 				return palabra[0].toUpperCase() + palabra.slice(1);
-			}			  
+			}
+
+			function agregarLineasPedidoTablaPrincipal(npedido) {
+				let filaLineaPedido = $(`tr.pedido-${npedido}`);
+				let datos = {};
+				TBODY.find('tr').remove(); // Borrar filas de tabla
+
+				filaLineaPedido.each((_index, fila) => {
+					datos.codigo = $(fila).data('codigo');
+					datos.descripcion = $(fila).data('descripcion');
+					datos.unidades = $(fila).data('unidades');
+					datos.precio = numerosDecimales($(fila).data('precio'));
+
+					agregarFila(datos); // Agregar fila a tabla
+				});
+
+				ocultarContenidoFormularios();
+			}
 
 			function crearUrlBotonImprimir() {
 				let botonImprimir = $('.btn-imprimir');
@@ -199,8 +216,6 @@ function cargarFormularioPedido() {
 				let filaLineaPedido = $(`tr.pedido-${npedido}`);
 
 				filaLineaPedido.each((_index, fila) => {
-					let nlinea = $(fila).data('nlinea');
-					let codigo = $(fila).data('codigo');
 					let descripcion = $(fila).data('descripcion');
 					let unidades = $(fila).data('unidades');
 					let precio = $(fila).data('precio');
@@ -477,20 +492,7 @@ function cargarFormularioPedido() {
 				boton.addClass('btn btn-success').append(icon).click((e) => {
 					e.preventDefault();
 
-					let filaLineaPedido = $(`tr.pedido-${npedido}`);
-					let datos = {};
-					TBODY.find('tr').remove(); // Borrar filas de tabla
-
-					filaLineaPedido.each((_index, fila) => {
-						datos.codigo = $(fila).data('codigo');
-						datos.descripcion = $(fila).data('descripcion');
-						datos.unidades = $(fila).data('unidades');
-						datos.precio = numerosDecimales($(fila).data('precio'));
-
-						agregarFila(datos); // Agregar fila a tabla
-					});
-
-					ocultarContenidoFormularios(); // Ocultar formularios
+					agregarLineasPedidoTablaPrincipal(npedido); // Ocultar formularios
 				});
 
 				div.append(boton);
@@ -610,10 +612,6 @@ function cargarFormularioPedido() {
 
 				// AGREGAR CELDAS
 				TBODY_TABLA_PEDIDO.prepend(fila);
-			}
-
-			function imprimirPedido() {
-				
 			}
 		});
 	});
