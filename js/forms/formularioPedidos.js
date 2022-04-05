@@ -108,14 +108,13 @@ function cargarFormularioPedido() {
 							let pedidos = JSON.parse(json.json);
 
 							TBODY_TABLA_PEDIDO.empty(); // Vaciar tabla
-							let fecha;
-
+							
 							$.each(pedidos, (npedido, pedido) => { // Recorrer pedidos
+								let fecha = pedido.fecha; // Fecha del pedido
 								let total = 0; // Total de pedido
 
 								$.each(pedido, (_nlinea, lineaPedido) => { // Recorrer lineas de pedido
 									agregarFilaLineaPedido(lineaPedido); // Agregar fila de linea de pedido
-									fecha = lineaPedido.fecha; // Fecha del pedido
 									total += (lineaPedido.precio * lineaPedido.unidades); // Sumar total
 								});
 
