@@ -604,8 +604,17 @@ function cargarFormularioPedido() {
 				});
 
 				// PRIMERA CELDA
-				let celda = $("<th>");
+				let celda = $("<td>");
+				let enlace = $('<a>').text(descripcion).attr({
+					'href': '#'
+				});
 
+				celda.addClass('col-descripcion').append(enlace);
+
+				fila.append(celda);
+				
+				// SEGUNDA CELDA
+				celda = $('<td>');
 				let boton = $('<button>');
 				let icon = $('<i>');
 
@@ -613,15 +622,6 @@ function cargarFormularioPedido() {
 				boton.addClass('btn btn-danger').append(icon);
 
 				celda.attr('scope', 'row').addClass('col-codigo').append(boton);
-				fila.append(celda);
-
-				// SEGUNDA CELDA
-				celda = $('<td>');
-				let enlace = $('<a>').text(descripcion).attr({
-					'href': '#'
-				});
-
-				celda.addClass('col-descripcion').append(enlace);
 				fila.append(celda);
 
 				// TERCERA CELDA
