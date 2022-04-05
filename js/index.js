@@ -192,60 +192,53 @@ function agregarFila(datos) {
 	fila.addClass('context-menu-one');
 
 	// Primera celda
-	let celda = $("<th>");
-	celda.attr('scope', 'row').addClass('col-codigo');
+	let celdaCodigo = $("<th>");
+	celdaCodigo.attr('scope', 'row').addClass('col-codigo');
 	// Input código
-	let input = $('<input>');
-	input.attr({type: 'text'}).addClass('form-control');
-	celda.append(input);
-	celda.focus();
-	
-	if (datos != undefined) { // Si se recibe datos, se rellena el input con los datos
-		input.val(datos.codigo);
-	}
-	
+	let inputCodigo = $('<input>');
+	inputCodigo.attr({type: 'text'}).addClass('form-control');
+	celdaCodigo.append(inputCodigo);
+	celdaCodigo.focus();
+
+
 	// Añadir celda a la fila
-	fila.append(celda);
+	fila.append(celdaCodigo);
 
 	// Segunda celda
-	celda = $('<td>');
-	celda.addClass('col-descripcion');
-	
-	if (datos != undefined) { // Si se recibe datos, se rellena el input con los datos
-		celda.text(datos.descripcion);
-	}
+	let celdaDescripcion = $('<td>');
+	celdaDescripcion.addClass('col-descripcion');
 	
 	// Añadir celda a la fila
-	fila.append(celda);
+	fila.append(celdaDescripcion);
 
 	// Tercera celda
-	celda = $('<td>');
-	celda.addClass('col-unidades');
-	// Input precio
-	input = $('<input>');
-	input.attr({type: 'text'}).addClass('form-control');
-	celda.append(input);
-	
-	if (datos != undefined) { // Si se recibe datos, se rellena el input con los datos
-		input.val(datos.unidades);
-	}
-	
+	let celdaUnidades = $('<td>');
+	celdaUnidades.addClass('col-unidades');
+	// Input unidades
+	let inputUnidades = $('<input>');
+	inputUnidades.attr({type: 'text'}).addClass('form-control');
+	celdaUnidades.append(inputUnidades);
+
 	// Añadir celda a la fila
-	fila.append(celda);
+	fila.append(celdaUnidades);
 
 	// Cuarta celda
-	celda = $('<td>');
-	celda.addClass('col-precio');
-	input = $('<input>');
-	input.attr({type: 'text'}).addClass('form-control');
-	celda.append(input);
+	let celdaPrecio = $('<td>');
+	celdaPrecio.addClass('col-precio');
+	// Input precio
+	let inputPrecio = $('<input>');
+	inputPrecio.attr({type: 'text'}).addClass('form-control');
+	celdaPrecio.append(inputPrecio);
 
-	if (datos != undefined) { // Si se recibe datos, se rellena el input con los datos
-		input.val(datos.precio);
+	if (datos != undefined) { // Si se recibe datos, se rellenan los datos
+		inputCodigo.val(datos.codigo);
+		celdaDescripcion.text(datos.descripcion);
+		inputUnidades.val(datos.unidades);
+		inputPrecio.val(datos.precio);
 	}
 
 	// Agregar celdas
-	fila.append(celda);
+	fila.append(celdaPrecio);
 	TBODY.append(fila);
 
 	// Eventos celdas
