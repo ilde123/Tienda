@@ -476,6 +476,21 @@ function cargarFormularioPedido() {
 				icon.addClass('fas fa-cart-arrow-down');
 				boton.addClass('btn btn-success').append(icon).click((e) => {
 					e.preventDefault();
+
+					let filaLineaPedido = $(`tr.pedido-${npedido}`);
+					let datos = {};
+					TBODY.find('tr').remove(); // Borrar filas de tabla
+
+					filaLineaPedido.each((_index, fila) => {
+						datos.codigo = $(fila).data('codigo');
+						datos.descripcion = $(fila).data('descripcion');
+						datos.unidades = $(fila).data('unidades');
+						datos.precio = numerosDecimales($(fila).data('precio'));
+
+						agregarFila(datos); // Agregar fila a tabla
+					});
+
+					ocultarContenidoFormularios(); // Ocultar formularios
 				});
 
 				div.append(boton);

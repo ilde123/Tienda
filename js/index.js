@@ -186,7 +186,7 @@ function navegarCeldaHorizontal(direccion, input) {
 	inputs.get(i).select();
 }
 
-function agregarFila() {
+function agregarFila(datos) {
 	contador++;
 	let fila = $("<tr>");
 	fila.addClass('context-menu-one');
@@ -199,12 +199,22 @@ function agregarFila() {
 	input.attr({type: 'text'}).addClass('form-control');
 	celda.append(input);
 	celda.focus();
+	
+	if (datos != undefined) { // Si se recibe datos, se rellena el input con los datos
+		input.val(datos.codigo);
+	}
+	
 	// Añadir celda a la fila
 	fila.append(celda);
 
 	// Segunda celda
 	celda = $('<td>');
 	celda.addClass('col-descripcion');
+	
+	if (datos != undefined) { // Si se recibe datos, se rellena el input con los datos
+		celda.text(datos.descripcion);
+	}
+	
 	// Añadir celda a la fila
 	fila.append(celda);
 
@@ -215,6 +225,11 @@ function agregarFila() {
 	input = $('<input>');
 	input.attr({type: 'text'}).addClass('form-control');
 	celda.append(input);
+	
+	if (datos != undefined) { // Si se recibe datos, se rellena el input con los datos
+		input.val(datos.unidades);
+	}
+	
 	// Añadir celda a la fila
 	fila.append(celda);
 
@@ -224,6 +239,10 @@ function agregarFila() {
 	input = $('<input>');
 	input.attr({type: 'text'}).addClass('form-control');
 	celda.append(input);
+
+	if (datos != undefined) { // Si se recibe datos, se rellena el input con los datos
+		input.val(datos.precio);
+	}
 
 	// Agregar celdas
 	fila.append(celda);

@@ -436,16 +436,20 @@ function agregarFilaProducto(producto) {
 }
 
 function btnVolver() {
-	$('.btn-volver').click(function (e) { 
+	$('.btn-volver').click((e) => { 
 		e.preventDefault();
 
-		CONTENIDO.fadeOut(function () {
-			TABLA.fadeIn(function () {
-				CONTENIDO.empty();
-				setTimeout(() => {
-					$('tbody:first th input').trigger('change').select();
-				}, 500);
-			});
+		ocultarContenidoFormularios();
+	});
+}
+
+function ocultarContenidoFormularios() {
+	CONTENIDO.fadeOut(() => {
+		TABLA.fadeIn(() => {
+			CONTENIDO.empty();
+			setTimeout(() => {
+				TBODY.find('th input').trigger('change').select();
+			}, 500);
 		});
 	});
 }
