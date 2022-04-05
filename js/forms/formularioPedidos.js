@@ -197,7 +197,7 @@ function cargarFormularioPedido() {
 			function crearUrlBotonImprimirPedido(npedido) {
 				let url = "php/ticket.php?nombre=&telefono=";
 				let filaLineaPedido = $(`tr.pedido-${npedido}`);
-		
+
 				filaLineaPedido.each((_index, fila) => {
 					let nlinea = $(fila).data('nlinea');
 					let codigo = $(fila).data('codigo');
@@ -205,10 +205,10 @@ function cargarFormularioPedido() {
 					let unidades = $(fila).data('unidades');
 					let precio = $(fila).data('precio');
 					let total = precio * unidades;
-		
+
 					url += `&descripcion[]=${descripcion}&unidades[]=${unidades}&precio[]=${precio}&total[]=${total}&`;
 				});
-		
+
 				// Borrar último carácter
 				url = url.slice(0, -1);
 				let ventana = window.open(url, '_blank');
@@ -473,7 +473,7 @@ function cargarFormularioPedido() {
 				let boton = $('<button>');
 				let icon = $('<i>');
 
-				icon.addClass('fas fa-cart-plus');
+				icon.addClass('fas fa-cart-arrow-down');
 				boton.addClass('btn btn-success').append(icon).click((e) => {
 					e.preventDefault();
 				});

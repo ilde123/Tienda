@@ -31,10 +31,11 @@
 		}
 
 		function CrearTablaTicket($header, $data) {
+			$euro = "\xc2\x80"; // Símbolo del euro
 			$this->SetX(3);
 			$this->SetFont('Arial', '', 7);
 			// Anchuras de las columnas
-			$w = array(8, 45, 9, 9);
+			$w = array(8, 45, 11, 11);
 			// Cabeceras
 			for ($i=0; $i < count($header); $i++) {
 				$this->Cell($w[$i], 6, utf8_decode($header[$i]), 1, 0, 'C');
@@ -54,8 +55,8 @@
 
 				$this->CellFitSpace($w[0], $h, utf8_decode($row[0]), 'LR', 0, 'L', $fill);
 				$this->CellFitSpace($w[1], $h, utf8_decode($row[1]), 'LR', 0, 'L', $fill);
-				$this->CellFitSpace($w[2], $h, utf8_decode($row[2]), 'LR', 0, 'L', $fill);
-				$this->CellFitSpace($w[3], $h, number_format($row[3], 2), 'LR', 0, 'L', $fill);
+				$this->CellFitSpace($w[2], $h, utf8_decode(number_format($row[2], 2, ',', '.'). " ".$euro), 'LR', 0, 'L', $fill);
+				$this->CellFitSpace($w[3], $h, utf8_decode(number_format($row[3], 2, ',', '.'). " ".$euro), 'LR', 0, 'L', $fill);
 				$this->Ln();
 				$fill = !$fill;
 			}
@@ -66,7 +67,7 @@
 
 			$y = $this->GetY() + 5;
 			$this->SetFont('Arial', 'B', 10);
-			$this->Text(40, $y, utf8_decode("TOTAL... ".$total));
+			$this->Text(40, $y, utf8_decode("TOTAL... ".number_format($total, 2, ',', '.'). " ".$euro));
 		}
 	}
 
