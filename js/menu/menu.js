@@ -24,17 +24,17 @@ $('#btnOferta').click((e) => {
 $('#btnPedidos').click((e) => { 
 	e.preventDefault();
 
-	cargarFormularioPedido();
+	cargarFormulario("html/frmPedido.html", cargarFormularioPedido); // Cargar formulario
 });
 
-// Script cargarFormularioPedido
 $.getScript("js/forms/formularioPedidos.js");
+// Script cargarFormularioPedido
 
 // Formulario proveedores
 $('#btnProveedores').click((e) => { 
 	e.preventDefault();
 
-	cargarFormularioProveedores();
+	cargarFormulario("html/frmProveedores.html", cargarFormularioProveedores); // Cargar formulario
 });
 
 // Script cargarFormularioProveedores
@@ -43,7 +43,7 @@ $.getScript("js/forms/formularioProveedores.js");
 $('#btnFamilias').click((e) => {
 	e.preventDefault();
 	
-	cargarFormularioFamilias();
+	cargarFormulario("html/frmFamilias.html", cargarFormularioFamilias); // Cargar formulario
 });
 
 // Formulario familias
@@ -52,7 +52,7 @@ $.getScript("js/forms/formularioFamilias.js");
 $('#btnExistencias').click((e) => {
 	e.preventDefault();
 	
-	cargarFormularioExistencias();
+	cargarFormulario("html/frmExistencias.html", cargarFormularioExistencias); // Cargar formulario
 });
 
 // Script cargarFormularioExistencias
@@ -120,11 +120,11 @@ function cargarFormularioOferta(opciones) {
 }
 
 function cargarFormulario(url, callback) {
-	TABLA.fadeOut(() => {
-		CONTENIDO.load(url, null , () => {
-			CONTENIDO.fadeIn();
+	TABLA.fadeOut(() => { // Ocultar tabla
+		CONTENIDO.load(url, null , () => { // Cargar formulario
+			CONTENIDO.fadeIn(); // Mostrar formulario
 
-			callback();
+			callback(); // Llamar a la función
 		});
 	});
 }

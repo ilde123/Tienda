@@ -1,77 +1,71 @@
 function cargarFormularioFamilias() {
-	TABLA.fadeOut(() => { // Ocultar tabla
-		CONTENIDO.load("html/frmFamilias.html", null, () => { // Cargar formulario
-			CONTENIDO.fadeIn(); // Mostrar formulario
+	const SELECT_INSERTAR_FAMILIA = $('#familia'); // Select de familia a insertar
+	const SELECT_FAMILIAS = $('#familias'); // Select de familias existentes
+	const OPTIONS_SELECTED_FAMILIAS = SELECT_FAMILIAS.find('option:selected'); // Familias seleccionadas
 
-			const SELECT_FAMILIA = $('#familia'); // Select de familia a insertar
-			const SELECT_FAMILIAS = $('#familias'); // Select de familias existentes
-			const OPTIONS_SELECTED_FAMILIAS = SELECT_FAMILIAS.find('option:selected'); // Familias seleccionadas
+	getFamilias('#familias'); // Cargar datos familias
 
-			getFamilias('#familias'); // Cargar datos familias
+	$('#btnAgregarFamilia').click((e) => { // Botón agregar familia
+		e.preventDefault();
 
-			$('#btnAgregarFamilia').click((e) => { // Botón agregar familia
-				e.preventDefault();
-
-				if (validarFormularioFamilias()) { // Validar formulario
-					insertarFamilia();
-				} else {
-					msg('Revise los campos', 'rojo');
-				}
-			});
-
-			$('#btnBorrarFamilia').click((e) => { // Botón borrar familias
-				e.preventDefault();
-
-				eliminarFamilia();
-			});
-
-			btnVolver();
-
-			// Insertar familia
-			function insertarFamilia() {
-				let familia = SELECT_FAMILIA.val();
-				let datos = `familia=${familia}`;
-
-				$.post("php/insertarFamilia.php", datos,
-					(json) => {
-						if (json.resultado == 'ok') {
-							msg(json.msg, 'azul');
-
-							let option = $('<option>'); // Crear opción
-							option.val(familia); // Descripción de la familia
-							option.text(familia);
-							SELECT_FAMILIAS.append(option); // Agregar opción a la lista de familias
-							SELECT_FAMILIA.val(''); // Limpiar campo de familia
-						} else {
-							msg(json.msg, 'rojo');
-						}
-					},
-					"json"
-				);
-			}
-			// Eliminar familia
-			function eliminarFamilia() {
-				let datos = "";
-
-				OPTIONS_SELECTED_FAMILIAS.each((_index, element) => { // Recorrer familias seleccionadas
-					datos += `familia[]=${element.value}&`; // Agregar familias a eliminar
-				});
-
-				datos = datos.substring(0, datos.length - 1); // Eliminar último caracter
-
-				$.post("php/eliminarFamilia.php", datos,
-					(json) => {
-						if (json.resultado == 'ok') {
-							msg(json.msg, 'azul');
-
-							OPTIONS_SELECTED_FAMILIAS.remove(); // Eliminar opciones seleccionadas
-						} else {
-							msg(json.msg, 'rojo');
-						}
-					},
-					"json"
-				);
-			}
-		});
+		if (validarFormularioFamilias()) { // Validar formulario
+			insertarFamilia();
+		} else {
+			msg('Revise los campos', 'rojo');
+		}
 	});
+
+	$('#btnBorrarFamilia').click((e) => { // Botón borrar familias
+		e.preventDefault();
+
+		eliminarFamilia();
+	});
+
+	btnVolver();
+
+	// Insertar familia
+	function insertarFamilia() {
+		let familia = SELECT_INSERTAR_FAMILIA.val();
+		let datos = `familia=${familia}`;
+
+		$.post("php/insertarFamilia.php", datos,
+			(json) => {
+				if (json.resultado == 'ok') {
+					msg(json.msg, 'azul');
+
+					let option = $('<option>'); // Crear opción
+					option.val(familia); // Descripción de la familia
+					option.text(familia);
+					SELECT_FAMILIAS.append(option); // Agregar opción a la lista de familias
+					SELECT_INSERTAR_FAMILIA.val(''); // Limpiar campo de familia
+				} else {
+					msg(json.msg, 'rojo');
+				}
+			},
+			"json"
+		);
+	}
+	// Eliminar familia
+	function eliminarFamilia() {
+		let datos = "";
+
+		OPTIONS_SELECTED_FAMILIAS.each((_index, element) => { // Recorrer familias seleccionadas
+			datos += `familia[]=${element.value}&`; // Agregar familias a eliminar
+		});
+
+		datos = datos.substring(0, datos.length - 1); // Eliminar último caracter
+
+		$.post("php/eliminarFamilia.php", datos,
+			(json) => {
+				if (json.resultado == 'ok') {
+					msg(json.msg, 'azul');
+
+					OPTIONS_SELECTED_FAMILIAS.remove(); // Eliminar opciones seleccionadas
+				} else {
+					msg(json.msg, 'rojo');
+				}
+			},
+			"json"
+		);
+	}
 }
