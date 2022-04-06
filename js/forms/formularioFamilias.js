@@ -21,8 +21,6 @@ function cargarFormularioFamilias() {
 		eliminarFamilia();
 	});
 
-	btnVolver();
-
 	// Insertar familia
 	function insertarFamilia() {
 		let familia = SELECT_INSERTAR_FAMILIA.val();
@@ -68,4 +66,19 @@ function cargarFormularioFamilias() {
 			"json"
 		);
 	}
+}
+
+function validarFormularioFamilias() {
+	let valido = true;
+
+	// Validar campo familia
+	let familia = $('#familia');
+
+	valido = validarInputVacio(familia);
+
+	familia.keyup(() => { 
+		valido = validarInputVacio(familia);
+	});
+
+	return valido;
 }

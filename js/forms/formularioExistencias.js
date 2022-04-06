@@ -25,8 +25,6 @@ function cargarFormularioExistencias() {
 		}
 	});
 
-	btnVolver();
-
 	function agregarFilasTablaStock(json) { // Agregar filas a la tabla
 		let tbody = $('#tablaExistencias tbody');
 		let productos = JSON.parse(json.json);

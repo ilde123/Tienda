@@ -20,8 +20,6 @@ function cargarFormularioProveedores() {
 		borrarProveedor();
 	});
 
-	btnVolver();
-
 	function insertarProveedor() {
 		let datos = $('form[name="formModalProveedor"]').serializeArray();
 
@@ -77,4 +75,54 @@ function cargarFormularioProveedores() {
 		$('#direccionModalProveedor').val('').removeClass('is-valid is-invalid');
 		$('#telefonoModalProveedor').val('').removeClass('is-valid is-invalid');
 	}
+}
+
+function validarDescripcionModalProveedor(descripcion) {
+	if (validarInputVacio(descripcion)) { // Comprobar si el proveedor ya existe
+		$('#proveedores option').each((_index, element) => {
+			if ($(element).text().toLowerCase() == descripcion.val().toLowerCase()) {
+				descripcion.next().next().text('El proveedor ya existe'); // Mostrar mensaje de error
+				campoNoValido(descripcion); // Rreturn false
+			}
+		});
+
+		return true;
+	} else {
+		descripcion.next().next().text('Rellene este campo'); // Mostrar mensaje de error
+		return false;
+	}
+}
+
+function validarFormularioProveedor() {
+	let valido = true;
+
+	// Validar campo descripción
+	let descripcion = $('#descripcionModalProveedor');
+
+	valido = validarDescripcionModalProveedor(descripcion);
+
+	descripcion.keyup(() => {
+		valido = validarDescripcionModalProveedor(descripcion);
+	});
+
+	// Validar campo dirección
+	let direccion = $('#direccionModalProveedor');
+
+	valido = validarInputVacio(direccion);
+
+	direccion.keyup(() => {
+		valido = validarInputVacio(direccion);
+	});
+
+	// Validar campo teléfono
+	let telefono = $('#telefonoModalProveedor');
+	let eReg = /^[9|6|7]{1}([\d]{2}[-]*){3}[\d]{2}$/; // Expresión regular
+
+	validar = validarInputExReg(telefono, eReg);
+
+	telefono.keyup(() => {
+		validar = validarInputExReg(telefono, eReg);
+	});
+
+	return valido;
 }

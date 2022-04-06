@@ -24,8 +24,6 @@ function cargarFormularioPedido() {
 		mostrarVentanaConsultarPedido();
 	});
 
-	btnVolver();
-
 	function crearPickers() {
 		let fecha = new Date();
 		let hoy = `${fecha.getDate()}/${(fecha.getMonth() + 1)}/${fecha.getFullYear()}`; // Fecha de hoy
