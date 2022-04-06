@@ -183,7 +183,9 @@ function navegarCeldaHorizontal(direccion, input) {
 
 	// Asignar foco a la celda
 	inputs.get(i).focus();
-	inputs.get(i).select();
+	setTimeout(() => {
+		inputs.get(i).select();
+	}, 10);
 }
 
 function agregarFila(datos) {
@@ -433,7 +435,7 @@ function eventoCeldas() {
 			if (isNaN(numerosDecimales(celda.val()))) {
 				celda.val('0,00');
 			} else {
-				celda.val(formatNumber(numerosDecimalesMostrar(numerosDecimales(precio))));
+				celda.val(formatNumber(numerosDecimalesMostrar(numerosDecimales(celda.val()))));
 			}
 		}).attr('evento', true);
 	});
