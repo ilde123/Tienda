@@ -119,6 +119,16 @@ function cargarFormularioOferta(opciones) {
 	});
 }
 
+function cargarFormulario(url, callback) {
+	TABLA.fadeOut(() => {
+		CONTENIDO.load(url, null , () => {
+			CONTENIDO.fadeIn();
+
+			callback();
+		});
+	});
+}
+
 function cargarFormularioProducto(opciones) {
 	TABLA.fadeOut(function () {
 		CONTENIDO.load("html/frmProducto.html", null, function (response, status, request) {
