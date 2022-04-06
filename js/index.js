@@ -433,7 +433,7 @@ function eventoCeldas() {
 			if (isNaN(numerosDecimales(celda.val()))) {
 				celda.val('0,00');
 			} else {
-				celda.val(formatNumber(celda.val()));
+				celda.val(formatNumber(numerosDecimalesMostrar(numerosDecimales(precio))));
 			}
 		}).attr('evento', true);
 	});
