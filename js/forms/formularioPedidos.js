@@ -279,7 +279,6 @@ function cargarFormularioPedido() {
 
 						fila.toggle(fila.text().toLowerCase().indexOf(valorBuscado) > -1);
 					});
-
 				});
 
 				$(celda).append(input); // Agregar input a la celda
@@ -534,6 +533,8 @@ function cargarFormularioPedido() {
 				icon.addClass('fas fa-trash-alt');
 				boton.addClass('btn btn-danger').append(icon).click((e) => {
 					e.preventDefault();
+
+					eliminarPedido(npedido, filaPedido);
 				});
 
 				div.append(boton);
@@ -569,14 +570,18 @@ function cargarFormularioPedido() {
 					e.preventDefault();
 
 					// Si se pulsa el botón no se marca la fila
-					if (e.target.nodeName != "BUTTON" && e.target.nodeName != "I") {
-						// Marcar fila seleccionada						
-						filaPedido.toggleClass('fila-activa');
-						$(`.pedido-${npedido}`).toggle(250); // Mostrar/ocultar fila linea pedido
-					}
+					toggleFilaLPedido(e);
 				});
 
 				TBODY_TABLA_PEDIDO.prepend(filaPedido);
+			}
+
+			function toggleFilaLPedido(e) {
+				if (e.target.nodeName != "BUTTON" && e.target.nodeName != "I") {
+					// Marcar fila seleccionada						
+					filaPedido.toggleClass('fila-activa');
+					$(`.pedido-${npedido}`).toggle(250);
+				}
 			}
 
 			// Filas linea de pedido
@@ -642,6 +647,24 @@ function cargarFormularioPedido() {
 
 				// AGREGAR CELDAS
 				TBODY_TABLA_PEDIDO.prepend(fila);
+			}
+
+			function eliminarPedido(npedido, filaPedido) {
+				let datos = `npedido=${npedido}`; // Crear datos
+
+				$.post("php/eliminarPedido.php", datos,
+					(json) => {
+						if (json.resultado == 'ok') {
+							filaPedido.remove(); // Eliminar fila
+							$(`.pedido-${npedido}`).remove(); // Eliminar lineas pedido
+
+							msg(json.msg, 'azul'); // Mostrar mensaje
+						} else {
+							alert(json.msg, 'rojo'); // Mostrar mensaje
+						}
+					},
+					"json"
+				);
 			}
 		});
 	});

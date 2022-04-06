@@ -42,7 +42,7 @@
 			$stmt->close();
 			if ($conexion->commit()) {
 				$resultado = "ok";
-				$msg = "Pedido insertado    ";
+				$msg = "Pedido insertado correctamente.";
 			}
 		}
 	} catch (Exception $e) {

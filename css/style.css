@@ -179,6 +179,10 @@
 	background: transparent;
 }
 
+body {
+	font-family: cursive;
+}
+
 html {
 	scrollbar-color: #A4A4A4;
 	scrollbar-width: thin;
