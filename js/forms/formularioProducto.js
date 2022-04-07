@@ -53,12 +53,6 @@ function cargarFormularioProducto(opciones) {
 			destruirNumberSpinnerModal(); // Destruir spinner input numérico modal
 			crearNumberSpinnerModal(); // Crear spinner input numérico modal
 
-			$('#productoFavorito').click(function (e) {
-				e.preventDefault();
-
-				$(this).toggleClass('fa');
-			});
-
 			$('#btnEditarProducto').off('click'); // Eliminar evento click
 			$('#btnEditarProducto').on('click', (e) => { // Agregar evento click
 				e.preventDefault();

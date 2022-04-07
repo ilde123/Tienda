@@ -46,7 +46,7 @@ $('#btnInsertarProducto').click((e) => {
 $('#btnConsultarProducto').click((e) => { 
 	e.preventDefault();
 
-	cargarFormulario(FORM_PRODUCTO, cargarFormularioProducto); // Cargar formulario
+	cargarFormulario(FORM_PRODUCTO, cargarFormularioProducto, 'consulta'); // Cargar formulario
 });
 
 $.getScript(JS_PRODUCTO);
@@ -102,12 +102,12 @@ function cargarFormularioOferta(opciones) {
 	});
 }
 
-function cargarFormulario(url, callback) {
+function cargarFormulario(url, callback, datos) {
 	TABLA.fadeOut(() => { // Ocultar tabla
 		CONTENIDO.load(url, null , () => { // Cargar formulario
 			CONTENIDO.fadeIn(); // Mostrar formulario
 
-			callback(); // Llamar a la función
+			callback(datos); // Llamar a la función
 			btnVolver();
 		});
 	});
