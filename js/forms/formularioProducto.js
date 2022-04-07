@@ -1,31 +1,29 @@
 function cargarFormularioProducto(opciones) {
+
+	const TABLA_PRODUCTOS = $('#tablaProducto'); // Tabla productos
+	const TBODY_TABLA_PRODUCTOS = TABLA_PRODUCTOS.find('tbody'); // Tbody tabla productos
+
 	if (opciones === "consulta") {
 		$('#v-pills-profile-tab').click(); // Abrir pestaña consulta
 	}
 
 	// CREAR SPINNER INPUT NUMÉRICO
-	$('#precioAgregar, #precioAgregarOferta, #precioConsultar, #precioModalProducto').inputSpinner();
-	$('#stockAgregar, #stockMinAgregar, #stockConsultar, #stockMinConsultar, #stockModalProducto, #stockMinModalProducto').inputSpinner();
+	crearNumbersSpinners();
 
 	getFamilias('#familiaAgregar, #familiaConsultar, #familiaModalProducto'); // Cargar datos familias
 	getProveedores('#proveedorAgregar, #proveedorConsultar, #proveedorModalProducto'); // Cargar datos proveedores
 
 	// BOTÓN AGREGAR PRODUCTO
-	$('#btnAgregarProducto').click(function (e) {
+	$('#btnAgregarProducto').click((e) => {
 		e.preventDefault();
 
-		// COMPROBAR SI EL FORMULARIO ES VÁLIDO
-		if (validarFormularioProducto('Agregar')) {
-			let datos = $('form[name="formAgregarProducto"]').serializeArray();
+		if (validarFormularioProducto('Agregar')) { // Validar formulario agregar producto
+			let datos = $('form[name="formAgregarProducto"]').serializeArray(); // Obtener datos del formulario
 
-			datos[2].value = numerosDecimales(formatNumber($('#precioAgregar').next().find('input').val()));
+			insertarProducto(datos); // Insertar producto
+			limpiarFormularioProducto('Agregar'); // Limpiar formulario agreagar producto
 
-			insertarProducto(datos);
-			limpiarFormularioProducto('Agregar');
-
-			// ACTUALIZAR LOS PRODUCTOS DE LA TABLA VENTAS EN MOSTRADOR
-			//$('tbody:first th input').trigger('change');
-			actualizarTotal();
+			actualizarTotal(); // Actualizar total tabla
 		}
 		else {
 			msg('Revise los campos', 'rojo');
@@ -36,213 +34,403 @@ function cargarFormularioProducto(opciones) {
 	$('#btnBuscarProducto').click(function (e) {
 		e.preventDefault();
 
-		// CAMBIAR CURSOR
-		$('#btnBuscarProducto i').addClass('spinner-border spinner-border-sm');
-		$('#btnBuscarProducto i').removeClass('fa-search');
-		$('*').addClass('cursor-wait');
+		consultarProducto();
+	});
+
+	modalProducto();
+
+	function modalProducto() {
+		$('#modalProducto').on('show.bs.modal', (event) => {
+			let button = $(event.relatedTarget); // Botón que activó el modal
+			let fila = button.parents('tr'); // Fila que contiene el botón
+			let json = fila.data('producto'); // Datos del producto
+
+			let modal = $(event.target); // Modal
+
+			// Datos del formulario
+			setDatosFormularioModalProducto(json);
+
+			destruirNumberSpinnerModal(); // Destruir spinner input numérico modal
+			crearNumberSpinnerModal(); // Crear spinner input numérico modal
+
+			$('#productoFavorito').click(function (e) {
+				e.preventDefault();
+
+				$(this).toggleClass('fa');
+			});
+
+			$('#btnEditarProducto').off('click'); // Eliminar evento click
+			$('#btnEditarProducto').on('click', (e) => { // Agregar evento click
+				e.preventDefault();
+
+				if (validarFormularioProducto('ModalProducto')) { // Validar formulario modal producto
+					let datos = $('form[name="formModalProducto"]').serializeArray();
+
+					insertarProducto(datos); // Editar producto
+
+					// ACTUALIZAR DATOS PRODUCTO EN FORMULARIO
+					let jsonProducto = getDatosFormularioModalProducto(datos); // Obtener datos del formulario modal producto
+
+					fila.data('producto', jsonProducto);
+					fila.find('th').text(jsonProducto.codigo);
+					fila.find('a').text(jsonProducto.descripcion);
+
+					// OCULTAR MODAL
+					modal.modal('hide');
+					limpiarFormularioProducto('ModalProducto'); // Limpiar formulario modal producto
+				}
+				else {
+					msg('Revise los campos', 'rojo');
+				}
+			});
+		});
+
+		$('#modalProducto').on('hide.bs.modal', () => {
+			limpiarFormularioProducto('ModalProducto'); // Limpiar formulario modal producto
+			TBODY.find('th input').change(); // Actualizar filas
+		});
+
+		$('#modalEliminarProducto').on('show.bs.modal', (event) => {
+			let button = $(event.relatedTarget); // Botón que activó el modal
+			let fila = button.parents('tr'); // Fila que contiene el botón
+			let json = fila.data('producto'); // Datos del producto
+
+			let modal = $(event.target); // Modal
+
+			$('#btnEliminarProducto').off('click'); // Eliminar evento click
+			$('#btnEliminarProducto').on('click', (e) => { // Agregar evento click
+				e.preventDefault();
+
+				eliminarProducto(json, fila);
+
+				modal.modal('hide'); // Ocultar modal
+			});
+		});
+
+		function eliminarProducto(json, fila) {
+			let datos = "codigo=" + json.codigo;
+
+			$.post("php/eliminarProducto.php", datos,
+				function (json) {
+					if (json.resultado == 'ok') {
+						msg(json.msg, 'azul');
+						fila.fadeOut(function () {
+							fila.remove();
+						});
+					} else {
+						msg(json.msg, 'rojo');
+					}
+				},
+				"json"
+			);
+		}
+
+		function destruirNumberSpinnerModal() {
+			$('#precioModalProducto').inputSpinner("destroy");
+			$('#stockModalProducto, #stockMinModalProducto').inputSpinner("destroy");
+		}
+
+		function crearNumberSpinnerModal() {
+			$('#precioModalProducto').inputSpinner();
+			$('#stockModalProducto, #stockMinModalProducto').inputSpinner();
+		}
+
+		function getDatosFormularioModalProducto(datos) {
+			return {
+				codigo: datos[0].value,
+				descripcion: datos[1].value,
+				precio: datos[2].value,
+				iva: datos[3].value,
+				familia: datos[4].value,
+				proveedor: datos[5].value,
+				stock: datos[6].value,
+				stock_minimo: datos[7].value
+			};
+		}
+
+		function setDatosFormularioModalProducto(json) {
+			formModalProducto.codigoModalProducto.value = json.codigo;
+			formModalProducto.descripcionModalProducto.value = json.descripcion;
+			formModalProducto.precioModalProducto.value = json.precio;
+			formModalProducto.ivaModalProducto.value = json.iva;
+			formModalProducto.stockModalProducto.value = json.stock;
+			formModalProducto.stockMinModalProducto.value = json.stock_minimo;
+			formModalProducto.familiaModalProducto.value = json.familia;
+			formModalProducto.proveedorModalProducto.value = json.proveedor;
+		}
+	}
+
+	function limpiarTablaConsultarProducto() {
+		TBODY_TABLA_PRODUCTOS.empty();
+	}
+
+	function crearNumbersSpinners() {
+		$('#precioAgregar, #precioAgregarOferta, #precioConsultar, #precioModalProducto').inputSpinner();
+		$('#stockAgregar, #stockMinAgregar, #stockConsultar, #stockMinConsultar, #stockModalProducto, #stockMinModalProducto').inputSpinner();
+	}
+
+	function consultarProducto() {
+		cursorSpinner('#btnBuscarProducto i');
 
 		let datos = $('form[name="formConsultarProducto"]').serializeArray();
-
+	
 		$.post("php/consultarProducto.php", datos,
-			function (json, textStatus, jqXHR) {
+			function (json) {
 				if (json.resultado == 'ok') {
 					let productos = JSON.parse(json.json);
-
-					$('#tablaProducto tbody').empty();
-
-					$.each(productos, function (indexInArray, valueOfElement) {
-						agregarFilaProducto(this);
+	
+					limpiarTablaConsultarProducto();
+	
+					$.each(productos, (_index, producto) => {
+						agregarFilaProducto(producto);
 					});
-
-					$('#btnBuscarProducto i').removeClass('spinner-border spinner-border-sm');
-					$('#btnBuscarProducto i').addClass('fa-search');
-					$('*').removeClass('cursor-wait');
-
+	
+					elinimarCursorSpinner('#btnBuscarProducto i');
+	
 					menuContextualTablaConsultarProducto();
-					// FILTRO PARA LA TABLA
 					filtro("#descripcionConsultar, #codigoConsultar", "#tablaProducto tbody tr");
-
-					// EVENTO MOSTRAR MODAL
-					$('#modalProducto').on('show.bs.modal', function (event) {
-						let button = $(event.relatedTarget); // Button that triggered the modal
-						let json = button.parents('tr').data('producto'); // Extract info from data-* attributes
-
-
-						// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-						// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-						let modal = $(this);
-
-						// DESTRUIR SPINNER INPUT NUMÉRICO MODAL
-						$('#precioModalProducto').inputSpinner("destroy");
-						$('#stockModalProducto, #stockMinModalProducto').inputSpinner("destroy");
-
-						formModalProducto.codigoModalProducto.value = json.codigo;
-						formModalProducto.descripcionModalProducto.value = json.descripcion;
-						formModalProducto.precioModalProducto.value = json.precio;
-						formModalProducto.ivaModalProducto.value = json.iva;
-						formModalProducto.stockModalProducto.value = json.stock;
-						formModalProducto.stockMinModalProducto.value = json.stock_minimo;
-						formModalProducto.familiaModalProducto.value = json.familia;
-						formModalProducto.proveedorModalProducto.value = json.proveedor;
-
-						// RECREAR SPINNER INPUT NUMÉRICO MODAL
-						$('#precioModalProducto').inputSpinner();
-						$('#stockModalProducto, #stockMinModalProducto').inputSpinner();
-
-						$('#productoFavorito').click(function (e) {
-							e.preventDefault();
-
-							$(this).toggleClass('fa');
-						});
-
-						// BOTÓN EDITAR PRODUCTO
-						$('#btnEditarProducto').off('click');
-						$('#btnEditarProducto').on('click', function (e) {
-							e.preventDefault();
-
-							if (validarFormularioProducto('ModalProducto')) {
-								let datos = $('form[name="formModalProducto"]').serializeArray();
-								datos[2].value = numerosDecimales(formatNumber($('#precioModalProducto').next().find('input').val()));
-
-								insertarProducto(datos);
-
-								// ACTUALIZAR DATOS PRODUCTO EN FORMULARIO
-								let jsonProducto = {
-									codigo: datos[0].value,
-									descripcion: datos[1].value,
-									precio: datos[2].value,
-									iva: datos[3].value,
-									familia: datos[4].value,
-									proveedor: datos[5].value,
-									stock: datos[6].value,
-									stock_minimo: datos[7].value
-								};
-
-								button.data('producto', jsonProducto);
-								button.parents('tr').find('th').text(jsonProducto.codigo);
-								button.parents('tr').find('a').text(jsonProducto.descripcion);
-
-								// OCULTAR MODAL
-								modal.modal('hide');
-								limpiarFormularioProducto('ModalProducto');
-							}
-							else {
-								msg('Revise los campos', 'rojo');
-							}
-						});
-					});
-
-					$('#modalProducto').on('hide.bs.modal', function (event) {
-						limpiarFormularioProducto('ModalProducto');
-						$('tbody:first th input').trigger('change');
-					});
-
-					$('#modalEliminarProducto').on('show.bs.modal', function (event) {
-						let button = $(event.relatedTarget); // Button that triggered the modal
-						let json = button.parents('tr').data('producto'); // Extract info from data-* attributes
-
-
-						// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-						// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-						let modal = $(this);
-
-						// BOTÓN ELIMINAR PRODUCTO
-						$('#btnEliminarProducto').off('click');
-						$('#btnEliminarProducto').on('click', function (e) {
-							e.preventDefault();
-
-							let datos = "codigo=" + json.codigo;
-
-							$.post("php/eliminarProducto.php", datos,
-								function (json, textStatus, jqXHR) {
-									if (json.resultado == 'ok') {
-										msg(json.msg, 'azul');
-										button.parents('tr').fadeOut(function () {
-											button.parents('tr').remove();
-										});
-									} else {
-										msg(json.msg, 'rojo');
-									}
-								},
-								"json"
-							);
-
-							// OCULTAR MODAL
-							modal.modal('hide');
-						});
-					});
-
-
-					// MOSTRAR TABLA PRODUCTOS
-					$('div.contenido-oculto').slideDown();
+	
+					$('div.contenido-oculto').slideDown(); // Mostrar tabla productos
 				} else {
 					msg('Error', 'rojo');
 				}
 			},
 			"json"
 		);
+	}
+
+	function insertarProducto(datos) {
+		$.post("php/insertarProducto.php", datos,
+			(json) => {
+				if (json.resultado = 'ok') {
+					msg(json.msg, 'azul');
+				}
+				else {
+					msg(json.msg, 'rojo');
+				}
+			},
+			"json"
+		);
+	}
+	
+	function agregarFilaProducto(producto) {
+		let fila = $("<tr>");
+		fila.data('producto', producto).addClass('menu-producto');
+	
+		// PRIMERA CELDA
+		let celda = $("<th>");
+		celda.attr('scope', 'row').addClass('col-codigo').text(producto.codigo);
+		fila.append(celda);
+	
+		// SEGUNDA CELDA
+		celda = $('<td>');
+		let enlace = $('<a>').text(producto.descripcion).attr({
+			'href': '#'
+		});
+	
+		celda.addClass('col-descripcion').append(enlace);
+		fila.append(celda);
+	
+		// TERCERA CELDA
+		celda = $('<td>');
+	
+		// GRUPO
+		let buttonGroup = $('<div>').addClass('btn-group');
+	
+		// BOTÓN EDITAR/VISUALIZAR
+		let boton = $('<button>').attr({
+			type: 'button',
+			'data-toggle': 'modal',
+			'backdrop': "static",
+			'data-target': '#modalProducto'
+		}).addClass('btn btn-warning');
+	
+		enlace.click(function (e) { 
+			e.preventDefault();
+	
+			$(this).parents('td').next().find('button:first').trigger('click');
+		});
+	
+		let icono = $('<i>').addClass('far fa-eye');
+		boton.append(icono);
+		buttonGroup.append(boton);
+	
+		// BOTÓN ELIMINAR
+		boton = $('<button>').attr({
+			type: 'button',
+			'data-toggle': 'modal', 
+			'data-target': '#modalEliminarProducto'
+		}).addClass('btn btn-danger btn-eliminar-producto');
+	
+		icono = $('<i>').addClass('fas fa-trash');
+		boton.append(icono);
+		buttonGroup.append(boton);
+		celda.addClass('col-opciones').append(buttonGroup);
+		fila.append(celda);
+	
+		// AGREGAR CELDAS
+		TBODY_TABLA_PRODUCTOS.append(fila);
+	}
+	
+	function validarFormularioProducto(clase) {
+		let campoValido = true;
+		let isValid = true;
+
+		// CAMPO CÓDIGO
+		let codigo = $('#codigo' + clase);
+		let eReg = /^[0-9]+$/;
+
+		codigo.keyup(() => {
+			campoValido = validarInputExReg(codigo, eReg);
+
+			if (!campoValido) {
+				isValid = false;
+			}
+		}).keyup();
+
+		let descripcion = $('#descripcion' + clase);
+
+		descripcion.keyup(() => {
+			campoValido = validarInputVacio(descripcion);
+
+			if (!campoValido) {
+				isValid = false;
+			}
+		}).keyup();
+
+		let precio = $('#precio' + clase);
+
+		precio.keyup(() => {
+			campoValido = validarInputVacio(precio);
+
+			if (!campoValido) {
+				isValid = false;
+			}
+		}).keyup();
+
+		let iva = $('#iva' + clase);
+
+		iva.keyup(() => {
+			campoValido = validarInputVacio(iva);
+
+			if (!campoValido) {
+				isValid = false;
+			}
+		}).keyup();
+
+		let familia = $('#familia' + clase);
+
+		familia.keyup(() => {
+			campoValido = validarInputVacio(familia);
+
+			if (!campoValido) {
+				isValid = false;
+			}
+		}).keyup();
+
+		let proveedor = $('#proveedor' + clase);
+
+		proveedor.keyup(() => {
+			campoValido = validarInputVacio(proveedor);
+
+			if (!campoValido) {
+				isValid = false;
+			}
+		}).keyup();
+
+		let stock = $('#stock' + clase);
+
+		stock.keyup(() => {
+			campoValido = validarInputVacio(stock);
+
+			if (!campoValido) {
+				isValid = false;
+			}
+		}).keyup();
+
+		let stockMin = $('#stockMin' + clase);
+
+		stockMin.keyup(() => {
+			campoValido = validarInputVacio(stockMin);
+
+			if (!campoValido) {
+				isValid = false;
+			}
+		}).keyup();
+
+		return isValid;
+	}
+	
+	function limpiarFormularioProducto(clase) {
+		let codigo = $('#codigo' + clase);
+		codigo.removeClass('is-valid is-invalid').val('');
+	
+		let descripcion = $('#descripcion' + clase);
+		descripcion.removeClass('is-valid is-invalid').val('');
+	
+		let precio = $('#precio' + clase);
+		precio.removeClass('is-valid is-invalid').val(0);
+	
+		let iva = $('#iva' + clase);
+		iva.removeClass('is-valid is-invalid').prop('selectedIndex', 0);
+	
+		let familia = $('#familia' + clase);
+		familia.removeClass('is-valid is-invalid').prop('selectedIndex', 0);
+	
+		let proveedor = $('#proveedor' + clase);
+		proveedor.removeClass('is-valid is-invalid').prop('selectedIndex', 0);
+	
+		let stock = $('#stock' + clase);
+		stock.removeClass('is-valid is-invalid').val(0);
+	
+		let stockMin = $('#stockMin' + clase);
+		stockMin.removeClass('is-valid is-invalid').val(0);
+	}
+}
+
+
+function menuContextualTablaConsultarProducto() {
+	document.oncontextmenu = function(e) {
+		e.preventDefault();
+	}
+
+	$.contextMenu({
+		selector: '.menu-producto',
+		callback: function (key, options, e) {
+			let m = "clicked: " + key;
+			//window.console && console.log(o) || alert(o);
+
+			// FILA AFECTADA
+			let fila = $(options.$trigger[0]);
+
+			switch (key) {
+				case 'delete':
+					fila.find('.btn-danger').click();
+					break;
+
+				case 'ver':
+					fila.find('a').click();
+					break;
+
+				case 'copy':
+					fila.find('.col-codigo').select();
+					navigator.clipboard.writeText(fila.find('th').text());
+					break;
+
+				default:
+					break;
+			}
+		},
+		items: {
+			"ver": { name: "Ver/Modificar", icon: "fa-eye", accesskey: 'v' },
+			"delete": { name: "Eliminar", icon: "delete", accesskey: 'e' },
+			copy: { name: "Copiar", icon: "copy", accesskey: 'c' },
+			"sep1": "---------",
+			"quit": {
+				name: "Cancelar", icon: function () {
+					return 'context-menu-icon context-menu-icon-quit';
+				}
+			}
+		}
 	});
-}
-
-function validarFormularioProducto(clase) {
-	let valido = true;
-
-	// CAMPO CÓDIGO
-	let codigo = $('#codigo' + clase);
-	let eReg = /^[0-9]+$/;
-
-	codigo.keyup(function () { 
-		if (eReg.test(codigo.val())) {
-			codigo.addClass('is-valid').removeClass('is-invalid');
-		} else {
-			codigo.addClass('is-invalid').removeClass('is-valid');
-			valido = false;
-		}
-	}).trigger('keyup');
-
-	let descripcion = $('#descripcion' + clase);
-
-	descripcion.keyup(function (e) { 
-		if ($(this).val() != '') {
-			$(this).addClass('is-valid').removeClass('is-invalid');
-		} else {
-			$(this).addClass('is-invalid').removeClass('is-valid');
-			valido = false;
-		}
-	}).trigger('keyup');
-
-	let precio = $('#precio' + clase).addClass('is-valid');
-	let iva = $('#iva' + clase).addClass('is-valid');
-	let familia = $('#familia' + clase).addClass('is-valid');
-	let proveedor = $('#proveedor' + clase).addClass('is-valid');
-	let stock = $('#stock' + clase).addClass('is-valid');
-	let stockMin = $('#stockMin' + clase).addClass('is-valid');
-
-	return valido;
-}
-
-function limpiarFormularioProducto(clase) {
-	let codigo = $('#codigo' + clase);
-	codigo.removeClass('is-valid is-invalid').val('');
-
-	let descripcion = $('#descripcion' + clase);
-	descripcion.removeClass('is-valid is-invalid').val('');
-
-	let precio = $('#precio' + clase);
-	precio.removeClass('is-valid is-invalid').val(0);
-
-	let iva = $('#iva' + clase);
-	iva.removeClass('is-valid is-invalid').prop('selectedIndex', 0);
-
-	let familia = $('#familia' + clase);
-	familia.removeClass('is-valid is-invalid').prop('selectedIndex', 0);
-
-	let proveedor = $('#proveedor' + clase);
-	proveedor.removeClass('is-valid is-invalid').prop('selectedIndex', 0);
-
-	let stock = $('#stock' + clase);
-	stock.removeClass('is-valid is-invalid').val(0);
-
-	let stockMin = $('#stockMin' + clase);
-	stockMin.removeClass('is-valid is-invalid').val(0);
 }

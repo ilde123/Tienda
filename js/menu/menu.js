@@ -1,20 +1,55 @@
 const CONTENIDO = $('#contenidoFormularios');
+
+const FORM_PROVEEDORES = "html/frmProveedores.html";
+const JS_PROVEEDORES = "js/forms/formularioProveedores.js";
+
+const FORM_FAMILIAS = "html/frmFamilias.html";
+const JS_FAMILIAS = "js/forms/formularioFamilias.js";
+
+const FORM_PRODUCTO = "html/frmProducto.html";
+const JS_PRODUCTO = "js/forms/formularioProducto.js";
+
+const FORM_PEDIDO = "html/frmPedido.html";
+const JS_PEDIDO = "js/forms/formularioPedidos.js";
+
+const FORM_EXISTENCIAS = "html/frmExistencias.html";
+const JS_EXISTENCIAS = "js/forms/formularioExistencias.js";
+
 CONTENIDO.hide();
+
+// Formulario proveedores
+$('#btnProveedores').click((e) => { 
+	e.preventDefault();
+
+	cargarFormulario(FORM_PROVEEDORES, cargarFormularioProveedores); // Cargar formulario
+});
+
+// Script cargarFormularioProveedores
+$.getScript(JS_PROVEEDORES);
+
+$('#btnFamilias').click((e) => {
+	e.preventDefault();
+
+	cargarFormulario(FORM_FAMILIAS, cargarFormularioFamilias); // Cargar formulario
+});
+
+// Formulario familias
+$.getScript(JS_FAMILIAS);
 
 $('#btnInsertarProducto').click((e) => {
 	e.preventDefault();
 
 	// MOSTRAR Y CARGAR EL FORMULARIO PRODUCTOS
-	cargarFormulario("html/frmProducto.html", cargarFormularioProducto); // Cargar formulario
+	cargarFormulario(FORM_PRODUCTO, cargarFormularioProducto); // Cargar formulario
 });
 
 $('#btnConsultarProducto').click((e) => { 
 	e.preventDefault();
 
-	cargarFormulario("html/frmProducto.html", cargarFormularioProducto); // Cargar formulario
+	cargarFormulario(FORM_PRODUCTO, cargarFormularioProducto); // Cargar formulario
 });
 
-$.getScript("js/forms/formularioProducto.js");
+$.getScript(JS_PRODUCTO);
 
 $('#btnOferta').click((e) => { 
 	e.preventDefault();
@@ -26,44 +61,25 @@ $('#btnOferta').click((e) => {
 $('#btnPedidos').click((e) => { 
 	e.preventDefault();
 
-	cargarFormulario("html/frmPedido.html", cargarFormularioPedido); // Cargar formulario
+	cargarFormulario(FORM_PEDIDO, cargarFormularioPedido); // Cargar formulario
 });
 
 // Script cargarFormularioPedido
-$.getScript("js/forms/formularioPedidos.js");
-
-// Formulario proveedores
-$('#btnProveedores').click((e) => { 
-	e.preventDefault();
-
-	cargarFormulario("html/frmProveedores.html", cargarFormularioProveedores); // Cargar formulario
-});
-
-// Script cargarFormularioProveedores
-$.getScript("js/forms/formularioProveedores.js");
-
-$('#btnFamilias').click((e) => {
-	e.preventDefault();
-	
-	cargarFormulario("html/frmFamilias.html", cargarFormularioFamilias); // Cargar formulario
-});
-
-// Formulario familias
-$.getScript("js/forms/formularioFamilias.js");
+$.getScript(JS_PEDIDO);
 
 $('#btnExistencias').click((e) => {
 	e.preventDefault();
-	
-	cargarFormulario("html/frmExistencias.html", cargarFormularioExistencias); // Cargar formulario
+
+	cargarFormulario(FORM_EXISTENCIAS, cargarFormularioExistencias); // Cargar formulario
 });
 
 // Script cargarFormularioExistencias
-$.getScript("js/forms/formularioExistencias.js");
+$.getScript(JS_EXISTENCIAS);
 
 $('#btnSalir').click((e) => { 
 	e.preventDefault();
 
-	close();
+	close(); // Cerrar navegador
 });
 
 $('#btnQr').click(function (e) { 
@@ -75,44 +91,9 @@ $('#btnQr').click(function (e) {
 // Script calculadora
 $.getScript("js/calculadora/calculadora.js");
 
-//	Cargar datos familias
-function getFamilias(selector) {
-	$.get("php/getFamilias.php", null,
-		(json) => {
-			$('#familias').empty();
-
-			$.each(json, (_index, element) => {
-				let option = $('<option>');
-				let familia = element.familia;
-
-				option.val(familia);
-				option.text(familia);
-				$(selector).append(option);
-			});
-		},
-		"json"
-	);
-}
-
-function getProveedores(selector) {
-	$.get("php/getProveedores.php", null,
-		(json) => {
-			$(selector).empty(); // Vaciar el input select
-
-			$.each(json, (_index, proveedor) => {
-				let option = $('<option>');
-				option.val(proveedor.descripcion);
-				option.text(proveedor.descripcion);
-				$(selector).append(option);
-			});
-		},
-		"json"
-	);
-}
-
 function cargarFormularioOferta(opciones) {
-	TABLA.fadeOut(function () {
-		CONTENIDO.load("html/frmOferta.html", null, function (response, status, request) {
+	TABLA.fadeOut(() => {
+		CONTENIDO.load("html/frmOferta.html", null, () => {
 			// MOSTRAR FORMULARIO
 			CONTENIDO.fadeIn();
 			
@@ -132,128 +113,6 @@ function cargarFormulario(url, callback) {
 	});
 }
 
-function menuContextualTablaConsultarProducto() {
-	document.oncontextmenu = function(e) {
-		e.preventDefault();
-	}
-
-	$.contextMenu({
-		selector: '.menu-producto',
-		callback: function (key, options, e) {
-			let m = "clicked: " + key;
-			//window.console && console.log(o) || alert(o);
-
-			// FILA AFECTADA
-			let fila = $(options.$trigger[0]);
-
-			switch (key) {
-				case 'delete':
-					fila.find('.btn-danger').trigger('click');
-					break;
-
-				case 'ver':
-					fila.find('a').trigger('click');
-					break;
-
-				case 'copy':
-					fila.find('.col-codigo').select();
-					document.execCommand("copy");
-					break;
-
-				default:
-					break;
-			}
-		},
-		items: {
-			"ver": { name: "Ver/Modificar", icon: "fa-eye", accesskey: 'v' },
-			"delete": { name: "Eliminar", icon: "delete", accesskey: 'e' },
-			copy: { name: "Copiar", icon: "copy", accesskey: 'c' },
-			"sep1": "---------",
-			"quit": {
-				name: "Cancelar", icon: function () {
-					return 'context-menu-icon context-menu-icon-quit';
-				}
-			}
-		}
-	});
-}
-
-function insertarProducto(datos) {
-	$.post("php/insertarProducto.php", datos,
-		function (json, textStatus, jqXHR) {
-			if (json.resultado = 'ok') {
-				msg(json.msg, 'azul');
-			}
-			else {
-				msg(json.msg, 'rojo');
-			}
-
-			return json;
-		},
-		"json"
-	);
-}
-
-function agregarFilaProducto(producto) {
-	let tbody = $('#tablaProducto tbody');
-	let fila = $("<tr>");
-	fila.data('producto', producto).addClass('menu-producto');
-
-	// PRIMERA CELDA
-	let celda = $("<th>");
-	celda.attr('scope', 'row').addClass('col-codigo').text(producto.codigo);
-	fila.append(celda);
-
-	// SEGUNDA CELDA
-	celda = $('<td>');
-	let enlace = $('<a>').text(producto.descripcion).attr({
-		'href': '#'
-	});
-
-	celda.addClass('col-descripcion').append(enlace);
-	fila.append(celda);
-
-	// TERCERA CELDA
-	celda = $('<td>');
-
-	// GRUPO
-	let buttonGroup = $('<div>').addClass('btn-group');
-
-	// BOTÓN EDITAR/VISUALIZAR
-	let boton = $('<button>').attr({
-		type: 'button',
-		'data-toggle': 'modal',
-		'backdrop': "static",
-		'data-target': '#modalProducto'
-	}).addClass('btn btn-warning');
-
-	enlace.click(function (e) { 
-		e.preventDefault();
-
-		$(this).parents('td').next().find('button:first').trigger('click');
-	});
-
-	let icono = $('<i>').addClass('far fa-eye');
-	boton.append(icono);
-	buttonGroup.append(boton);
-
-	// BOTÓN ELIMINAR
-	boton = $('<button>').attr({
-		type: 'button',
-		'data-toggle': 'modal', 
-		'data-target': '#modalEliminarProducto'
-	}).addClass('btn btn-danger btn-eliminar-producto');
-
-	icono = $('<i>').addClass('fas fa-trash');
-	boton.append(icono);
-	buttonGroup.append(boton);
-	celda.addClass('col-opciones').append(buttonGroup);
-	fila.append(celda);
-
-	// AGREGAR CELDAS
-	tbody.append(fila);
-}
-
 function btnVolver() {
 	$('.btn-volver').click((e) => { 
 		e.preventDefault();
@@ -267,7 +126,7 @@ function ocultarContenidoFormularios() {
 		TABLA.fadeIn(() => {
 			CONTENIDO.empty();
 			setTimeout(() => {
-				TBODY.find('th input').trigger('change').select();
+				TBODY.find('th input').change().select();
 			}, 500);
 		});
 	});

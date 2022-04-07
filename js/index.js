@@ -515,6 +515,18 @@ function imprimirTicket() {
 	}
 }
 
+function cursorSpinner(selector) {
+	$(selector).addClass('spinner-border spinner-border-sm');
+	$(selector).removeClass('fa-search');
+	$('*').addClass('cursor-wait');
+}
+
+function elinimarCursorSpinner(selector) {
+	$(selector).removeClass('spinner-border spinner-border-sm');
+	$(selector).addClass('fa-search');
+	$('*').removeClass('cursor-wait');
+}
+
 function formatNumber(string) {// Devuelve un número válido
 	let out = '';
 	let filtro = '1234567890.,';// Caracteres validos

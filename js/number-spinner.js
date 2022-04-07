@@ -130,8 +130,8 @@
             $input.on("paste input change focusout", function (event) {
                 var newValue = $input[0].value;
                 var focusOut = event.type === "focusout"
-                formatNumber(newValue);
-                numerosDecimalesMostrar(newValue)
+
+                newValue = numerosDecimales(formatNumber(newValue))
                 setValue(newValue, focusOut)
                 dispatchEvent($original, event.type)
             })
@@ -163,7 +163,7 @@
                     $original[0].value = newValue
                     if (updateInput) {
                         $input[0].value = numberFormat.format(newValue)
-                        $original[0].value = numberFormat.format(newValue)
+                        $original[0].value = numerosDecimales(newValue)
                     }
                     value = newValue
                 }
@@ -285,7 +285,6 @@
 
             function parseLocaleNumber(stringNumber) {
                 formatNumber(stringNumber);
-                consola(stringNumber)
                 //stringNumber.split(",").join(".");
                 var numberFormat = new Intl.NumberFormat(locale)
                 var thousandSeparator = numberFormat.format(11111).replace(/1/g, '') || '.'

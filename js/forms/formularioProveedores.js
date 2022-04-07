@@ -94,35 +94,76 @@ function validarDescripcionModalProveedor(descripcion) {
 }
 
 function validarFormularioProveedor() {
-	let valido = true;
+	let campoValido = true;
+	let isValid = true;
 
 	// Validar campo descripción
 	let descripcion = $('#descripcionModalProveedor');
 
-	valido = validarDescripcionModalProveedor(descripcion);
+	campoValido = validarDescripcionModalProveedor(descripcion);
+
+	if (!campoValido) {
+		isValid = false;
+	}
 
 	descripcion.keyup(() => {
-		valido = validarDescripcionModalProveedor(descripcion);
+		campoValido = validarDescripcionModalProveedor(descripcion);
+
+		if (!campoValido) {
+			isValid = false;
+		}
 	});
 
 	// Validar campo dirección
 	let direccion = $('#direccionModalProveedor');
 
-	valido = validarInputVacio(direccion);
+	campoValido = validarInputVacio(direccion);
+
+	if (!campoValido) {
+		isValid = false;
+	}
 
 	direccion.keyup(() => {
-		valido = validarInputVacio(direccion);
+		campoValido = validarInputVacio(direccion);
+
+		if (!campoValido) {
+			isValid = false;
+		}
 	});
 
 	// Validar campo teléfono
 	let telefono = $('#telefonoModalProveedor');
 	let eReg = /^[9|6|7]{1}([\d]{2}[-]*){3}[\d]{2}$/; // Expresión regular
 
-	validar = validarInputExReg(telefono, eReg);
+	campoValido = validarInputExReg(telefono, eReg);
+
+	if (!campoValido) {
+		isValid = false;
+	}
 
 	telefono.keyup(() => {
-		validar = validarInputExReg(telefono, eReg);
+		campoValido = validarInputExReg(telefono, eReg);
+
+		if (!campoValido) {
+			isValid = false;
+		}
 	});
 
-	return valido;
+	return isValid;
+}
+
+function getProveedores(selector) {
+	$.get("php/getProveedores.php", null,
+		(json) => {
+			$(selector).empty(); // Vaciar el input select
+
+			$.each(json, (_index, proveedor) => {
+				let option = $('<option>');
+				option.val(proveedor.descripcion);
+				option.text(proveedor.descripcion);
+				$(selector).append(option);
+			});
+		},
+		"json"
+	);
 }

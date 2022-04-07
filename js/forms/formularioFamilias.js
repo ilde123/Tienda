@@ -82,3 +82,22 @@ function validarFormularioFamilias() {
 
 	return valido;
 }
+
+//	Cargar datos familias
+function getFamilias(selector) {
+	$.get("php/getFamilias.php", null,
+		(json) => {
+			$('#familias').empty();
+
+			$.each(json, (_index, element) => {
+				let option = $('<option>');
+				let familia = element.familia;
+
+				option.val(familia);
+				option.text(familia);
+				$(selector).append(option);
+			});
+		},
+		"json"
+	);
+}
