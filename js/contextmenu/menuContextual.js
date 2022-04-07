@@ -99,3 +99,47 @@ $.contextMenu({
 		};
 	}
 });
+
+function menuContextualTablaConsultarProducto() {
+	document.oncontextmenu = (e) => {
+		e.preventDefault();
+	}
+
+	$.contextMenu({
+		selector: '.menu-producto',
+		callback: (key, options, _e) => {
+
+			// FILA AFECTADA
+			let fila = $(options.$trigger[0]);
+
+			switch (key) {
+				case 'delete':
+					fila.find('.btn-danger').click();
+					break;
+
+				case 'ver':
+					fila.find('a').click();
+					break;
+
+				case 'copy':
+					fila.find('.col-codigo').select();
+					navigator.clipboard.writeText(fila.find('th').text());
+					break;
+
+				default:
+					break;
+			}
+		},
+		items: {
+			"ver": { name: "Ver/Modificar", icon: "fa-eye", accesskey: 'v' },
+			"delete": { name: "Eliminar", icon: "delete", accesskey: 'e' },
+			copy: { name: "Copiar", icon: "copy", accesskey: 'c' },
+			"sep1": "---------",
+			"quit": {
+				name: "Cancelar", icon: () => {
+					return 'context-menu-icon context-menu-icon-quit';
+				}
+			}
+		}
+	});
+}
