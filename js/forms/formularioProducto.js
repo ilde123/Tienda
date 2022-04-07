@@ -173,23 +173,23 @@ function cargarFormularioProducto(opciones) {
 		cursorSpinner('#btnBuscarProducto i');
 
 		let datos = $('form[name="formConsultarProducto"]').serializeArray();
-	
+
 		$.post("php/consultarProducto.php", datos,
 			function (json) {
 				if (json.resultado == 'ok') {
 					let productos = JSON.parse(json.json);
-	
+
 					limpiarTablaConsultarProducto();
-	
+
 					$.each(productos, (_index, producto) => {
 						agregarFilaProducto(producto);
 					});
-	
+
 					elinimarCursorSpinner('#btnBuscarProducto i');
-	
+
 					menuContextualTablaConsultarProducto();
 					filtro("#descripcionConsultar, #codigoConsultar", "#tablaProducto tbody tr");
-	
+
 					$('div.contenido-oculto').slideDown(); // Mostrar tabla productos
 				} else {
 					msg('Error', 'rojo');
@@ -204,39 +204,38 @@ function cargarFormularioProducto(opciones) {
 			(json) => {
 				if (json.resultado = 'ok') {
 					msg(json.msg, 'azul');
-				}
-				else {
+				} else {
 					msg(json.msg, 'rojo');
 				}
 			},
 			"json"
 		);
 	}
-	
+
 	function agregarFilaProducto(producto) {
 		let fila = $("<tr>");
 		fila.data('producto', producto).addClass('menu-producto');
-	
+
 		// PRIMERA CELDA
 		let celda = $("<th>");
 		celda.attr('scope', 'row').addClass('col-codigo').text(producto.codigo);
 		fila.append(celda);
-	
+
 		// SEGUNDA CELDA
 		celda = $('<td>');
 		let enlace = $('<a>').text(producto.descripcion).attr({
 			'href': '#'
 		});
-	
+
 		celda.addClass('col-descripcion').append(enlace);
 		fila.append(celda);
-	
+
 		// TERCERA CELDA
 		celda = $('<td>');
-	
+
 		// GRUPO
 		let buttonGroup = $('<div>').addClass('btn-group');
-	
+
 		// BOTÓN EDITAR/VISUALIZAR
 		let boton = $('<button>').attr({
 			type: 'button',
@@ -244,30 +243,30 @@ function cargarFormularioProducto(opciones) {
 			'backdrop': "static",
 			'data-target': '#modalProducto'
 		}).addClass('btn btn-warning');
-	
-		enlace.click(function (e) { 
+
+		enlace.click((e) => {
 			e.preventDefault();
-	
-			$(this).parents('td').next().find('button:first').trigger('click');
+
+			$(e.target).parents('td').next().find('button:first').click();
 		});
-	
+
 		let icono = $('<i>').addClass('far fa-eye');
 		boton.append(icono);
 		buttonGroup.append(boton);
-	
+
 		// BOTÓN ELIMINAR
 		boton = $('<button>').attr({
 			type: 'button',
 			'data-toggle': 'modal', 
 			'data-target': '#modalEliminarProducto'
 		}).addClass('btn btn-danger btn-eliminar-producto');
-	
+
 		icono = $('<i>').addClass('fas fa-trash');
 		boton.append(icono);
 		buttonGroup.append(boton);
 		celda.addClass('col-opciones').append(buttonGroup);
 		fila.append(celda);
-	
+
 		// AGREGAR CELDAS
 		TBODY_TABLA_PRODUCTOS.append(fila);
 	}
