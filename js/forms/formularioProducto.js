@@ -31,10 +31,10 @@ function cargarFormularioProducto(opciones) {
 	});
 
 	// BOTÓN CONSULTAR PRODUCTO
-	$('#btnBuscarProducto').click(function (e) {
+	$('#btnBuscarProducto').click((e) => {
 		e.preventDefault();
 
-		consultarProducto();
+		consultarProductoFormulario();
 	});
 
 	modalProducto();
@@ -108,7 +108,7 @@ function cargarFormularioProducto(opciones) {
 				function (json) {
 					if (json.resultado == 'ok') {
 						msg(json.msg, 'azul');
-						fila.fadeOut(function () {
+						fila.fadeOut(() => {
 							fila.remove();
 						});
 					} else {
@@ -163,13 +163,13 @@ function cargarFormularioProducto(opciones) {
 		$('#stockAgregar, #stockMinAgregar, #stockConsultar, #stockMinConsultar, #stockModalProducto, #stockMinModalProducto').inputSpinner();
 	}
 
-	function consultarProducto() {
+	function consultarProductoFormulario() {
 		cursorSpinner('#btnBuscarProducto i');
 
 		let datos = $('form[name="formConsultarProducto"]').serializeArray();
 
 		$.post("php/consultarProducto.php", datos,
-			function (json) {
+			(json) => {
 				if (json.resultado == 'ok') {
 					let productos = JSON.parse(json.json);
 

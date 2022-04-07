@@ -280,127 +280,131 @@ function reiniciarContador() {
 }
 
 function eventoCeldas() {
-	// EVENTO CELDA CÓDIGO
-	$('tbody:first th input:not([evento=true])').each(function (index, element) {
-		
-		let celda = $(this);
+	TBODY.find('th input').each((_index, element) => { // Recorre todas las celdas de código
+
+		let celda = $(element);
 		let fila = celda.parents('tr');
-		
-		$(this).change(function (e) {
+
+		celda.off('change');
+		celda.on('change', (e) => {
 			e.preventDefault();
 
-			var codigo = $(this).val();
+			let codigo = celda.val();
 
 			if (!codigo == '') {
-				var datos = "codigo=" + codigo;
-				var estaEnTabla = false;
-				var celdaUnidades;
+				let datos = "codigo=" + codigo;
+				let estaEnTabla = false;
+				let celdaUnidades;
 
-				// COMPRUEBA SI EL PRODUCTO YA ESTÁ EN LA TABLA
-				$('tbody:first tr').each(function (index, element) {
-					if (codigo == $(this).find('.col-codigo input').val() && !fila.is($(this)) && parseInt(codigo) > 5) {
-						celdaUnidades = $(this).find('.col-unidades input');
+				// Comprobar si el código ya está en la tabla
+				TBODY.find('tr').each((_index, element) => {
+					if (codigo == $(element).find('.col-codigo input').val() && !fila.is($(element)) && parseInt(codigo) > 5) { // Si el código coincide, no es la misma fila y es mayor que 5
+						celdaUnidades = $(element).find('.col-unidades input');
 						estaEnTabla = true;
 					}
 				});
 
-				if (estaEnTabla) {
-					celdaUnidades.val(parseInt(celdaUnidades.val()) + 1);
-					$(this).val("");
+				if (estaEnTabla) { // Si el código ya está en la tabla
+					celdaUnidades.val(parseInt(celdaUnidades.val()) + 1); // Sumar una unidad
+					celda.val(""); // Vaciar el input de código
 
-					actualizarTotal();
+					actualizarTotal(); // Actualizar total
 				}
-				else if (isNaN(parseInt(codigo))) {
-					
-				} else {
-					$.post("php/consultarProducto.php", datos,
-						function (json, textStatus, jqXHR) {
-							if (json.resultado == 'ok') {
-								var producto = JSON.parse(json.json)[0];
-
-								if (producto != undefined) {
-									fila.find('.col-descripcion').text(producto.descripcion);
-
-									if (fila.find('.col-unidades input').val() == '') {
-										fila.find('.col-unidades input').val('1').focus().select();
-									}
-
-									if (parseInt(codigo) < 5) {
-										if (fila.find('.col-precio input').val() === "") {
-											fila.find('.col-precio input').val(numerosDecimales(0)).focus().select();
-										}
-									}
-									else {
-										fila.find('.col-precio input').val(numerosDecimales(producto.precio));
-									}
-
-									actualizarTotal();
-								}
-								else {
-									// msg('El producto no existe', 'rojo');
-									// SI EL PRODUCTO NO EXISTE, MOSTRAR OPCION DE AGREGARLO
-									fila.find('.col-descripcion').text('');
-									fila.find('.col-precio input').val(0);
-									fila.find('.col-unidades input').val('1');
-									actualizarTotal();
-
-									$('#modalAgregarProducto').modal('show');
-
-									$('#modalAgregarProducto button.btn-success').off('click');
-									$('#modalAgregarProducto button.btn-success').on('click', function (e) {
-										$('#btnInsertarProducto').trigger('click');
-
-										var codigo = fila.find('.col-codigo input').val();
-										var precio = fila.find('.col-precio input').val();
-
-										setTimeout(() => {
-											$('#codigoAgregar').val(codigo);
-											$('#precioAgregar').val(precio);
-											$('#descripcionAgregar').focus();
-										}, 1000);
-									});
-
-									$('#modalAgregarProducto button.btn-danger').off('click');
-									$('#modalAgregarProducto button.btn-danger').on('click', function (e) {
-										fila.find('input').val('');
-										fila.find('.col-descripcion').text('');
-										actualizarTotal();
-									});
-								}
-							} else {
-								msg(json.msg, 'rojo');
-							}
-						},
-						"json"
-					);
+				else if (isNaN(parseInt(codigo))) { // Si el código no es un número
+					celda.val(""); // Vaciar el input de código
+				} else { // Si el código es un número
+					consultarProducto(datos);
 				}
 			} else {
-				fila.find('.col-descripcion').text('');
-				fila.find('.col-precio input').val(numerosDecimales(0));
-				fila.find('.col-unidades input').val(1);
+				limpiarFila(fila);
 
 				actualizarTotal();
 			}
-		}).attr('evento', true);
+		});
+
+		function consultarProducto(datos) {
+			$.post("php/consultarProducto.php", datos,
+				(json) => {
+					if (json.resultado == 'ok') {
+						let producto = JSON.parse(json.json)[0]; // Obtener primer producto
+
+						if (producto != undefined) { // Si el producto existe
+							fila.find('.col-descripcion').text(producto.descripcion); // Mostrar descripción
+
+							if (fila.find('.col-unidades input').val() == '') { // Si el input de unidades está vacío
+								fila.find('.col-unidades input').val('1').focus().select(); // Rellenar con 1 y asignar foco
+							}
+
+							if (parseInt(codigo) < 5) { // Si el código es menor que 5
+								if (fila.find('.col-precio input').val() === "") { // Si el input de precio está vacío
+									fila.find('.col-precio input').val(numerosDecimales(0)).focus().select(); // Rellenar con 0 y asignar foco
+								}
+							}
+							else { // Si el código es mayor que 5
+								fila.find('.col-precio input').val(numerosDecimales(producto.precio)); // Rellenar con precio
+							}
+
+							actualizarTotal(); // Actualizar total
+						} else { // Si el producto no existe
+							limpiarFila(fila);
+							actualizarTotal();
+
+							$('#modalAgregarProducto').modal('show'); // Mostrar modal de agregar producto
+
+							$('#modalAgregarProducto button.btn-success').off('click'); // Desactivar evento de botón de agregar producto
+							$('#modalAgregarProducto button.btn-success').on('click', () => {
+								$('#btnInsertarProducto').click(); // Pulsar botón de insertar producto
+
+								let codigo = fila.find('.col-codigo input').val();
+								let precio = fila.find('.col-precio input').val();
+
+								setTimeout(() => {
+									$('#codigoAgregar').val(codigo); // Rellenar código
+									$('#precioAgregar').val(precio); // Rellenar precio
+									$('#descripcionAgregar').focus(); // Asignar foco a descripción
+								}, 1000);
+							});
+
+							$('#modalAgregarProducto button.btn-danger').off('click'); // Desactivar evento de botón de cancelar
+							$('#modalAgregarProducto button.btn-danger').on('click', () => {
+								fila.find('input').val('');
+								fila.find('.col-descripcion').text('');
+								actualizarTotal();
+							});
+						}
+					} else {
+						msg(json.msg, 'rojo');
+					}
+				},
+				"json"
+			);
+		}
+
+		function limpiarFila(fila) {
+			fila.find('.col-descripcion').text('');
+			fila.find('.col-precio input').val(numerosDecimales(0));
+			fila.find('.col-unidades input').val(1);
+		}
 	});
 
 	// EVENTO CELDA UNIDADES
-	$('tbody:first td:nth-child(3) input:not([evento=true])').each(function (index, element) {
-		// element == this
+	TBODY.find('td.col-unidades input').each((_index, element) => {
+		let celda = $(element)
 
-		$(this).change(function (e) {
+		celda.off('change');
+		celda.on('change', (e) => {
 			e.preventDefault();
 
-			// consola('EVENTO CELDA UNIDADES');
-			$(this).parents('tr').find('th input');
-			$(this).val(parseInt($(this).val()));
+			let input = $(e.target);
 
-			if (isNaN($(this).val()) || $(this).val() < 1) {
-				$(this).val('1');
+			input.val(parseInt(input.val())); // Convertir valor a entero
+
+			if (isNaN(input.val()) || input.val() < 1) { // Si el valor no es un número o es menor que 1
+				input.val('1'); // Rellenar con 1
 			}
 
 			actualizarTotal();
-		}).attr('evento', true);
+		});
 	});
 
 	// EVENTO CELDA PRECIO
