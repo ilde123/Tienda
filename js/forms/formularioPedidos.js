@@ -564,13 +564,13 @@ function cargarFormularioPedido() {
 			e.preventDefault();
 
 			// Si se pulsa el botón no se marca la fila
-			toggleFilaLPedido(e);
+			toggleFilaLPedido(e, filaPedido, npedido);
 		});
 
 		TBODY_TABLA_PEDIDO.prepend(filaPedido);
 	}
 
-	function toggleFilaLPedido(e) {
+	function toggleFilaLPedido(e, filaPedido, npedido) {
 		if (e.target.nodeName != "BUTTON" && e.target.nodeName != "I") {
 			// Marcar fila seleccionada						
 			filaPedido.toggleClass('fila-activa');
