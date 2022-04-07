@@ -292,7 +292,6 @@ function eventoCeldas() {
 			let codigo = celda.val();
 
 			if (!codigo == '') {
-				let datos = "codigo=" + codigo;
 				let estaEnTabla = false;
 				let celdaUnidades;
 
@@ -313,7 +312,7 @@ function eventoCeldas() {
 				else if (isNaN(parseInt(codigo))) { // Si el código no es un número
 					celda.val(""); // Vaciar el input de código
 				} else { // Si el código es un número
-					consultarProducto(datos);
+					consultarProducto(codigo);
 				}
 			} else {
 				limpiarFila(fila);
@@ -322,7 +321,9 @@ function eventoCeldas() {
 			}
 		});
 
-		function consultarProducto(datos) {
+		function consultarProducto(codigo) {
+			let datos = `codigo=${codigo}`;
+
 			$.post("php/consultarProducto.php", datos,
 				(json) => {
 					if (json.resultado == 'ok') {
@@ -366,9 +367,9 @@ function eventoCeldas() {
 							});
 
 							$('#modalAgregarProducto button.btn-danger').off('click'); // Desactivar evento de botón de cancelar
-							$('#modalAgregarProducto button.btn-danger').on('click', () => {
-								fila.find('input').val('');
-								fila.find('.col-descripcion').text('');
+							$('#modalAgregarProducto button.btn-danger').on('click', () => { // Activar evento de botón de cancelar
+								fila.find('input').val(''); // Vaciar input
+								fila.find('.col-descripcion').text(''); // Vaciar descripción
 								actualizarTotal();
 							});
 						}
@@ -408,47 +409,53 @@ function eventoCeldas() {
 	});
 
 	// EVENTO CELDA PRECIO
-	$('tbody:first td:last input:not([evento=true])').each(function (index, element) {
-		$(this).change(function (e) {
+	TBODY.find('td.col-precio input').each((_index, element) => {
+		let celda = $(element);
+
+		celda.off('change');
+		celda.on('change', (e) => {
 			e.preventDefault();
 
-			// ACTUALIZAR PRECIO AL MODIFICARLO EN LA TABLA
-			let celda = $(this);
-			let fila = celda.parents('tr');
-			let codigo = fila.find('.col-codigo input').val();
-			let precio = fila.find('.col-precio input').val();
-			fila.find('.col-precio input').val(formatNumber(precio));
-
-			let datos = `codigo=${codigo}&precio=${formatNumber(precio)}`;
-
-			if (parseInt(codigo) > 5) {
-				$.post("php/actualizarPrecio.php", datos,
-					function (json, textStatus, jqXHR) {
-						if (json.resultado == 'ok') {
-							msg(json.msg, 'azul');
-						} else {
-							msg(json.msg, 'rojo');
-						}
-					},
-				"json"
-				);
-			}
+			// Actualizar precio al insertarlo en la celda
+			actualizarPrecioProducto(celda);
 
 			actualizarTotal();
 			// Precio con decimales
 			if (isNaN(numerosDecimales(celda.val()))) {
 				celda.val('0,00');
 			} else {
-				celda.val(formatNumber(numerosDecimalesMostrar(numerosDecimales(celda.val()))));
+				celda.val(formatNumber((numerosDecimales(celda.val()))));
 			}
-		}).attr('evento', true);
+		});
 	});
 
+	function actualizarPrecioProducto(celda) {
+		let fila = celda.parents('tr');
+		let codigo = fila.find('.col-codigo input').val();
+		let precio = fila.find('.col-precio input').val();
+		fila.find('.col-precio input').val(formatNumber(precio)); // Formatear precio
+
+		let datos = `codigo=${codigo}&precio=${formatNumber(precio)}`;
+
+		if (parseInt(codigo) > 5) { // Si el código es mayor que 5
+			$.post("php/actualizarPrecio.php", datos,
+				(json) => {
+					if (json.resultado == 'ok') {
+						msg(json.msg, 'azul');
+					} else {
+						msg(json.msg, 'rojo');
+					}
+				},
+				"json"
+			);
+		}
+	}
+
 	// EVENTO CLICK SOBRE INPUT
-	HTML.find('input').click(function (e) {
+	HTML.find('input').click((e) => {
 		e.preventDefault();
 
-		$(this).select();
+		$(e.target).select();
 	});
 
 	// Autocompletar productos tabla pedidos
