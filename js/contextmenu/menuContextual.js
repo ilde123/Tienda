@@ -4,7 +4,7 @@ document.oncontextmenu = (e) => {
 
 $.contextMenu({
 	selector: '.context-menu-one',
-	build: ($trigger, e) => {
+	build: ($trigger, _e) => {
 		let disabledDelete = false;
 		let disabledEdit = false;
 

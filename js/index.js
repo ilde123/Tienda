@@ -11,7 +11,7 @@ $(function () {
 	// Autocompletar productos tabla pedidos
 	getProductos('tbody th input');
 
-	// Eventos de navegación por la tabla
+	// Eventos de teclado
 	eventoCeldas();
 	limpiarTabla();
 
@@ -25,6 +25,73 @@ $(function () {
 	$.getScript("js/modalCambio/modalCambio.js");
 
 	// Navegación entre celdas
+	tablaNavegable();
+
+	$('#btnAceptarTicket').click((e) => {
+		e.preventDefault();
+
+		imprimirTicket();
+	});
+
+	$('#btnCancelarPedido').click((e) => {
+		e.preventDefault();
+
+		// Elimina todas las filas menos la primera
+		TBODY.children("tr:not(tr:first)").remove();
+		// Resetea los valores de los campos
+		TBODY.find("tr:first input").val('');
+		TBODY.find("tr:first td.col-descripcion").text('');
+		// Asigna el foco al campo código
+		TBODY.find("th input").select();
+
+		actualizarTotal();
+		reiniciarContador();
+	});
+
+	// borrarLoader
+	borrarLoader();
+
+	// Botón toTop
+	botonToTop();
+
+	// Botón agregar fila en formato móvil
+	$('#btnAddRow').click((e) => { 
+		e.preventDefault();
+
+		agregarFila();
+	});
+
+	function botonToTop() {
+		$('#toTop').click((e) => {
+			e.preventDefault();
+
+			HTML.animate({
+				scrollTop: 0
+			}, 800);
+
+			
+		});
+
+		$(window).scroll(() => {
+			if ($('body').scrollTop() > 20 || HTML.scrollTop() > 20) {
+				$('#toTop').fadeIn(250, () => { // Mostrar botón
+					$('#btnAddRow').animate({ right: '4em' }); // Mover botón
+				});
+			} else {
+				$('#toTop').fadeOut(250, () => { // Ocultar botón
+					$('#btnAddRow').animate({ right: '1em' }); // Mover botón
+				});
+			}
+		});
+	}
+
+	function borrarLoader() {
+		$('body').removeClass('overflow-hidden');
+		$('#loader').remove();
+	}
+});
+
+function tablaNavegable() {
 	TBODY.keydown((e) => {
 		switch (e.keyCode) {
 			case 40: // Flecha abajo
@@ -73,73 +140,9 @@ $(function () {
 				break;
 		}
 	});
-
-	$('#btnAceptarTicket').click((e) => {
-		e.preventDefault();
-
-		imprimirTicket();
-	});
-
-	$('#btnCancelarPedido').click((e) => {
-		e.preventDefault();
-
-		// Elimina todas las filas menos la primera
-		TBODY.children("tr:not(tr:first)").remove();
-		// Resetea los valores de los campos
-		TBODY.find("tr:first input").val('');
-		TBODY.find("tr:first td.col-descripcion").text('');
-		// Asigna el foco al campo código
-		TBODY.find("th input").select();
-
-		actualizarTotal();
-		reiniciarContador();
-	});
-
-	// borrarLoader
-	borrarLoader();
-
-	// Botón toTop
-	botonToTop();
-
-	// Botón agregar fila en formato móvil
-	$('#btnAddRow').click((e) => { 
-		e.preventDefault();
-
-		agregarFila();
-	});
-
-	function botonToTop() {
-		$('#toTop').click((e) => {
-			e.preventDefault();
-
-			HTML.animate({
-				scrollTop: 0
-			}, 800);
-
-			$('#btnCalc').animate({ right: '4em' });
-		});
-
-		$(window).scroll(() => {
-			if ($('body').scrollTop() > 20 || HTML.scrollTop() > 20) {
-				$('#toTop').fadeIn(500, () => { // Mostrar botón
-					$('#btnCalc, #btnAddRow').animate({ right: '4em' });
-				});
-			} else {
-				$('#toTop').fadeOut(500, () => { // Ocultar botón
-					$('#btnCalc, #btnAddRow').animate({ right: '1em' });
-				});
-			}
-		});
-	}
-
-	function borrarLoader() {
-		$('body').removeClass('overflow-hidden');
-		$('#loader').remove();
-	}
-});
+}
 
 function navegarCeldaVertical(direccion) {
-	// LOCALIZAR CELDA
 	let filaActual = $('input:focus').parents('tr');
 	let celdaActual = $('input:focus').parent();
 	let celdaAux;
@@ -280,6 +283,7 @@ function reiniciarContador() {
 }
 
 function eventoCeldas() {
+	// Evento código
 	TBODY.find('th input').each((_index, element) => { // Recorre todas las celdas de código
 
 		let celda = $(element);
@@ -315,7 +319,7 @@ function eventoCeldas() {
 					consultarProducto(codigo);
 				}
 			} else {
-				limpiarFila(fila);
+				vaciarFila(fila);
 
 				actualizarTotal();
 			}
@@ -347,7 +351,7 @@ function eventoCeldas() {
 
 							actualizarTotal(); // Actualizar total
 						} else { // Si el producto no existe
-							limpiarFila(fila);
+							vaciarFila(fila);
 							actualizarTotal();
 
 							$('#modalAgregarProducto').modal('show'); // Mostrar modal de agregar producto
@@ -381,7 +385,7 @@ function eventoCeldas() {
 			);
 		}
 
-		function limpiarFila(fila) {
+		function vaciarFila(fila) {
 			fila.find('.col-descripcion').text('');
 			fila.find('.col-precio input').val(numerosDecimales(0));
 			fila.find('.col-unidades input').val(1);

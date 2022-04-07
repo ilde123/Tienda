@@ -56,7 +56,6 @@
 	display: none;
 	position: fixed;
     bottom: 20px;
-	right: 1em;
 	z-index: 99;
 }
 
@@ -177,6 +176,10 @@
 
 ::-webkit-scrollbar-corner {
 	background: transparent;
+}
+
+.cursor-move {
+	cursor: move;
 }
 
 body {

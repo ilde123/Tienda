@@ -4,7 +4,7 @@ $('#btnCalculadora').click((e) => {
 
 	// Crear modal calculadora
 	$('#modalCalculadora').modal({
-		backdrop: false // Fondo oscuro
+		backdrop: true // Fondo oscuro
 	});
 
 	// Botón mostrar/ocultar calculadora
@@ -16,15 +16,15 @@ $('button.close:nth-child(3)').click((e) => {
 	e.preventDefault();
 
 	// Botón mostrar/ocultar calculadora
-	$('#btnCalc').fadeIn();
+	$('#btnCalc').fadeIn(250);
 });
 
 // Botón mostrar/ocultar calculadora
-$('#btnCalc').click(function (e) { 
+$('#btnCalc').click((e) => { 
 	e.preventDefault();
 
 	$('#modalCalculadora').modal("show"); // Mostrar modal
-	$(this).fadeOut(); // Ocultar botón
+	$(e.target).fadeOut(250); // Ocultar botón
 });
 
 // COPIAR MODAL CALCULADORA
@@ -62,20 +62,20 @@ $('#modalCalculadora i').click((e) => {
 $('#modalCalculadora i.fa-copy').tooltip({title: "Copiado", trigger: "click", placement: "top"});
 
 // MODAL CALCULADORA DRAGGABLE
-$("#modalCalculadora .modal-header").mousedown(function (mousedownEvt) {
-	let $draggable = $(this);
+$("#modalCalculadora .modal-header").mousedown((mousedownEvt) => {
+	let $draggable = $(mousedownEvt.target);
 	let x = mousedownEvt.pageX - $draggable.offset().left,
 		y = mousedownEvt.pageY - $draggable.offset().top;
-	$("body").on("mousemove.draggable", function(mousemoveEvt) {
+	$("body").on("mousemove.draggable", (mousemoveEvt) => {
 		$draggable.closest(".modal-content").offset({
 			"left": mousemoveEvt.pageX - x,
 			"top": mousemoveEvt.pageY - y
 		});
 	});
-	$("body").one("mouseup", function() {
+	$("body").one("mouseup", () => {
 		$("body").off("mousemove.draggable");
 	});
-	$draggable.closest(".modal").one("bs.modal.hide", function() {
+	$draggable.closest(".modal").one("bs.modal.hide", () => {
 		$("body").off("mousemove.draggable");
 	});
 });
