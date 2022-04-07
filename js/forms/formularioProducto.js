@@ -271,7 +271,7 @@ function cargarFormularioProducto(opciones) {
 		// AGREGAR CELDAS
 		TBODY_TABLA_PRODUCTOS.append(fila);
 	}
-	
+
 	function validarFormularioProducto(clase) {
 		let campoValido = true;
 		let isValid = true;
