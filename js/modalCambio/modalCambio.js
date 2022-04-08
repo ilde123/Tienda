@@ -37,7 +37,7 @@ BOTON_ACEPTAR.click((e) => { // Evento aceptar cambio
 	let totalAPagar = formatNumber(TOTAL.val());
 
 	// COMPROBAR QUE LA CANTIDAD INSERTADA SUPERA EL TOTAL A PAGAR
-	if (parseFloat(importe) >= parseFloat(totalAPagar)) {
+	if (parseFloat(importe) >= parseFloat(totalAPagar) && !isNaN(parseFloat(totalAPagar))) {
 		insertarPedido();
 	} else {
 		let falta = numerosDecimales(Math.abs(importe - totalAPagar));
@@ -54,7 +54,7 @@ function insertarPedido() {
 		let unidades = fila.find('td.col-unidades input').val();
 		let precio = fila.find('td.col-precio input').val();
 
-		if (codigo != '' || unidades != '' || precio != '') {
+		if (codigo != '' && unidades != '' && precio != '') {
 			datos += `codigo[]=${codigo}&unidades[]=${unidades}&precio[]=${precio}&`;
 		}
 	});
@@ -78,7 +78,7 @@ function insertarPedido() {
 	}
 }
 
-// Evento ocultar modal cambio
+// Evento mostrar modal cambio
 MODAL_CAMBIO.on('show.bs.modal', () => {
 	MODAL_CAMBIO.find('input').val('');
 });
