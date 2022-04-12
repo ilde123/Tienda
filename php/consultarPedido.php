@@ -29,7 +29,6 @@
 			ORDER BY pedido.fecha DESC;";
 
 	$datos = [];
-	$datosPrueba = [];
 
 	try {
 		if ($stmt = $conexion->prepare($sql)) {
@@ -44,7 +43,6 @@
 			/* obtener valores */
 			while ($fila = $result->fetch_array(MYSQLI_ASSOC)) {
 				$datos[$fila['npedido']][$fila['nlinea']] = $fila;
-//				$datos[$fila['npedido']]['fecha'] = $fila['fecha'];
 			}
 	
 			// cierra sentencia y conexión
@@ -64,7 +62,6 @@
 	}
 
 	echo json_encode($respuesta);
-
 
 	$conexion->close();
 ?>

@@ -7,9 +7,22 @@
 /*	transition: background-color 1.5s ease 0s, border-color 1.5s ease 0s;*/
 }
 
-/*
-	color domingos en el calendario
-*/
+.dropdown-menu i {
+	color: #0d6efd;
+}
+
+.dropdown-menu i:active, .dropdown-menu li:active i {
+	color: #f5f5f5;
+}
+
+#btnSalir i {
+	color: #dc3545;
+}
+
+#total {
+	font-weight: bolder;
+	color: #dc3545;
+}
 
 .fila-activa, .fila-activa td {
 	background-color: #007bff;
@@ -244,7 +257,30 @@ html:active {
 	SUBMENU
 */
 
-.rotar::after {
+.dropdown-submenu {
+	top: 0;
+    right: auto;
+    left: 100%;
+    margin-top: 0;
+    margin-left: 0.125rem;
+}
+
+.dropend a.dropdown-toggle::after {
+	transition-duration: 0.5s;
+	transform: rotate(0deg) !important;
+}
+
+.dropend a.dropdown-toggle.rotar::after {
+	transition-duration: 0.5s;
+	transform: rotate(90deg) !important;
+}
+
+.dropdown-toggle::after {
+	transition-duration: 0.5s;
+	transform: rotate(-90deg) !important;
+}
+
+.show.dropdown-toggle::after {
 	transition-duration: 0.5s;
 	transform: rotate(0deg) !important;
 }

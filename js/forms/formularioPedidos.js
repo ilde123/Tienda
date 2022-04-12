@@ -71,6 +71,8 @@ function cargarFormularioPedido() {
 	}
 
 	function mostrarVentanaConsultarPedido() {
+		ocultarTablaFormulario();
+
 		// Obtener datos del formulario
 		let fechaInicio = FECHA_INICIO.val();
 		let fechaFin = FECHA_FIN.val();
@@ -84,58 +86,65 @@ function cargarFormularioPedido() {
 		let datos = `fechaInicio=${fechaInicio}&fechaFin=${fechaFin}&horaInicio=${horaInicio}&horaFin=${horaFin}`;
 
 		if ($('input[name=opcion]:checked').val() == 'producto') { // Muestra el listado de pedidos
-			cargarTablaPedidos();
-
 			consultarPedido(); // Consultar pedidos
 		} else { // Muestra el total de pedidos
-			cargarTablaPedidosTotal();
-
 			consultarPedidoTotal(); // Consultar total de pedidos
 		}
 
-		// Mostrar tabla de pedidos
-		$('div.contenido-oculto').slideDown();
-
 		function consultarPedido() {
+			TBODY_TABLA_PEDIDO.empty(); // Vaciar tabla
+
 			$.post("php/consultarPedido.php", datos,
-			(json) => {
+				(json) => {
 					let pedidos = JSON.parse(json.json);
 
-					TBODY_TABLA_PEDIDO.empty(); // Vaciar tabla
-					let fecha;
+					if (Object.keys(pedidos).length > 0) { // Si hay pedidos
+						cargarCabezeraTablaPedidos();
 
-					$.each(pedidos, (npedido, pedido) => { // Recorrer pedidos
-						let total = 0; // Total de pedido
-
-						$.each(pedido, (_nlinea, lineaPedido) => { // Recorrer lineas de pedido
-							agregarFilaLineaPedido(lineaPedido); // Agregar fila de linea de pedido
-							fecha = lineaPedido.fecha; // Fecha del pedido
-							total += (lineaPedido.precio * lineaPedido.unidades); // Sumar total
+						let fecha;
+						
+						$.each(pedidos, (npedido, pedido) => { // Recorrer pedidos
+							let total = 0; // Total de pedido
+							
+							$.each(pedido, (_nlinea, lineaPedido) => { // Recorrer lineas de pedido
+								agregarFilaLineaPedido(lineaPedido); // Agregar fila de linea de pedido
+								fecha = lineaPedido.fecha; // Fecha del pedido
+								total += (lineaPedido.precio * lineaPedido.unidades); // Sumar total
+							});
+							
+							agregarFilaTablaPedido(npedido, total, fecha); // Agregar fila de pedido
 						});
-
-						agregarFilaTablaPedido(npedido, total, fecha); // Agregar fila de pedido
-					});
+					} else {
+						msg("No hay pedidos en ese rango de fechas", "info");
+					}
 				},
 				"json"
 			);
 		}
 
 		function consultarPedidoTotal() {
+			TBODY_TABLA_PEDIDO.empty(); // Vaciar tabla de pedidos
+
 			$.post("php/consultarPedidoPorDia.php", datos,
-			(json) => {
+				(json) => {
 					let pedidos = JSON.parse(json.json); // Pedidos
-					let precioTotal = 0; // Total de pedidos
+					consola(pedidos);
+					if (pedidos.length > 0) { // Si hay pedidos
+						cargarCabezeraTablaPedidosTotal(); // Cargar cabezera tabla de pedidos total
 
-					TBODY_TABLA_PEDIDO.empty(); // Vaciar tabla de pedidos
+						let precioTotal = 0; // Total de pedidos
 
-					$.each(pedidos, (_index, pedido) => { // Recorrer pedidos
-						precioTotal = precioTotal + parseFloat(agregarFilaTablaPedidoTotal(pedido)); // Agregar fila a la tabla
-					});
+						$.each(pedidos, (_index, pedido) => { // Recorrer pedidos
+							precioTotal = precioTotal + parseFloat(agregarFilaTablaPedidoTotal(pedido)); // Agregar fila a la tabla
+						});
 
-					crearUrlBotonImprimir();
+						crearUrlBotonImprimir();
 
-					// Agregar fila total
-					agregarFilaTotalTablaPedidoTotal(numerosDecimales(precioTotal));
+						// Agregar fila total
+						agregarFilaTotalTablaPedidoTotal(numerosDecimales(precioTotal));
+					} else {
+						msg("No hay pedidos en ese rango de fechas", "info");
+					}
 				},
 				"json"
 			);
@@ -224,18 +233,20 @@ function cargarFormularioPedido() {
 		ventana.print();
 	}
 
-	function cargarTablaPedidos() {
+	function cargarCabezeraTablaPedidos() {
 		let nombresFilas = ['', 'Acciones', 'Fecha', 'Total']; // Nombres cabeceras tabla pedidos
 
 		cabeceraTablaPedidos(nombresFilas); // Cambiar nombres cabeceras tabla pedidos
 		crearBotonesTablaPedidos(); // Agregar botones a la tabla
+		mostrarTablaFormulario(); // Mostrar tabla de formulario
 	}
 
-	function cargarTablaPedidosTotal() {
+	function cargarCabezeraTablaPedidosTotal() {
 		let nombresFilas = ['Fecha', 'Precio', null, null]; // Nombres cabeceras tabla pedidos total
 
 		cabeceraTablaPedidos(nombresFilas); // Cambiar nombres de cabeceras tabla pedidos total
 		crearBotonesTablaPedidosTotal(); // Agregar botones a la tabla
+		mostrarTablaFormulario(); // Mostrar tabla de formulario
 	}
 
 	function cabeceraTablaPedidos(nombresFilas) {
@@ -283,7 +294,7 @@ function cargarFormularioPedido() {
 
 		// Crear div para botones
 		let btnGroup = $("<div>");
-		btnGroup.addClass('btn-group ml-2');
+		btnGroup.addClass('btn-group ms-2');
 
 		let boton = $("<button>");
 		boton.addClass('btn btn-primary');
@@ -294,13 +305,9 @@ function cargarFormularioPedido() {
 		boton.append(icono); // Agregar icono
 
 		let botonSplit = $("<button>");
-		botonSplit.addClass('btn btn-primary dropdown-toggle dropdown-toggle-split');
-		botonSplit.attr('data-toggle', 'dropdown');
+		botonSplit.addClass('btn btn-primary dropdown-toggle');
+		botonSplit.attr('data-bs-toggle', 'dropdown');
 		btnGroup.append(botonSplit); // Agregar botón
-
-		let iconoSplit = $("<span>");
-		iconoSplit.addClass('caret');
-		botonSplit.append(iconoSplit); // Agregar icono
 
 		let menu = $("<div>");
 		menu.addClass('dropdown-menu');
@@ -311,7 +318,7 @@ function cargarFormularioPedido() {
 		botonSelectAll.text('Seleccionar todo');
 
 		let iconcoSelectAll = $("<i>");
-		iconcoSelectAll.addClass('fas fa-tasks text-primary mr-2');
+		iconcoSelectAll.addClass('fas fa-tasks text-primary me-2');
 		botonSelectAll.prepend(iconcoSelectAll); // Agregar icono
 
 		menu.append(botonSelectAll); // Agregar botón
@@ -322,7 +329,7 @@ function cargarFormularioPedido() {
 		botonSelectNone.text('Deseleccionar todo');
 
 		let iconcoSelectNone = $("<i>");
-		iconcoSelectNone.addClass('fas fa-list-ul text-danger mr-2');
+		iconcoSelectNone.addClass('fas fa-list-ul text-danger me-2');
 		botonSelectNone.prepend(iconcoSelectNone); // Agregar icono
 
 		menu.append(botonSelectNone); // Agregar botón
@@ -331,7 +338,7 @@ function cargarFormularioPedido() {
 		celda.append(btnGroup); // Agregar botón a celda
 
 		let botonImprimir = $("<a>"); // Botón de imprimir
-		botonImprimir.addClass('btn btn-warning btn-imprimir ml-2');
+		botonImprimir.addClass('btn btn-warning btn-imprimir ms-2');
 		botonImprimir.attr('target', '_blank'); // Abrir en pestaña nueva
 		botonImprimir.attr('type', 'button');
 
@@ -401,13 +408,13 @@ function cargarFormularioPedido() {
 		celda.attr('scope', 'row').addClass('col-codigo');
 
 		let customControl = $("<div>");
-		customControl.addClass('custom-control custom-checkbox');
+		customControl.addClass('form-check');
 
 		let inputCheckbox = $("<input>");
 		inputCheckbox.attr('id', `checkbox-pedido-${pedido.fecha}`); // Agregar id
 		inputCheckbox.attr('type', 'checkbox'); // Agregar tipo
 		inputCheckbox.attr('checked', true); // Agregar checked
-		inputCheckbox.addClass('custom-control-input'); // Agregar clase
+		inputCheckbox.addClass('form-check-input'); // Agregar clase
 
 		inputCheckbox.change(() => {
 			let icono = $(".icono-check"); // Seleccionar icono

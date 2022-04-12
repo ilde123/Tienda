@@ -82,6 +82,8 @@ $('#btnSalir').click((e) => {
 	close(); // Cerrar navegador
 });
 
+$.getScript('js/menu/submenu.js');
+
 $('#btnQr').click(function (e) { 
 	e.preventDefault();
 
@@ -106,11 +108,20 @@ function cargarFormulario(url, callback, datos) {
 	TABLA.fadeOut(() => { // Ocultar tabla
 		CONTENIDO.load(url, null , () => { // Cargar formulario
 			CONTENIDO.fadeIn(); // Mostrar formulario
+			$('#botonBurger').click(); // Ocultar menú versión móvil
 
 			callback(datos); // Llamar a la función
 			btnVolver();
 		});
 	});
+}
+
+function mostrarTablaFormulario() {
+	$('div.contenido-oculto').slideDown();
+}
+
+function ocultarTablaFormulario() {
+	$('div.contenido-oculto').slideUp();
 }
 
 function btnVolver() {
