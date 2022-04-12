@@ -7,6 +7,9 @@ $('#btnCalculadora').click((e) => {
 		backdrop: true // Fondo oscuro
 	});
 
+	let modal = new bootstrap.Modal($('#modalCalculadora'));
+	modal.show(); // Mostrar modal
+
 	// Botón mostrar/ocultar calculadora
 	$('#btnCalc').fadeOut();
 });

@@ -233,9 +233,9 @@ function cargarFormularioProducto(opciones) {
 		// BOTÓN EDITAR/VISUALIZAR
 		let boton = $('<button>').attr({
 			type: 'button',
-			'data-toggle': 'modal',
+			'data-bs-toggle': 'modal',
 			'backdrop': "static",
-			'data-target': '#modalProducto'
+			'data-bs-target': '#modalProducto'
 		}).addClass('btn btn-warning');
 
 		enlace.click((e) => {
@@ -251,8 +251,8 @@ function cargarFormularioProducto(opciones) {
 		// BOTÓN ELIMINAR
 		boton = $('<button>').attr({
 			type: 'button',
-			'data-toggle': 'modal', 
-			'data-target': '#modalEliminarProducto'
+			'data-bs-toggle': 'modal', 
+			'data-bs-target': '#modalEliminarProducto'
 		}).addClass('btn btn-danger btn-eliminar-producto');
 
 		icono = $('<i>').addClass('fas fa-trash');

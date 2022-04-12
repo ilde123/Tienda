@@ -10,33 +10,33 @@
 				<input type="text" id="fechaFinPedido" class="form-control bg-white" name="fecha" readonly>
 			</div>
 			<div class="col-sm-3">
-				<label for="horaInicio" class="mb-2 mr-sm-2 font-weight-bold">Hora Inicio</label>
+				<label for="horaInicio" class="font-weight-bold">Hora Inicio</label>
 				<input name="horaInicio" id="horaInicio" class="form-control bg-white" readonly">
 			</div>
 			<div class="col-sm-3">
-				<label for="horaFin" class="mb-2 mr-sm-2 font-weight-bold">Hora Fin</label>
+				<label for="horaFin" class="font-weight-bold">Hora Fin</label>
 				<input name="horaFin" id="horaFin" class="form-control bg-white" readonly>
 			</div>
 		</div>
 	</div>
-	<div class="form-group d-none">
-		<div class="row">
-		</div>
-	</div>
-	<div class="form-group form-inline">
+	<div class="form-group row mt-2">
 		<label for="" class="font-weight-bold">Mostrar:</label>
-		<div class="custom-control custom-radio ml-2">
-			<input type="radio" id="radioMostrarTotal" name="opcion" class="custom-control-input" value="total" checked>
-			<label class="custom-control-label pt-1" for="radioMostrarTotal">Total vendido</label>
+		<div class="col-sm-3">
+			<div class="form-check">
+				<input type="radio" id="radioMostrarTotal" name="opcion" class="form-check-input" value="total" checked>
+				<label class="custom-control-label pt-1" for="radioMostrarTotal">Total vendido</label>
+			</div>
 		</div>
-		<div class="custom-control custom-radio ml-2">
-			<input type="radio" id="radioMostrarProducto" name="opcion" class="custom-control-input" value="producto">
-			<label class="custom-control-label pt-1" for="radioMostrarProducto">Pedidos</label>
+		<div class="col-sm-3">
+			<div class="form-check">
+				<input type="radio" id="radioMostrarProducto" name="opcion" class="form-check-input" value="producto">
+				<label class="custom-control-label pt-1" for="radioMostrarProducto">Pedidos</label>
+			</div>
 		</div>
 	</div>
 	<div class="form-group d-none">
 		<label for="" class="font-weight-bold">Familias:</label>
-		<div class="custom-control custom-checkbox">
+		<div class="form-check">
 			<input type="checkbox" id="" class="custom-control-input" value="alimentacion" checked>
 			<label class="custom-control-label" for="">Alimentación</label>
 		</div>
@@ -53,7 +53,7 @@
 			<label class="custom-control-label" for="">Tabaco</label>
 		</div>
 	</div>
-	<div class="form-group">
+	<div class="form-group mt-2">
 		<button type="button" id="btnConsultarPedido" class="btn btn-primary" name="enviar">
 			<i class="fas fa-search"></i>
 		</button>
@@ -64,8 +64,8 @@
 </form>
 
 <div class="contenido-oculto">
-	<table class="table table-bordered table-hover mb-4" id="tablaPedido">
-		<thead class="thead-dark">
+	<table class="table table-bordered table-hover mb-4 mt-2" id="tablaPedido">
+		<thead class="table-dark">
 			<tr>
 				<th scope="col">#</th>
 				<th scope="col">Descripción</th>

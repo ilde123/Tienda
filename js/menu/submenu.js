@@ -1,22 +1,24 @@
-$('.dropdown-menu a.dropdown-toggle').off('click');
-$('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
-  if (!$(this).next().hasClass('show')) {
-	   $(this).parents('.dropdown-menu').first().find('.show').removeClass('show');
-	   $(this).removeClass('rotar');
-  }
-  else {
-//	   $(this).removeClass('rotar');
-  }
-  var $subMenu = $(this).next('.dropdown-menu');
-  $subMenu.toggleClass('show');
-  $(this).toggleClass('rotar');
+$('.dropend a.dropdown-toggle').off('click');
+$('.dropend a.dropdown-toggle').on('click', function(e) {
+	e.preventDefault();
 
-  var a = $(this);
-  $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function(e) {
-	$('.dropdown-submenu .show').removeClass('show');
-	a.removeClass('rotar');
-  });
+	$('.dropdown-submenu.show').not($(this).next()).prev().removeClass('rotar') // close all other submenus
+	$('.dropdown-submenu.show').not($(this).next()).removeClass('show'); //hide other submenus
 
+	if ($(this).next().hasClass('show')) { // Si el submenu está abierto
+		$(this).next().removeClass('show'); // Cerrarlo
+		$(this).removeClass('rotar'); // Quitar la rotación
+	}
+	else { // Si el submenu está cerrado
+		$(this).next().addClass('show'); // Abrir submenu
+		$(this).addClass('rotar'); // Agregar la rotación
+	}
 
-  return false;
+	return false; // Evitar que se abra el menú principal
+});
+
+$('a.nav-link.dropdown-toggle').on('focusin', function (e) { // Cuando se hace focus en un link de un submenu
+	$('.dropdown-submenu.show').prev().removeClass('rotar') // close all other submenus
+	$('.dropdown-submenu.show').removeClass('show'); //hide other submenus
+
 });

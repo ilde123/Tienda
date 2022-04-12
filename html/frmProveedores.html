@@ -1,7 +1,7 @@
 <form class="needs-validation" name="formProveedores" novalidate>
 	<div class="form-group">
 		<label for="proveedores" class="label">Proveedores:</label>
-		<select name="proveedores[]" id="proveedores" class="custom-select mb-2 mr-sm-2" multiple required></select>
+		<select name="proveedores[]" id="proveedores" class="form-select me-sm-2" multiple required></select>
 		<div class="valid-feedback">
 			Campo válido
 		</div>
@@ -9,8 +9,8 @@
 			Seleccione algún proveedor
 		</div>
 	</div>
-	<div class="form-group">
-		<button type="button" id="btnAgregarProveedor" class="btn btn-success" name="" data-toggle="modal" data-target="#modalProveedor">
+	<div class="form-group mt-2">
+		<button type="button" id="btnAgregarProveedor" class="btn btn-success" name="" data-bs-toggle="modal" data-bs-target="#modalProveedor">
 			<i class="fas fa-plus"></i>
 		</button>
 		<button type="button" id="btnBorrarProveedor" class="btn btn-danger" name="">
@@ -64,7 +64,7 @@
 
 					<div class="form-group">
 						<label for="telefonoModalProveedor" class="label">Teléfono:</label>
-						<input type="text" class="form-control" id="telefonoModalProveedor" placeholder="Teléfono..." name="telefono" data-decimals="0" min="600000000" min="799999999" step="1">
+						<input type="text" class="form-control" id="telefonoModalProveedor" placeholder="Teléfono..." name="telefono" data-bs-decimals="0" min="600000000" min="799999999" step="1">
 						<div class="valid-feedback">
 							Campo válido
 						</div>
@@ -80,7 +80,7 @@
 				<button type="button" id="btnAgregarProveedorModal" class="btn btn-success">
 					<i class="fa fa-check" aria-hidden="true"></i>
 				</button>
-				<button type="button" class="btn btn-danger" data-dismiss="modal">
+				<button type="button" class="btn btn-danger" data-bs-dismiss="modal">
 					<i class="fa fa-times" aria-hidden="true"></i>
 				</button>
 			</div>

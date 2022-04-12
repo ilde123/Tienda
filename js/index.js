@@ -579,22 +579,27 @@ function msg(txt, color, opcion) {
 	let clase = "";
 
 	switch (color) {
+		case 'success':
 		case 'verde':
 			clase = "alert-success";
 			break;
 
+		case 'danger':
 		case 'rojo':
 			clase = "alert-danger";
 			break;
 
+		case 'primary':
 		case 'azul':
 			clase = "alert-primary";
 			break;
 
+		case 'info':
 		case 'cyan':
 			clase = "alert-info";
 			break;
 
+		case 'warning':
 		case 'amarillo':
 			clase = "alert-warning";
 			break;
@@ -624,11 +629,17 @@ function msg(txt, color, opcion) {
 		let valor = undefined;
 		let alert = $('<div>');
 		let texto = $('<strong>');
-		texto.text(txt);
-		let boton = $('<button type="button" class="close">');
-		boton.append('<i class="fas fa-times">');
 
-		alert.addClass(`alert ${clase} shadow`);
+		texto.text(txt);
+
+		let boton = $('<button>');
+		boton.prop({
+			'data-bs-dismiss': 'alert',
+			'type': 'button'
+		})
+		boton.addClass('btn-close');
+
+		alert.addClass(`alert ${clase} shadow alert-dismissible`);
 		alert.append(texto);
 		alert.css('z-index', 2000);
 
@@ -672,7 +683,7 @@ function msg(txt, color, opcion) {
 			}, 2500);
 		}
 
-		$('.close').click((e) => {
+		$('.btn-close').click((e) => {
 			e.preventDefault();
 
 			$('.alert').css('transform', '');
