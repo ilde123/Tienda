@@ -201,7 +201,10 @@ function agregarFila(datos) {
 	celdaCodigo.attr('scope', 'row').addClass('col-codigo');
 	// Input código
 	let inputCodigo = $('<input>');
-	inputCodigo.attr({type: 'text'}).addClass('form-control');
+	inputCodigo.attr({
+		type: 'text',
+		autocomplete: 'off'
+	}).addClass('form-control');
 	celdaCodigo.append(inputCodigo);
 	celdaCodigo.focus();
 
