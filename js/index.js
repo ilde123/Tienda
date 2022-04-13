@@ -9,7 +9,7 @@ $(function () {
 	// $('#qrCanvas').WebCodeCam();
 
 	// Autocompletar productos tabla pedidos
-	getProductos('tbody th input');
+//	getProductos('tbody th input');
 
 	// Eventos de teclado
 	eventoCeldas();
@@ -470,7 +470,17 @@ function getProductos(selector) {
 	$.post("php/getProductos.php", null,
 		(json) => {
 			// Autocompletar
-			autocomplete(document.querySelector(selector), json);
+//			autocomplete(document.querySelector(selector), json);
+			let ac = new Autocomplete(document.querySelector(selector), {
+				data: json,
+				onSelectItem: (item) => {
+					consola(item);
+				},
+				treshold: 1,
+				label: 'descripcion',
+			    value: 'codigo',
+
+			});
 		},
 		"json"
 	);
