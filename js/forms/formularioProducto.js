@@ -1,10 +1,9 @@
 function cargarFormularioProducto(opciones) {
-
 	const TABLA_PRODUCTOS = $('#tablaProducto'); // Tabla productos
 	const TBODY_TABLA_PRODUCTOS = TABLA_PRODUCTOS.find('tbody'); // Tbody tabla productos
-
+	
 	if (opciones === "consulta") {
-		$('#v-pills-profile-tab').click(); // Abrir pestaña consulta
+		document.querySelector('#v-pills-profile-tab').click();
 	}
 
 	// CREAR SPINNER INPUT NUMÉRICO

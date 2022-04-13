@@ -470,7 +470,6 @@ function getProductos(selector) {
 	$.post("php/getProductos.php", null,
 		(json) => {
 			// Autocompletar
-//			autocomplete(document.querySelector(selector), json);
 			let ac = new Autocomplete(document.querySelector(selector), {
 				data: json,
 				onSelectItem: (item) => {

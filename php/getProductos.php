@@ -1,7 +1,7 @@
 <?php
 	require 'datosDB.php';
 
-	$sql = "SELECT descripcion, codigo FROM producto ORDER BY descripcion;";
+	$sql = "SELECT codigo, descripcion FROM producto ORDER BY descripcion;";
 	$resultado = $conexion->query($sql);
 	$n_filas = $resultado->num_rows;
 
