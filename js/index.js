@@ -312,8 +312,7 @@ function eventoCeldas() {
 					celda.val(""); // Vaciar el input de código
 
 					actualizarTotal(); // Actualizar total
-				}
-				else if (isNaN(parseInt(codigo))) { // Si el código no es un número
+				} else if (isNaN(parseInt(codigo))) { // Si el código no es un número
 					celda.val(""); // Vaciar el input de código
 				} else { // Si el código es un número
 					consultarProducto(codigo);
@@ -344,8 +343,7 @@ function eventoCeldas() {
 								if (fila.find('.col-precio input').val() === "") { // Si el input de precio está vacío
 									fila.find('.col-precio input').val(numerosDecimales(0)).focus().select(); // Rellenar con 0 y asignar foco
 								}
-							}
-							else { // Si el código es mayor que 5
+							} else { // Si el código es mayor que 5
 								fila.find('.col-precio input').val(numerosDecimales(producto.precio)); // Rellenar con precio
 							}
 
@@ -363,7 +361,7 @@ function eventoCeldas() {
 								let codigo = fila.find('.col-codigo input').val();
 								let precio = fila.find('.col-precio input').val();
 
-								setTimeout(() => {
+								setTimeout(() => { // Esperar a que se cargue la tabla
 									$('#codigoAgregar').val(codigo); // Rellenar código
 									$('#precioAgregar').val(precio); // Rellenar precio
 									$('#descripcionAgregar').focus(); // Asignar foco a descripción
@@ -469,17 +467,23 @@ function eventoCeldas() {
 function getProductos(selector) {
 	$.post("php/getProductos.php", null,
 		(json) => {
+
+			autocomplete(document.querySelector(selector), json);
+/*
+			$(selector).data('productos', json);
+
 			// Autocompletar
 			let ac = new Autocomplete(document.querySelector(selector), {
-				data: json,
+				data: $(selector).data('productos'),
 				onSelectItem: (item) => {
 					consola(item);
 				},
 				treshold: 1,
 				label: 'descripcion',
 			    value: 'codigo',
-
-			});
+				highlightTyped: true,
+				highlightClass: 'text-primary'
+			});*/
 		},
 		"json"
 	);
