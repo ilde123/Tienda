@@ -1,9 +1,6 @@
 * {
 	box-sizing: border-box;
 }
-body {
-	font: 16px Arial;
-}
 .autocomplete {
 	/*the container must be positioned relative:*/
 	position: relative;
@@ -45,18 +42,17 @@ input[type=text] {
 	cursor: pointer;
 	background-color: #fff;
 }
-.autocomplete-item:active {
-	color: #fff;
-    text-decoration: none;
-    background-color: #0d6efd;
-}
-.autocomplete-item:active strong {
-	background-color: #0d6efd;
-	color: #fff;
-}
 .autocomplete-items div:hover {
 	/*when hovering an item:*/
 	background-color: #e9e9e9;
+}
+.autocomplete-item:active {
+	color: #fff;
+	text-decoration: none;
+	background-color: #0d6efd!important;
+}
+.autocomplete-item:active strong {
+	color: #fff!important;
 }
 .autocomplete-active {
 	/*when navigating through the items using the arrow keys:*/
