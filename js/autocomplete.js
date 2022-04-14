@@ -19,13 +19,12 @@ function autocomplete(inp, arr) {
 		for (i = 0; i < arr.length; i++) {
 			/*check if the item starts with the same letters as the text field value:*/
 			if (arr[i].descripcion.toUpperCase().search(val.toUpperCase()) > -1) {
-			//if (val.toUpperCase0().includes(arr[i].descripcion.substr(0, val.length).toUpperCase())) {
 				let valorBuscado = (arr[i].descripcion.toUpperCase().search(val.toUpperCase()))
 				/*create a DIV element for each matching element:*/
 				b = document.createElement("DIV");
 				b.classList.add('autocomplete-item');
 				/*make the matching letters bold:*/
-				b.innerHTML += arr[i].descripcion.substr(0, valorBuscado);
+				b.innerHTML = arr[i].descripcion.substr(0, valorBuscado);
 				b.innerHTML += '<strong class="text-primary">' + arr[i].descripcion.substr(valorBuscado, val.length) + "</strong>";
 				b.innerHTML += arr[i].descripcion.substr((valorBuscado + val.length), arr[i].descripcion.length);
 				/*insert a input field that will hold the current array item's value:*/
@@ -38,7 +37,6 @@ function autocomplete(inp, arr) {
 					/*close the list of autocompleted values,
 					(or any other open lists of autocompleted values:*/
 					closeAllLists();
-					//inp.change();
 
 					let event = new Event('change');
 
