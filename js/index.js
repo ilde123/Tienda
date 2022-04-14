@@ -467,26 +467,14 @@ function eventoCeldas() {
 	getProductos('tbody tr:last-child th input');
 }
 
-function getProductos(selector) {
+function getProductos(elemento) {
 	$.post("php/getProductos.php", null,
 		(json) => {
-
-			autocomplete(document.querySelector(selector), json);
-/*
-			$(selector).data('productos', json);
-
-			// Autocompletar
-			let ac = new Autocomplete(document.querySelector(selector), {
-				data: $(selector).data('productos'),
-				onSelectItem: (item) => {
-					consola(item);
-				},
-				treshold: 1,
-				label: 'descripcion',
-			    value: 'codigo',
-				highlightTyped: true,
-				highlightClass: 'text-primary'
-			});*/
+			if (typeof(elemento) == 'string') {
+				autocomplete(document.querySelector(elemento), json);
+			} else {
+				autocomplete(elemento, json);
+			}
 		},
 		"json"
 	);

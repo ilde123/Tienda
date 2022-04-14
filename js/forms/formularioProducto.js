@@ -107,8 +107,10 @@ function cargarFormularioProducto(opciones) {
 				function (json) {
 					if (json.resultado == 'ok') {
 						msg(json.msg, 'azul');
-						fila.fadeOut(() => {
-							fila.remove();
+
+						fila.fadeOut(() => { // Ocultar fila
+							fila.remove(); // Eliminar fila
+							actualizarAutocomplete();
 						});
 					} else {
 						msg(json.msg, 'rojo');
@@ -197,12 +199,20 @@ function cargarFormularioProducto(opciones) {
 			(json) => {
 				if (json.resultado = 'ok') {
 					msg(json.msg, 'azul');
+
+					actualizarAutocomplete();
 				} else {
 					msg(json.msg, 'rojo');
 				}
 			},
 			"json"
 		);
+	}
+
+	function actualizarAutocomplete() {
+		TBODY.find('th.col-codigo input').each((_index, elemento) => {
+			getProductos(elemento)
+		});
 	}
 
 	function agregarFilaProducto(producto) {
