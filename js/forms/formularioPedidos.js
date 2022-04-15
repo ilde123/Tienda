@@ -128,7 +128,6 @@ function cargarFormularioPedido() {
 			$.post("php/consultarPedidoPorDia.php", datos,
 				(json) => {
 					let pedidos = JSON.parse(json.json); // Pedidos
-					consola(pedidos);
 					if (pedidos.length > 0) { // Si hay pedidos
 						cargarCabezeraTablaPedidosTotal(); // Cargar cabezera tabla de pedidos total
 
