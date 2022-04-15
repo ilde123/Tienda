@@ -11,7 +11,7 @@ INPUT_ENTREGA.keyup((e) => {
 	// Tecla intro pulsada
 	if (e.keyCode == 13) {
 		// Disparar evento click
-		BOTON_ACEPTAR.trigger('click');
+		BOTON_ACEPTAR.click();
 	} else { // Ofrecer el cambio
 		let totalAPagar = formatNumber(TOTAL.val());
 		let importe = formatNumber(INPUT_ENTREGA.val());
@@ -36,17 +36,17 @@ BOTON_ACEPTAR.click((e) => { // Evento aceptar cambio
 	let importe = formatNumber(INPUT_ENTREGA.val());
 	let totalAPagar = formatNumber(TOTAL.val());
 
-	// COMPROBAR QUE LA CANTIDAD INSERTADA SUPERA EL TOTAL A PAGAR
-	if (parseFloat(importe) >= parseFloat(totalAPagar) && !isNaN(parseFloat(totalAPagar))) {
+	if (parseFloat(importe) >= parseFloat(totalAPagar) && !isNaN(parseFloat(totalAPagar))) { // Si es mayor o igual que el total a pagar
 		insertarPedido();
-	} else {
+	} else { // Si no es mayor o igual que el total a pagar
 		let falta = numerosDecimales(Math.abs(importe - totalAPagar));
 		msg(`Faltan ${numerosDecimalesMostrar(falta.toString())} €`, 'rojo');
 	}
 });
 
 function insertarPedido() {
-	let datos = '';
+	let nombre = $('#nombreClienteModalCambio').val();
+	let datos = `nombre=${nombre}&`;
 
 	TBODY.children('tr').each((_index, element) => {
 		let fila = $(element);

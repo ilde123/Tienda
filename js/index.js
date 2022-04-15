@@ -8,9 +8,6 @@ const TOTAL = $('#total');
 $(function () {
 	// $('#qrCanvas').WebCodeCam();
 
-	// Autocompletar productos tabla pedidos
-//	getProductos('tbody th input');
-
 	// Eventos de teclado
 	eventoCeldas();
 	limpiarTabla();
@@ -68,8 +65,6 @@ $(function () {
 			HTML.animate({
 				scrollTop: 0
 			}, 800);
-
-			
 		});
 
 		$(window).scroll(() => {
@@ -132,11 +127,11 @@ function tablaNavegable() {
 				break;
 
 			case 45: // Botón insertar pulsado 
-				$('#btnAceptarPedido').trigger('click');
+				$('#btnAceptarPedido').click();
 				break;
 
 			case 27: // Botón escape pulsado
-				$('#btnCancelarPedido').trigger('click');
+				$('#btnCancelarPedido').click();
 				break;
 		}
 	});
@@ -265,12 +260,16 @@ function eliminarFila() {
 }
 
 function limpiarTabla() {
-	TBODY.find('tr:not(tr:last)').remove();
-	$('tbody input').val('');
-	TBODY.find('td.col-descripcion').text('');
+	TBODY.find('tr:not(tr:last)').remove(); // Elimina todas las filas excepto la última
+	$('tbody input').val(''); // Limpia todos los inputs
+	TBODY.find('td.col-descripcion').text(''); // Limpia la descripción
+	$('#nombreClienteModalCambio').val(''); // Limpia el nombre del cliente
+
+	let collapse = new bootstrap.Collapse($('#collapseNombreClienteModalCambio')[0]);
+	collapse.hide(); // Oculta el collapse
 
 	setTimeout(() => {
-		TBODY.find('input:first').focus();
+		TBODY.find('input:first').focus(); // Posiciona el cursor en el primer input
 	}, 500);
 
 	reiniciarContador();
@@ -517,6 +516,8 @@ function imprimirTicket() {
 		}
 	});
 
+	$('#nombreModalCambio').val(nombre); // Rellenar nombre en modal de cambio
+
 	// Borrar último carácter
 	url = url.slice(0, -1);
 	// Abrir nueva pestaña
@@ -530,7 +531,7 @@ function imprimirTicket() {
 		$('#myModal').modal('hide');
 		$('#modalNombre').val('');
 		$('#modalTelefono').val('');
-		$('#btnAceptarPedido').trigger('click');
+		$('#btnAceptarPedido').click();
 	}
 }
 
@@ -559,15 +560,15 @@ function formatNumber(string) {// Devuelve un número válido
 	}
 
 	// Retornar valor filtrado
-	return out.split(",").join(".");
+	return out.split(",").join("."); // Se reemplazan las comas por puntos
 }
 
 function numerosDecimales(valor) { // Pasar un número a decimal
-	return Number.parseFloat(valor).toFixed(2);
+	return Number.parseFloat(valor).toFixed(2); // Redondear a dos decimales
 }
 
 function numerosDecimalesMostrar(valor) { // Cambia el caracter "." por ","
-	return valor.split(".").join(",");
+	return valor.split(".").join(","); // Se reemplazan los puntos por comas
 }
 
 function ocultarAlert() {

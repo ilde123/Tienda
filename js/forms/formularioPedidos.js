@@ -102,17 +102,19 @@ function cargarFormularioPedido() {
 						cargarCabezeraTablaPedidos();
 
 						let fecha;
-						
+
 						$.each(pedidos, (npedido, pedido) => { // Recorrer pedidos
 							let total = 0; // Total de pedido
-							
+							let nombreCliente = ''; // Nombre del cliente
+
 							$.each(pedido, (_nlinea, lineaPedido) => { // Recorrer lineas de pedido
 								agregarFilaLineaPedido(lineaPedido); // Agregar fila de linea de pedido
 								fecha = lineaPedido.fecha; // Fecha del pedido
 								total += (lineaPedido.precio * lineaPedido.unidades); // Sumar total
+								nombreCliente = lineaPedido.nombre_cliente; // Nombre del cliente
 							});
-							
-							agregarFilaTablaPedido(npedido, total, fecha); // Agregar fila de pedido
+
+							agregarFilaTablaPedido(npedido, total, fecha, nombreCliente); // Agregar fila de pedido
 						});
 					} else {
 						msg("No hay pedidos en ese rango de fechas", "info");
@@ -497,14 +499,20 @@ function cargarFormularioPedido() {
 	}
 
 	// Filas tabla pedido
-	function agregarFilaTablaPedido(npedido, total, fecha) {
+	function agregarFilaTablaPedido(npedido, total, fecha, nombreCliente) {
 		let filaPedido = $("<tr>");
 		filaPedido.addClass('pedido');
 		filaPedido.data('npedido', npedido); // Agregar datos npedido
 
 		// Primera columna
 		let celda = $("<td>");
-		celda.text(`Pedido nº ${npedido}`);
+
+		if (nombreCliente != '' && nombreCliente != null) { // Si hay nombre cliente
+			celda.text(nombreCliente); // Agregar nombre cliente
+		} else {
+			celda.text(`Pedido nº ${npedido}`);
+		}
+
 		filaPedido.append(celda);
 
 		// Segunda columna

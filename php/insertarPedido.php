@@ -4,13 +4,24 @@
 	$codigo = $_POST['codigo'];
 	$unidades = $_POST['unidades'];
 	$precio = $_POST['precio'];
+	$nombre = "";
+
+	if (isset($_POST['nombre']) && $_POST['nombre'] != "") {
+		$nombre = $_POST['nombre'];
+	} else {
+		$nombre = null;
+	}
 
 	$conexion->autocommit(false);
 	$resultado = "";
 	$msg = "";
 
 	try {
-		$resultado = $conexion->query("INSERT INTO pedido(npedido, fecha) VALUES (DEFAULT, DEFAULT);");
+		$resultado = $conexion->prepare("INSERT INTO pedido(npedido, fecha, nombre_cliente) VALUES (DEFAULT, DEFAULT, ?);"); // Se prepara la consulta
+
+		$resultado->bind_param("s", $nombre); // Se vinculan los parámetros
+
+		$resultado->execute(); // Se ejecuta la consulta
 
 		if ($resultado) {
 			$sql = "SELECT last_insert_id();";
