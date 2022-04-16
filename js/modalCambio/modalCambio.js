@@ -45,7 +45,7 @@ BOTON_ACEPTAR.click((e) => { // Evento aceptar cambio
 });
 
 function insertarPedido() {
-	let nombre = $('#nombreClienteModalCambio').val();
+	let nombre = NOMBRE_CLIENTE_MODAL_CAMBIO.val();
 	let datos = `nombre=${nombre}&`;
 
 	TBODY.children('tr').each((_index, element) => {
@@ -80,5 +80,5 @@ function insertarPedido() {
 
 // Evento mostrar modal cambio
 MODAL_CAMBIO.on('show.bs.modal', () => {
-	MODAL_CAMBIO.find('input').val('');
+	MODAL_CAMBIO.find('input').not('#nombreClienteModalCambio').val('');
 });
