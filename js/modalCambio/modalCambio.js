@@ -79,6 +79,7 @@ function insertarPedido() {
 }
 
 // Evento mostrar modal cambio
-MODAL_CAMBIO.on('show.bs.modal', () => {
-	MODAL_CAMBIO.find('input').not('#nombreClienteModalCambio').val('');
+MODAL_CAMBIO.on('hide.bs.modal', () => {
+	MODAL_CAMBIO.find('input').val('');
+	COLLAPSE_NOMBRE_CLIENTE_MODAL_CAMBIO.removeClass('show');
 });
