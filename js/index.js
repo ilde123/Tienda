@@ -3,6 +3,8 @@ const HTML = $('html');
 const TABLA = $('#tabla');
 const THEAD = TABLA.find('thead');
 const TBODY = TABLA.find('tbody:first');
+const NOMBRE_CLIENTE_MODAL_CAMBIO = $('#nombreClienteModalCambio');
+const COLLAPSE_NOMBRE_CLIENTE_MODAL_CAMBIO = $('#collapseNombreClienteModalCambio');
 const TOTAL = $('#total');
 
 $(function () {
@@ -263,9 +265,9 @@ function limpiarTabla() {
 	TBODY.find('tr:not(tr:last)').remove(); // Elimina todas las filas excepto la última
 	$('tbody input').val(''); // Limpia todos los inputs
 	TBODY.find('td.col-descripcion').text(''); // Limpia la descripción
-	$('#nombreClienteModalCambio').val(''); // Limpia el nombre del cliente
 
-	$('#collapseNombreClienteModalCambio').removeClass('show'); // Elimina la clase show
+	NOMBRE_CLIENTE_MODAL_CAMBIO.val(''); // Limpia el nombre del cliente
+	COLLAPSE_NOMBRE_CLIENTE_MODAL_CAMBIO.removeClass('show'); // Elimina la clase show
 
 	setTimeout(() => {
 		TBODY.find('input:first').focus(); // Posiciona el cursor en el primer input
@@ -515,7 +517,8 @@ function imprimirTicket() {
 		}
 	});
 
-	$('#nombreClienteModalCambio').val(nombre); // Rellenar nombre en modal de cambio
+	NOMBRE_CLIENTE_MODAL_CAMBIO.val(nombre); // Rellenar nombre en modal de cambio
+	COLLAPSE_NOMBRE_CLIENTE_MODAL_CAMBIO.addClass('show'); // Mostrar modal de cambio
 
 	// Borrar último carácter
 	url = url.slice(0, -1);
