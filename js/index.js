@@ -265,8 +265,7 @@ function limpiarTabla() {
 	TBODY.find('td.col-descripcion').text(''); // Limpia la descripción
 	$('#nombreClienteModalCambio').val(''); // Limpia el nombre del cliente
 
-	let collapse = new bootstrap.Collapse($('#collapseNombreClienteModalCambio')[0]);
-	collapse.hide(); // Oculta el collapse
+	$('#collapseNombreClienteModalCambio').removeClass('show'); // Elimina la clase show
 
 	setTimeout(() => {
 		TBODY.find('input:first').focus(); // Posiciona el cursor en el primer input
@@ -492,7 +491,7 @@ function actualizarTotal() {
 		total = 0;
 	}
 
-	$('#total').val(numerosDecimales(total));
+	TOTAL.val(numerosDecimales(total));
 }
 
 function imprimirTicket() {
@@ -516,7 +515,7 @@ function imprimirTicket() {
 		}
 	});
 
-	$('#nombreModalCambio').val(nombre); // Rellenar nombre en modal de cambio
+	$('#nombreClienteModalCambio').val(nombre); // Rellenar nombre en modal de cambio
 
 	// Borrar último carácter
 	url = url.slice(0, -1);
@@ -550,7 +549,7 @@ function elinimarCursorSpinner(selector) {
 function formatNumber(string) {// Devuelve un número válido
 	let out = '';
 	let filtro = '1234567890.,';// Caracteres validos
-	
+
 	// Recorrer el texto y verificar si el caracter se encuentra en la lista de validos 
 	for (var i=0; i < string.length; i++) {
 		if (filtro.indexOf(string.charAt(i)) != -1) {
@@ -652,7 +651,6 @@ function msg(txt, color, opcion) {
 		alert.append(boton);
 
 		$('.alert').css('transform', 'translateY(10em)');
-		$('.alert').hide();
 		$('.alert').fadeIn();
 
 		if (opcion == 'pregunta') {
