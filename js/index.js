@@ -7,6 +7,11 @@ const NOMBRE_CLIENTE_MODAL_CAMBIO = $('#nombreClienteModalCambio');
 const COLLAPSE_NOMBRE_CLIENTE_MODAL_CAMBIO = $('#collapseNombreClienteModalCambio');
 const TOTAL = $('#total');
 
+const BOTON_TO_TOP = $('#toTop');
+const BOTON_AGREGAR_FILA = $('#btnAddRow');
+const BOTON_ACEPTAR_PEDIDO = $('#btnAceptarPedido');
+const BOTON_CANCELAR_PEDIDO = $('#btnCancelarPedido');
+
 $(function () {
 	// $('#qrCanvas').WebCodeCam();
 
@@ -32,7 +37,7 @@ $(function () {
 		imprimirTicket();
 	});
 
-	$('#btnCancelarPedido').click((e) => {
+	BOTON_CANCELAR_PEDIDO.click((e) => {
 		e.preventDefault();
 
 		// Elimina todas las filas menos la primera
@@ -54,14 +59,14 @@ $(function () {
 	botonToTop();
 
 	// Botón agregar fila en formato móvil
-	$('#btnAddRow').click((e) => { 
+	BOTON_AGREGAR_FILA.click((e) => { 
 		e.preventDefault();
 
 		agregarFila();
 	});
 
 	function botonToTop() {
-		$('#toTop').click((e) => {
+		BOTON_TO_TOP.click((e) => {
 			e.preventDefault();
 
 			HTML.animate({
@@ -71,12 +76,12 @@ $(function () {
 
 		$(window).scroll(() => {
 			if ($('body').scrollTop() > 20 || HTML.scrollTop() > 20) {
-				$('#toTop').fadeIn(250, () => { // Mostrar botón
-					$('#btnAddRow').animate({ right: '4em' }); // Mover botón
+				BOTON_TO_TOP.fadeIn(250, () => { // Mostrar botón
+					BOTON_AGREGAR_FILA.animate({ right: '4em' }); // Mover botón
 				});
 			} else {
-				$('#toTop').fadeOut(250, () => { // Ocultar botón
-					$('#btnAddRow').animate({ right: '1em' }); // Mover botón
+				BOTON_TO_TOP.fadeOut(250, () => { // Ocultar botón
+					BOTON_AGREGAR_FILA.animate({ right: '1em' }); // Mover botón
 				});
 			}
 		});
@@ -150,11 +155,11 @@ function tablaNavegable() {
 				break;
 
 			case 45: // Botón insertar pulsado 
-				$('#btnAceptarPedido').click();
+				BOTON_ACEPTAR_PEDIDO.click();
 				break;
 
 			case 27: // Botón escape pulsado
-				$('#btnCancelarPedido').click();
+				BOTON_CANCELAR_PEDIDO.click();
 				break;
 		}
 	});
@@ -551,7 +556,7 @@ function imprimirTicket() {
 		$('#myModal').modal('hide');
 		$('#modalNombre').val('');
 		$('#modalTelefono').val('');
-		$('#btnAceptarPedido').click();
+		BOTON_ACEPTAR_PEDIDO.click();
 	}
 }
 
@@ -660,7 +665,7 @@ function msg(txt, color) {
 	setTimeout(() => {
 		let alert = $('<div>');
 		let texto = $('<strong>');
-		
+
 		texto.text(txt);
 		alert.append(icono);
 
@@ -677,19 +682,16 @@ function msg(txt, color) {
 		$('body').append(alert);
 		alert.append(boton);
 
-		$('.alert').css('transform', 'translateY(10em)'); // Desplazar alerta
-		$('.alert').fadeIn(); // Mostrar alerta
+		$('.alert').css('transform', 'translateY(10em)').fadeIn(); // Mostrar alerta
 
 		setTimeout(() => { // Ocultar alert
-			$('.alert').css('transform', ''); // Desplazar alerta
-			$('.alert').fadeOut();
+			$('.alert').css('transform', '').fadeOut(); // Ocultar alerta
 		}, 3000);
 
 		$('.btn-close').click((e) => {
 			e.preventDefault();
 
-			$('.alert').css('transform', '');
-			$('.alert').fadeOut();
+			$('.alert').css('transform', '').fadeOut(); // Ocultar alerta
 		});
 	}, 500);
 }

@@ -1,8 +1,9 @@
 function cargarFormularioFamilias() {
+	const SELECTOR_FAMILIAS = '#familias';
 	const SELECT_INSERTAR_FAMILIA = $('#familia'); // Select de familia a insertar
-	const SELECT_FAMILIAS_EXISTENTES = $('#familias'); // Select de familias existentes
+	const SELECT_FAMILIAS_EXISTENTES = $(SELECTOR_FAMILIAS); // Select de familias existentes
 
-	getFamilias('#familias'); // Cargar datos familias
+	getFamilias(SELECTOR_FAMILIAS); // Cargar datos familias
 
 	$('#btnAgregarFamilia').click((e) => { // Botón agregar familia
 		e.preventDefault();

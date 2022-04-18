@@ -54,7 +54,7 @@ function insertarPedido() {
 		let unidades = fila.find('td.col-unidades input').val();
 		let precio = fila.find('td.col-precio input').val();
 
-		if (codigo != '' && unidades != '' && precio != '') {
+		if (codigo != '' && unidades != '' && precio != '' && numerosDecimales(precio.val()) > 0) { // Si no están vacíos y precio es mayor que 0
 			datos += `codigo[]=${codigo}&unidades[]=${unidades}&precio[]=${precio}&`;
 		}
 	});

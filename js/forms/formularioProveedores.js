@@ -1,7 +1,8 @@
 function cargarFormularioProveedores() {
-	const SELECT_PROVEEDORES = $('#proveedores');
+	const SELECTOR_PROVEEDORES = '#proveedores';
+	const SELECT_PROVEEDORES = $(SELECTOR_PROVEEDORES);
 
-	getProveedores('#proveedores'); // Cargar datos proveedores
+	getProveedores(SELECTOR_PROVEEDORES); // Cargar datos proveedores
 
 	$('#btnAgregarProveedorModal').click((e) => { // Botón agregar proveedor
 		e.preventDefault();
@@ -39,11 +40,10 @@ function cargarFormularioProveedores() {
 				if (json.resultado = 'ok') {
 					msg(json.msg, 'success');
 
-					let select = SELECT_PROVEEDORES; // Select de proveedores
 					let option = $('<option>'); // Crear opción
 					option.val(datos[0].value); // Descripción del proveedor
 					option.text(datos[0].value);
-					select.append(option); // Agregar opción a la lista de proveedores
+					SELECT_PROVEEDORES.append(option); // Agregar opción a la lista de proveedores
 
 					limpiarModalProveedor(); // Limpiar formulario
 				} else {
