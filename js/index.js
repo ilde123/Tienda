@@ -657,7 +657,7 @@ function msg(txt, color) {
 			break;
 	}
 
-//	setTimeout(() => {
+	setTimeout(() => {
 		let alert = $('<div>');
 		let texto = $('<strong>');
 		
@@ -691,7 +691,7 @@ function msg(txt, color) {
 			$('.alert').css('transform', '');
 			$('.alert').fadeOut();
 		});
-//	}, 500);
+	}, 500);
 }
 
 function consola(txt) {
