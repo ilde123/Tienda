@@ -1,7 +1,6 @@
 function cargarFormularioFamilias() {
 	const SELECT_INSERTAR_FAMILIA = $('#familia'); // Select de familia a insertar
-	const SELECT_FAMILIAS = $('#familias'); // Select de familias existentes
-	const OPTIONS_SELECTED_FAMILIAS = SELECT_FAMILIAS.find('option:selected'); // Familias seleccionadas
+	const SELECT_FAMILIAS_EXISTENTES = $('#familias'); // Select de familias existentes
 
 	getFamilias('#familias'); // Cargar datos familias
 
@@ -17,8 +16,19 @@ function cargarFormularioFamilias() {
 
 	$('#btnBorrarFamilia').click((e) => { // Botón borrar familias
 		e.preventDefault();
+		let optionsSelected = SELECT_FAMILIAS_EXISTENTES.find('option:selected'); // Familias seleccionadas
 
-		eliminarFamilia();
+		if (optionsSelected.length > 0) { // Si hay familias seleccionadas
+			msgConfirm('Borrar familia', '¿Está seguro de borrar la familia?', (respuesta) => { // Confirmar borrado
+				if (respuesta) {
+					eliminarFamilia();
+				} else {
+					msg('Operación cancelada', 'info');
+				}
+			});
+		} else { // No hay familias seleccionadas
+			msg('Seleccione una familia', 'warning');
+		}
 	});
 
 	// Insertar familia
@@ -34,7 +44,7 @@ function cargarFormularioFamilias() {
 					let option = $('<option>'); // Crear opción
 					option.val(familia); // Descripción de la familia
 					option.text(familia);
-					SELECT_FAMILIAS.append(option); // Agregar opción a la lista de familias
+					SELECT_FAMILIAS_EXISTENTES.append(option); // Agregar opción a la lista de familias
 					SELECT_INSERTAR_FAMILIA.val(''); // Limpiar campo de familia
 				} else {
 					msg(json.msg, 'danger');
@@ -46,25 +56,27 @@ function cargarFormularioFamilias() {
 	// Eliminar familia
 	function eliminarFamilia() {
 		let datos = "";
+		let optionsSelected = SELECT_FAMILIAS_EXISTENTES.find('option:selected'); // Familias seleccionadas
 
-		OPTIONS_SELECTED_FAMILIAS.each((_index, element) => { // Recorrer familias seleccionadas
+		optionsSelected.each((_index, element) => { // Recorrer familias seleccionadas
 			datos += `familia[]=${element.value}&`; // Agregar familias a eliminar
 		});
-
-		datos = datos.substring(0, datos.length - 1); // Eliminar último caracter
+		
+		datos = datos.slice(0, -1); // Eliminar último caracter
 
 		$.post("php/eliminarFamilia.php", datos,
-			(json) => {
-				if (json.resultado == 'ok') {
-					msg(json.msg, 'success');
+		(json) => {
+			if (json.resultado == 'ok') {
+				msg(json.msg, 'success');
 
-					OPTIONS_SELECTED_FAMILIAS.remove(); // Eliminar opciones seleccionadas
-				} else {
-					msg(json.msg, 'danger');
-				}
-			},
-			"json"
+				optionsSelected.remove(); // Eliminar opciones seleccionadas
+			} else {
+				msg(json.msg, 'danger');
+			}
+		},
+		"json"
 		);
+		
 	}
 }
 
@@ -74,10 +86,10 @@ function validarFormularioFamilias() {
 	// Validar campo familia
 	let familia = $('#familia');
 
-	valido = validarInputVacio(familia);
+	valido = validarInputVacio(familia); // Validar campo vacío
 
-	familia.keyup(() => { 
-		valido = validarInputVacio(familia);
+	familia.keyup(() => {  // Validar caracteres
+		valido = validarInputVacio(familia); // Validar campo vacío
 	});
 
 	return valido;

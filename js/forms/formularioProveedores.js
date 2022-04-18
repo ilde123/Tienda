@@ -1,6 +1,5 @@
 function cargarFormularioProveedores() {
 	const SELECT_PROVEEDORES = $('#proveedores');
-	const OPTIONS_SELECTED_PROVEEDORES = SELECT_PROVEEDORES.find('option:selected');
 
 	getProveedores('#proveedores'); // Cargar datos proveedores
 
@@ -17,7 +16,19 @@ function cargarFormularioProveedores() {
 	$('#btnBorrarProveedor').click((e) => { // Botón borrar proveedores
 		e.preventDefault();
 
-		borrarProveedor();
+		let optionsSelected = SELECT_PROVEEDORES.find('option:selected');
+
+		if (optionsSelected.length > 0) {
+			msgConfirm('Borrar proveedor', '¿Está seguro de borrar el proveedor?', (respuesta) => {
+				if (respuesta) {
+					borrarProveedor();
+				} else {
+					msg('Operación cancelada', 'info');
+				}
+			});
+		} else {
+			msg('Seleccione un proveedor', 'warning');
+		}
 	});
 
 	function insertarProveedor() {
@@ -47,9 +58,10 @@ function cargarFormularioProveedores() {
 
 	function borrarProveedor() {
 		let datos = "";
+		let optionsSelected = SELECT_PROVEEDORES.find('option:selected');
 
 		// Obtener los proveedores seleccionados
-		OPTIONS_SELECTED_PROVEEDORES.each((_index, element) => { // Recorrer opciones seleccionadas
+		optionsSelected.each((_index, element) => { // Recorrer opciones seleccionadas
 			datos += `proveedores[]=${element.value}&`; // Agregar proveedor a la cadena de datos
 		});
 
@@ -58,7 +70,7 @@ function cargarFormularioProveedores() {
 		$.post("php/eliminarProveedor.php", datos,
 			(json) => {
 				if (json.resultado == 'ok') {
-					OPTIONS_SELECTED_PROVEEDORES.remove(); // Eliminar opciones seleccionadas
+					optionsSelected.remove(); // Eliminar opciones seleccionadas
 					msg(json.msg, 'success');
 				} else {
 					msg(json.msg, 'danger');
