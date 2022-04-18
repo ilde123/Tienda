@@ -53,7 +53,7 @@ $.contextMenu({
 							})
 							.catch(error => {
 								// Por si el usuario no da permiso u ocurre un error
-								msg(`Hubo un error: ${error}`, 'rojo');
+								msg(`Hubo un error: ${error}`, 'danger');
 							});
 						break;
 

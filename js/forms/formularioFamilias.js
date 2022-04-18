@@ -11,7 +11,7 @@ function cargarFormularioFamilias() {
 		if (validarFormularioFamilias()) { // Validar formulario
 			insertarFamilia();
 		} else {
-			msg('Revise los campos', 'rojo');
+			msg('Revise los campos', 'danger');
 		}
 	});
 
@@ -29,7 +29,7 @@ function cargarFormularioFamilias() {
 		$.post("php/insertarFamilia.php", datos,
 			(json) => {
 				if (json.resultado == 'ok') {
-					msg(json.msg, 'azul');
+					msg(json.msg, 'success');
 
 					let option = $('<option>'); // Crear opción
 					option.val(familia); // Descripción de la familia
@@ -37,7 +37,7 @@ function cargarFormularioFamilias() {
 					SELECT_FAMILIAS.append(option); // Agregar opción a la lista de familias
 					SELECT_INSERTAR_FAMILIA.val(''); // Limpiar campo de familia
 				} else {
-					msg(json.msg, 'rojo');
+					msg(json.msg, 'danger');
 				}
 			},
 			"json"
@@ -56,11 +56,11 @@ function cargarFormularioFamilias() {
 		$.post("php/eliminarFamilia.php", datos,
 			(json) => {
 				if (json.resultado == 'ok') {
-					msg(json.msg, 'azul');
+					msg(json.msg, 'success');
 
 					OPTIONS_SELECTED_FAMILIAS.remove(); // Eliminar opciones seleccionadas
 				} else {
-					msg(json.msg, 'rojo');
+					msg(json.msg, 'danger');
 				}
 			},
 			"json"

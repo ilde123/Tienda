@@ -542,7 +542,13 @@ function cargarFormularioPedido() {
 		boton.addClass('btn btn-danger').append(icon).click((e) => {
 			e.preventDefault();
 
-			eliminarPedido(npedido, filaPedido);
+			msgConfirm('Eliminar pedido', '¿Estás seguro de eliminar el pedido?', (respuesta) => {
+				if (respuesta) {
+					eliminarPedido(npedido, filaPedido);
+				} else {
+					msg('Operación cancelada', 'info');
+				}
+			});
 		});
 
 		div.append(boton);
@@ -666,9 +672,9 @@ function cargarFormularioPedido() {
 					filaPedido.remove(); // Eliminar fila
 					$(`.pedido-${npedido}`).remove(); // Eliminar lineas pedido
 
-					msg(json.msg, 'azul'); // Mostrar mensaje
+					msg(json.msg, 'success'); // Mostrar mensaje
 				} else {
-					alert(json.msg, 'rojo'); // Mostrar mensaje
+					alert(json.msg, 'danger'); // Mostrar mensaje
 				}
 			},
 			"json"

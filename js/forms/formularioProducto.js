@@ -25,7 +25,7 @@ function cargarFormularioProducto(opciones) {
 			actualizarTotal(); // Actualizar total tabla
 		}
 		else {
-			msg('Revise los campos', 'rojo');
+			msg('Revise los campos', 'danger');
 		}
 	});
 
@@ -73,7 +73,7 @@ function cargarFormularioProducto(opciones) {
 					limpiarFormularioProducto('ModalProducto'); // Limpiar formulario modal producto
 				}
 				else {
-					msg('Revise los campos', 'rojo');
+					msg('Revise los campos', 'danger');
 				}
 			});
 		});
@@ -82,43 +82,6 @@ function cargarFormularioProducto(opciones) {
 			limpiarFormularioProducto('ModalProducto'); // Limpiar formulario modal producto
 			TBODY.find('th input').change(); // Actualizar filas
 		});
-
-		$('#modalEliminarProducto').on('show.bs.modal', (event) => {
-			let button = $(event.relatedTarget); // Botón que activó el modal
-			let fila = button.parents('tr'); // Fila que contiene el botón
-			let json = fila.data('producto'); // Datos del producto
-
-			let modal = $(event.target); // Modal
-
-			$('#btnEliminarProducto').off('click'); // Eliminar evento click
-			$('#btnEliminarProducto').on('click', (e) => { // Agregar evento click
-				e.preventDefault();
-
-				eliminarProducto(json, fila);
-
-				modal.modal('hide'); // Ocultar modal
-			});
-		});
-
-		function eliminarProducto(json, fila) {
-			let datos = "codigo=" + json.codigo;
-
-			$.post("php/eliminarProducto.php", datos,
-				function (json) {
-					if (json.resultado == 'ok') {
-						msg(json.msg, 'azul');
-
-						fila.fadeOut(() => { // Ocultar fila
-							fila.remove(); // Eliminar fila
-							actualizarAutocomplete();
-						});
-					} else {
-						msg(json.msg, 'rojo');
-					}
-				},
-				"json"
-			);
-		}
 
 		function destruirNumberSpinnerModal() {
 			$('#precioModalProducto').inputSpinner("destroy");
@@ -174,20 +137,23 @@ function cargarFormularioProducto(opciones) {
 				if (json.resultado == 'ok') {
 					let productos = JSON.parse(json.json);
 
-					limpiarTablaConsultarProducto();
+					if (productos.length > 0) {
+						limpiarTablaConsultarProducto();
 
-					$.each(productos, (_index, producto) => {
-						agregarFilaProducto(producto);
-					});
+						$.each(productos, (_index, producto) => {
+							agregarFilaProducto(producto);
+						});
 
-					elinimarCursorSpinner('#btnBuscarProducto i');
+						menuContextualTablaConsultarProducto(); // Crear menu contextual tabla consultar producto
+						filtro("#descripcionConsultar, #codigoConsultar", "#tablaProducto tbody tr"); // Crear filtro
+						$('div.contenido-oculto').slideDown(); // Mostrar tabla productos
+					} else {
+						msg('No se encontraron productos', 'info');
+					}
 
-					menuContextualTablaConsultarProducto();
-					filtro("#descripcionConsultar, #codigoConsultar", "#tablaProducto tbody tr");
-
-					$('div.contenido-oculto').slideDown(); // Mostrar tabla productos
+					eliminarCursorSpinner('#btnBuscarProducto i');
 				} else {
-					msg('Error', 'rojo');
+					msg('Error', 'danger');
 				}
 			},
 			"json"
@@ -198,11 +164,11 @@ function cargarFormularioProducto(opciones) {
 		$.post("php/insertarProducto.php", datos,
 			(json) => {
 				if (json.resultado = 'ok') {
-					msg(json.msg, 'azul');
+					msg(json.msg, 'success');
 
 					actualizarAutocomplete();
 				} else {
-					msg(json.msg, 'rojo');
+					msg(json.msg, 'danger');
 				}
 			},
 			"json"
@@ -259,10 +225,18 @@ function cargarFormularioProducto(opciones) {
 
 		// BOTÓN ELIMINAR
 		boton = $('<button>').attr({
-			type: 'button',
-			'data-bs-toggle': 'modal', 
-			'data-bs-target': '#modalEliminarProducto'
-		}).addClass('btn btn-danger btn-eliminar-producto');
+			type: 'button'
+		}).addClass('btn btn-danger btn-eliminar-producto').click((e) => {
+			e.preventDefault();
+
+			msgConfirm('Eliminar producto', '¿Desea eliminar el producto?', (respuesta) => {
+				if (respuesta) {
+					eliminarProducto(producto.codigo, fila);
+				} else {
+					msg('Operación cancelada', 'info');
+				}
+			});
+		});
 
 		icono = $('<i>').addClass('fas fa-trash');
 		boton.append(icono);
@@ -272,6 +246,26 @@ function cargarFormularioProducto(opciones) {
 
 		// AGREGAR CELDAS
 		TBODY_TABLA_PRODUCTOS.append(fila);
+	}
+
+	function eliminarProducto(codigo, fila) {
+		let datos = `codigo=${codigo}`;
+
+		$.post("php/eliminarProducto.php", datos,
+			function (json) {
+				if (json.resultado == 'ok') {
+					msg(json.msg, 'success');
+
+					fila.fadeOut(() => { // Ocultar fila
+						fila.remove(); // Eliminar fila
+						actualizarAutocomplete();
+					});
+				} else {
+					msg(json.msg, 'danger');
+				}
+			},
+			"json"
+		);
 	}
 
 	function validarFormularioProducto(clase) {

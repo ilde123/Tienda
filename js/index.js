@@ -88,6 +88,27 @@ $(function () {
 	}
 });
 
+function msgConfirm(titulo, mensaje, callback) {
+	bootbox.confirm({
+		title: titulo,
+		message: mensaje,
+		swapButtonOrder: true,
+		closeButton: false,
+		buttons: {
+			confirm: {
+				label: '<i class="fa fa-check"></i>',
+				className: 'btn-success'
+			},
+			cancel: {
+				label: '<i class="fa fa-times"></i>',
+				className: 'btn-danger'
+			}
+		},
+		callback: callback
+		
+	});
+}
+
 function tablaNavegable() {
 	TBODY.keydown((e) => {
 		switch (e.keyCode) {
@@ -352,34 +373,31 @@ function eventoCeldas() {
 
 							actualizarTotal(); // Actualizar total
 						} else { // Si el producto no existe
-							vaciarFila(fila);
-							actualizarTotal();
+							vaciarFila(fila); // Limpiar fila
 
-							$('#modalAgregarProducto').modal('show'); // Mostrar modal de agregar producto
+							msgConfirm('El producto no existe', '¿Desea agregarlo?', (respuesta) => {
+								if (respuesta) {
+									$('#btnInsertarProducto').click(); // Pulsar botón de insertar producto
 
-							$('#modalAgregarProducto button.btn-success').off('click'); // Desactivar evento de botón de agregar producto
-							$('#modalAgregarProducto button.btn-success').on('click', () => {
-								$('#btnInsertarProducto').click(); // Pulsar botón de insertar producto
+									let codigo = fila.find('.col-codigo input').val();
+									let precio = fila.find('.col-precio input').val();
 
-								let codigo = fila.find('.col-codigo input').val();
-								let precio = fila.find('.col-precio input').val();
+									setTimeout(() => { // Esperar a que se cargue la tabla
+										$('#codigoAgregar').val(codigo); // Rellenar código
+										$('#precioAgregar').val(precio); // Rellenar precio
+										$('#descripcionAgregar').focus(); // Asignar foco a descripción
+									}, 1000);
+								} else {
+									fila.find('input').val(''); // Vaciar input
+									fila.find('.col-descripcion').text(''); // Vaciar descripción
+									fila.find('.col-codigo input').focus(); // Asignar foco a código
+								}
 
-								setTimeout(() => { // Esperar a que se cargue la tabla
-									$('#codigoAgregar').val(codigo); // Rellenar código
-									$('#precioAgregar').val(precio); // Rellenar precio
-									$('#descripcionAgregar').focus(); // Asignar foco a descripción
-								}, 1000);
-							});
-
-							$('#modalAgregarProducto button.btn-danger').off('click'); // Desactivar evento de botón de cancelar
-							$('#modalAgregarProducto button.btn-danger').on('click', () => { // Activar evento de botón de cancelar
-								fila.find('input').val(''); // Vaciar input
-								fila.find('.col-descripcion').text(''); // Vaciar descripción
 								actualizarTotal();
 							});
 						}
 					} else {
-						msg(json.msg, 'rojo');
+						msg(json.msg, 'danger');
 					}
 				},
 				"json"
@@ -446,9 +464,9 @@ function eventoCeldas() {
 			$.post("php/actualizarPrecio.php", datos,
 				(json) => {
 					if (json.resultado == 'ok') {
-						msg(json.msg, 'azul');
+						msg(json.msg, 'primary');
 					} else {
-						msg(json.msg, 'rojo');
+						msg(json.msg, 'danger');
 					}
 				},
 				"json"
@@ -543,7 +561,7 @@ function cursorSpinner(selector) {
 	$('*').addClass('cursor-wait');
 }
 
-function elinimarCursorSpinner(selector) {
+function eliminarCursorSpinner(selector) {
 	$(selector).removeClass('spinner-border spinner-border-sm');
 	$(selector).addClass('fa-search');
 	$('*').removeClass('cursor-wait');
@@ -580,33 +598,40 @@ function ocultarAlert() {
 	});
 }
 
-function msg(txt, color, opcion) {
+function msg(txt, color) {
 	ocultarAlert();
 
 	let clase = "";
+	let icono = $('<i>');
+	icono.addClass('fas icon-alert');
 
 	switch (color) {
 		case 'success':
+			icono.addClass('fa-check-circle');
 		case 'verde':
 			clase = "alert-success";
 			break;
 
 		case 'danger':
+			icono.addClass('fa-times-circle');
 		case 'rojo':
 			clase = "alert-danger";
 			break;
 
 		case 'primary':
+			icono.addClass('fa-info-circle');
 		case 'azul':
 			clase = "alert-primary";
 			break;
 
 		case 'info':
+			icono.addClass('fa-info-circle');
 		case 'cyan':
 			clase = "alert-info";
 			break;
 
 		case 'warning':
+			icono.addClass('fa-exclamation-triangle');
 		case 'amarillo':
 			clase = "alert-warning";
 			break;
@@ -632,12 +657,12 @@ function msg(txt, color, opcion) {
 			break;
 	}
 
-	setTimeout(() => {
-		let valor = undefined;
+//	setTimeout(() => {
 		let alert = $('<div>');
 		let texto = $('<strong>');
-
+		
 		texto.text(txt);
+		alert.append(icono);
 
 		let boton = $('<button>');
 		boton.prop({
@@ -646,48 +671,20 @@ function msg(txt, color, opcion) {
 		})
 		boton.addClass('btn-close');
 
-		alert.addClass(`alert ${clase} shadow alert-dismissible`);
+		alert.addClass(`alert ${clase} shadow alert-dismissible justify-content-start`);
 		alert.append(texto);
 		alert.css('z-index', 2000);
 
 		$('body').append(alert);
 		alert.append(boton);
 
-		$('.alert').css('transform', 'translateY(10em)');
-		$('.alert').fadeIn();
+		$('.alert').css('transform', 'translateY(10em)'); // Desplazar alerta
+		$('.alert').fadeIn(); // Mostrar alerta
 
-		if (opcion == 'pregunta') {
-			let hr = $('<hr>');
-			let icono = $('<i>');
-
-			icono.addClass('fa fa-check');
-			boton = $('<button>');
-			boton.addClass('btn btn-success mr-1').append(icono).click((e) => { 
-				e.preventDefault();
-
-				valor = true;
-			});
-
-			alert.append(hr);
-			alert.append(boton);
-
-			icono = $('<i>');
-			icono.addClass('fa fa-times');
-			boton = $('<button>');
-			boton.addClass('btn btn-danger').append(icono).click((e) => { 
-				e.preventDefault();
-
-				valor = false;
-			});
-
-			alert.append(boton);
-		}
-		else {
-			setTimeout(() => {
-				$('.alert').css('transform', '');
-				$('.alert').fadeOut();
-			}, 2500);
-		}
+		setTimeout(() => { // Ocultar alert
+			$('.alert').css('transform', ''); // Desplazar alerta
+			$('.alert').fadeOut();
+		}, 3000);
 
 		$('.btn-close').click((e) => {
 			e.preventDefault();
@@ -695,9 +692,7 @@ function msg(txt, color, opcion) {
 			$('.alert').css('transform', '');
 			$('.alert').fadeOut();
 		});
-
-		return valor;
-	}, 500);
+//	}, 500);
 }
 
 function consola(txt) {

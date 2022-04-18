@@ -10,7 +10,7 @@ function cargarFormularioProveedores() {
 		if (validarFormularioProveedor()) {
 			insertarProveedor();
 		} else {
-			msg('Revise los campos', 'rojo');
+			msg('Revise los campos', 'danger');
 		}
 	});
 
@@ -26,7 +26,7 @@ function cargarFormularioProveedores() {
 		$.post("php/insertarProveedor.php", datos,
 			(json) => {
 				if (json.resultado = 'ok') {
-					msg(json.msg, 'azul');
+					msg(json.msg, 'success');
 
 					let select = SELECT_PROVEEDORES; // Select de proveedores
 					let option = $('<option>'); // Crear opción
@@ -36,7 +36,7 @@ function cargarFormularioProveedores() {
 
 					limpiarModalProveedor(); // Limpiar formulario
 				} else {
-					msg(json.msg, 'rojo');
+					msg(json.msg, 'danger');
 				}
 
 				return json;
@@ -59,9 +59,9 @@ function cargarFormularioProveedores() {
 			(json) => {
 				if (json.resultado == 'ok') {
 					OPTIONS_SELECTED_PROVEEDORES.remove(); // Eliminar opciones seleccionadas
-					msg(json.msg, 'azul');
+					msg(json.msg, 'success');
 				} else {
-					msg(json.msg, 'rojo');
+					msg(json.msg, 'danger');
 				}
 			},
 			"json"
