@@ -673,7 +673,6 @@ function msg(txt, color) {
 
 		alert.addClass(`alert ${clase} shadow alert-dismissible justify-content-start`);
 		alert.append(texto);
-		alert.css('z-index', 2000);
 
 		$('body').append(alert);
 		alert.append(boton);
