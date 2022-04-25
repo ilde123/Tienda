@@ -19,6 +19,8 @@ $(function () {
 	eventoCeldas();
 	limpiarTabla();
 
+	$.getScript("js/autocomplete.js");
+
 	// Cargar menu contextual
 	$.getScript("js/contextmenu/menuContextual.js");
 
@@ -162,6 +164,8 @@ function tablaNavegable() {
 				BOTON_CANCELAR_PEDIDO.click();
 				break;
 		}
+
+		cerrarListaAutocomplete();
 	});
 }
 
