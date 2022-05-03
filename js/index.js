@@ -19,8 +19,6 @@ $(function () {
 	eventoCeldas();
 	limpiarTabla();
 
-	$.getScript("js/autocomplete.js");
-
 	// Cargar menu contextual
 	$.getScript("js/contextmenu/menuContextual.js");
 
