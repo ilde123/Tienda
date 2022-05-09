@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital@1&display=swap');
+
 #toTop, #btnAddRow {
 	display: none;
     position: fixed;
@@ -201,8 +203,9 @@
 	cursor: move;
 }
 
+
 body {
-	font-family: "Comic Sans MS", "Comic Sans", cursive;
+	font-family: "Comic Sans MS", "Comic Sans", 'Comic Neue', cursive;
 }
 
 html {
@@ -405,6 +408,10 @@ html:active {
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
+	body {
+		font-family: 'Comic Neue', cursive;
+	}
+
 	table th, table td, table input {
 		font-size: 10px!important;
 	}
@@ -416,6 +423,10 @@ html:active {
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
+	body {
+		font-family: cursive, 'Comic Neue';
+	}
+
 	.col-precio {
 		width: 20%;
 	}
