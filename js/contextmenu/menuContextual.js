@@ -32,7 +32,7 @@ $.contextMenu({
 
 					case 'limpiar':
 						fila.find('input').val('');
-						fila.find('.col-descripcion').text('');
+						fila.find(`.${CLASE_DESCRIPCION}`).text('');
 						actualizarTotal();
 						break;
 
@@ -46,10 +46,10 @@ $.contextMenu({
 						break;
 
 					case 'paste':
-						fila.find('th.col-codigo input').focus().select();
+						fila.find(`th.${CLASE_CODIGO} input`).focus().select();
 						navigator.clipboard.readText()
 							.then(texto => { // Promesa
-								fila.find('th.col-codigo input').val(texto);
+								fila.find(`th.${CLASE_CODIGO} input`).val(texto);
 							})
 							.catch(error => {
 								// Por si el usuario no da permiso u ocurre un error
@@ -60,16 +60,16 @@ $.contextMenu({
 					case 'edit':
 						let codigo = fila.find('th input').val();
 
-						$('#btnConsultarProducto').trigger('click');
+						$('#btnConsultarProducto').click();
 
 						// ABRIR CONSULTAR PRODUCTO
 						setTimeout(() => {
 							$('#codigoConsultar').val(codigo);
 
-							$('#btnBuscarProducto').trigger('click');
+							$('#btnBuscarProducto').click();
 
 							setTimeout(() => {
-								$('.btn-warning').trigger('click');
+								$('.btn-warning').click();
 							}, 500);
 						}, 1000);
 						break;
@@ -122,7 +122,7 @@ function menuContextualTablaConsultarProducto() {
 					break;
 
 				case 'copy':
-					fila.find('.col-codigo').select();
+					fila.find(`.${CLASE_CODIGO}`).select();
 					navigator.clipboard.writeText(fila.find('th').text());
 					break;
 

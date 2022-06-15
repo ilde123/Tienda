@@ -186,6 +186,7 @@ function cargarFormularioPedido() {
 		let botonImprimir = $('.btn-imprimir');
 		botonImprimir.fadeIn(); // Mostrar botón de imprimir
 		botonImprimir.removeClass('disabled'); // Habilitar botón de imprimir
+
 		let url = `php/ticketPedidos.php?`; // URL para consultar el ticket de pedido
 		let parametros = ''; // Parámetros para consultar el ticket de pedido
 		let datos = ''; // Fecha y total de pedidos
@@ -196,8 +197,8 @@ function cargarFormularioPedido() {
 			let checkbox = $(celda).find('input[type=checkbox]'); // Checkbox de la fila de la tabla de pedidos
 
 			if (checkbox.is(':checked')) { // Si el checkbox está seleccionado
-				let fecha = $(celda).find('.col-codigo').data('fecha');
-				let total = $(celda).find('.col-precio').text();
+				let fecha = $(celda).find(`.${CLASE_CODIGO}`).data('fecha');
+				let total = $(celda).find(`.${CLASE_PRECIO}`).text();
 
 				// Agregar fecha y total al principio de la URL
 				datos = `&fecha[]=${fecha}&total[]=${formatNumber(total)}`;
@@ -406,7 +407,7 @@ function cargarFormularioPedido() {
 
 		// Primera columna
 		let celda = $("<th>");
-		celda.attr('scope', 'row').addClass('col-codigo');
+		celda.attr('scope', 'row').addClass(CLASE_CODIGO);
 
 		let customControl = $("<div>");
 		customControl.addClass('form-check');
@@ -470,7 +471,7 @@ function cargarFormularioPedido() {
 
 		// Seguna columna
 		celda = $('<td>');
-		celda.attr('scope', 'row').addClass('col-precio').text(`${numerosDecimalesMostrar(total)} €`);
+		celda.attr('scope', 'row').addClass(CLASE_PRECIO).text(`${numerosDecimalesMostrar(total)} €`);
 		fila.append(celda); // Añadir celda a fila
 
 		// Agregar fila a tabla
@@ -628,7 +629,7 @@ function cargarFormularioPedido() {
 			'href': '#'
 		});
 
-		celda.addClass('col-descripcion').append(enlace);
+		celda.addClass(CLASE_DESCRIPCION).append(enlace);
 
 		fila.append(celda);
 		
@@ -640,12 +641,12 @@ function cargarFormularioPedido() {
 		icon.addClass('fas fa-trash-alt');
 		boton.addClass('btn btn-danger').append(icon);
 
-		celda.attr('scope', 'row').addClass('col-codigo').append(boton);
+		celda.attr('scope', 'row').addClass(CLASE_CODIGO).append(boton);
 		fila.append(celda);
 
 		// TERCERA CELDA
 		celda = $('<td>');
-		celda.attr('scope', 'row').addClass('col-unidades');
+		celda.attr('scope', 'row').addClass(CLASE_UNIDADES);
 
 		if (unidades == 1) {
 			celda.text(`${unidades} Unidad`);
@@ -656,7 +657,7 @@ function cargarFormularioPedido() {
 
 		// CUARTA CELDA
 		celda = $('<td>');
-		celda.attr('scope', 'row').addClass('col-precio').text(`${numerosDecimalesMostrar(numerosDecimales(precio))} €`);
+		celda.attr('scope', 'row').addClass(CLASE_PRECIO).text(`${numerosDecimalesMostrar(numerosDecimales(precio))} €`);
 		fila.append(celda);
 
 		// AGREGAR CELDAS

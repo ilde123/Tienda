@@ -36,27 +36,27 @@ function cargarFormularioExistencias() {
 	
 			// PRIMERA CELDA
 			let celda = $("<th>");
-			celda.attr('scope', 'row').addClass('col-codigo').text(producto.codigo);
+			celda.attr('scope', 'row').addClass(CLASE_CODIGO).text(producto.codigo);
 			fila.append(celda);
 
 			// SEGUNDA CELDA
-			celda = $('<td>').addClass('col-descripcion').text(producto.descripcion);
+			celda = $('<td>').addClass(CLASE_DESCRIPCION).text(producto.descripcion);
 			fila.append(celda);
 
 			// TERCERA CELDA
 			celda = $('<td>');
-			celda.attr('scope', 'row').addClass('col-existencias').text(producto.stock);
+			celda.attr('scope', 'row').addClass(CLASE_EXISTENCIAS).text(producto.stock);
 			fila.append(celda);
 
 			// CUARTA CELDA
 			celda = $('<td>');
-			celda.attr('scope', 'row').addClass('col-minimo').text(producto.stock_minimo);
+			celda.attr('scope', 'row').addClass(CLASE_MINIMO).text(producto.stock_minimo);
 			fila.append(celda);
 
 			if (producto.faltan != null || producto.faltan != undefined) { // Si existe la propiedad faltan
 				// QUINTA CELDA
 				celda = $('<td>');
-				celda.attr('scope', 'row').addClass('col-faltan').text(producto.faltan);
+				celda.attr('scope', 'row').addClass(CLASE_FALTAN).text(producto.faltan);
 				fila.append(celda);
 			}
 

@@ -413,7 +413,7 @@ html:active {
 	}
 
 	table th, table td, table input {
-		font-size: 10px!important;
+		font-size: 10px;
 	}
 
 	.col-precio {

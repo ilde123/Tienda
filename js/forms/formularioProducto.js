@@ -176,7 +176,7 @@ function cargarFormularioProducto(opciones) {
 	}
 
 	function actualizarAutocomplete() {
-		TBODY.find('th.col-codigo input').each((_index, elemento) => {
+		TBODY.find(`th.${CLASE_CODIGO} input`).each((_index, elemento) => {
 			getProductos(elemento)
 		});
 	}
@@ -187,7 +187,7 @@ function cargarFormularioProducto(opciones) {
 
 		// PRIMERA CELDA
 		let celda = $("<th>");
-		celda.attr('scope', 'row').addClass('col-codigo').text(producto.codigo);
+		celda.attr('scope', 'row').addClass(CLASE_CODIGO).text(producto.codigo);
 		fila.append(celda);
 
 		// SEGUNDA CELDA
@@ -196,7 +196,7 @@ function cargarFormularioProducto(opciones) {
 			'href': '#'
 		});
 
-		celda.addClass('col-descripcion').append(enlace);
+		celda.addClass(CLASE_DESCRIPCION).append(enlace);
 		fila.append(celda);
 
 		// TERCERA CELDA

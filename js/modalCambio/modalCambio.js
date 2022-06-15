@@ -51,8 +51,8 @@ function insertarPedido() {
 	TBODY.children('tr').each((_index, element) => {
 		let fila = $(element);
 		let codigo = fila.find('th input').val();
-		let unidades = fila.find('td.col-unidades input').val();
-		let precio = fila.find('td.col-precio input').val();
+		let unidades = fila.find(`td.${CLASE_UNIDADES} input`).val();
+		let precio = fila.find(`td.${CLASE_PRECIO} input`).val();
 
 		if (codigo != '' && unidades != '' && precio != '' && numerosDecimales(precio) > 0) { // Si no están vacíos y precio es mayor que 0
 			datos += `codigo[]=${codigo}&unidades[]=${unidades}&precio[]=${precio}&`;

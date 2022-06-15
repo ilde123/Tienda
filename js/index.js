@@ -1,11 +1,23 @@
 var contador = 1;
 const HTML = $('html');
+const BODY = $('body');
+
 const TABLA = $('#tabla');
 const THEAD = TABLA.find('thead');
 const TBODY = TABLA.find('tbody:first');
+const TOTAL = $('#total');
+
+// Clases de las columnas
+const CLASE_CODIGO = 'col-codigo';
+const CLASE_DESCRIPCION = 'col-descripcion';
+const CLASE_PRECIO = 'col-precio';
+const CLASE_UNIDADES = 'col-unidades';
+const CLASE_EXISTENCIAS = 'col-existencias';
+const CLASE_MINIMO = 'col-minimo';
+const CLASE_FALTAN = 'col-faltan';
+
 const NOMBRE_CLIENTE_MODAL_CAMBIO = $('#nombreClienteModalCambio');
 const COLLAPSE_NOMBRE_CLIENTE_MODAL_CAMBIO = $('#collapseNombreClienteModalCambio');
-const TOTAL = $('#total');
 
 const BOTON_TO_TOP = $('#toTop');
 const BOTON_AGREGAR_FILA = $('#btnAddRow');
@@ -44,7 +56,7 @@ $(function () {
 		TBODY.children("tr:not(tr:first)").remove();
 		// Resetea los valores de los campos
 		TBODY.find("tr:first input").val('');
-		TBODY.find("tr:first td.col-descripcion").text('');
+		TBODY.find(`tr:first td.${CLASE_DESCRIPCION}`).text('');
 		// Asigna el foco al campo código
 		TBODY.find("th input").select();
 
@@ -75,7 +87,7 @@ $(function () {
 		});
 
 		$(window).scroll(() => {
-			if ($('body').scrollTop() > 20 || HTML.scrollTop() > 20) {
+			if (BODY.scrollTop() > 20 || HTML.scrollTop() > 20) {
 				BOTON_TO_TOP.fadeIn(250, () => { // Mostrar botón
 					BOTON_AGREGAR_FILA.animate({ right: '4em' }); // Mover botón
 				});
@@ -88,7 +100,7 @@ $(function () {
 	}
 
 	function borrarLoader() {
-		$('body').removeClass('overflow-hidden');
+		BODY.removeClass('overflow-hidden');
 		$('#loader').remove();
 	}
 });
@@ -153,7 +165,13 @@ function tablaNavegable() {
 			case 37: // Flecha izquierda
 				navegarCeldaHorizontal('izquierda', e.target);
 				break;
+		}
 
+		cerrarListaAutocomplete();
+	});
+
+	BODY.keydown((e) => { 
+		switch (e.keyCode) {
 			case 45: // Botón insertar pulsado 
 				BOTON_ACEPTAR_PEDIDO.click();
 				break;
@@ -162,8 +180,6 @@ function tablaNavegable() {
 				BOTON_CANCELAR_PEDIDO.click();
 				break;
 		}
-
-		cerrarListaAutocomplete();
 	});
 }
 
@@ -171,11 +187,12 @@ function navegarCeldaVertical(direccion) {
 	let filaActual = $('input:focus').parents('tr');
 	let celdaActual = $('input:focus').parent();
 	let celdaAux;
+	let clase = celdaActual.attr('class');
 
 	if (direccion == 'arriba') { // Navegar a celda de arriba
-		celdaAux = filaActual.prev().find('.' + celdaActual.attr('class'));
+		celdaAux = filaActual.prev().find(`.${clase}`);
 	} else { // Navegar a celda de abajo
-		celdaAux = filaActual.next().find('.' + celdaActual.attr('class'));
+		celdaAux = filaActual.next().find(`.${clase}`);
 	}
 
 	// Asignar foco
@@ -223,7 +240,7 @@ function agregarFila(datos) {
 
 	// Primera celda
 	let celdaCodigo = $("<th>");
-	celdaCodigo.attr('scope', 'row').addClass('col-codigo');
+	celdaCodigo.attr('scope', 'row').addClass(CLASE_CODIGO);
 	// Input código
 	let inputCodigo = $('<input>');
 	inputCodigo.attr({
@@ -239,14 +256,14 @@ function agregarFila(datos) {
 
 	// Segunda celda
 	let celdaDescripcion = $('<td>');
-	celdaDescripcion.addClass('col-descripcion');
+	celdaDescripcion.addClass(CLASE_DESCRIPCION);
 	
 	// Añadir celda a la fila
 	fila.append(celdaDescripcion);
 
 	// Tercera celda
 	let celdaUnidades = $('<td>');
-	celdaUnidades.addClass('col-unidades');
+	celdaUnidades.addClass(CLASE_UNIDADES);
 	// Input unidades
 	let inputUnidades = $('<input>');
 	inputUnidades.attr({type: 'text'}).addClass('form-control');
@@ -257,7 +274,7 @@ function agregarFila(datos) {
 
 	// Cuarta celda
 	let celdaPrecio = $('<td>');
-	celdaPrecio.addClass('col-precio');
+	celdaPrecio.addClass(CLASE_PRECIO);
 	// Input precio
 	let inputPrecio = $('<input>');
 	inputPrecio.attr({type: 'text'}).addClass('form-control');
@@ -292,7 +309,7 @@ function eliminarFila() {
 function limpiarTabla() {
 	TBODY.find('tr:not(tr:last)').remove(); // Elimina todas las filas excepto la última
 	$('tbody input').val(''); // Limpia todos los inputs
-	TBODY.find('td.col-descripcion').text(''); // Limpia la descripción
+	TBODY.find(`td.${CLASE_DESCRIPCION}`).text(''); // Limpia la descripción
 
 	NOMBRE_CLIENTE_MODAL_CAMBIO.val(''); // Limpia el nombre del cliente
 	COLLAPSE_NOMBRE_CLIENTE_MODAL_CAMBIO.removeClass('show'); // Elimina la clase show
@@ -332,8 +349,8 @@ function eventoCeldas() {
 
 				// Comprobar si el código ya está en la tabla
 				TBODY.find('tr').each((_index, element) => {
-					if (codigo == $(element).find('.col-codigo input').val() && !fila.is($(element)) && parseInt(codigo) > 5) { // Si el código coincide, no es la misma fila y es mayor que 5
-						celdaUnidades = $(element).find('.col-unidades input');
+					if (codigo == $(element).find(`.${CLASE_CODIGO} input`).val() && !fila.is($(element)) && parseInt(codigo) > 5) { // Si el código coincide, no es la misma fila y es mayor que 5
+						celdaUnidades = $(element).find(`.${CLASE_UNIDADES} input`);
 						estaEnTabla = true;
 					}
 				});
@@ -364,18 +381,22 @@ function eventoCeldas() {
 						let producto = JSON.parse(json.json)[0]; // Obtener primer producto
 
 						if (producto != undefined) { // Si el producto existe
-							fila.find('.col-descripcion').text(producto.descripcion); // Mostrar descripción
+							fila.find(`.${CLASE_DESCRIPCION}`).text(producto.descripcion); // Mostrar descripción
 
-							if (fila.find('.col-unidades input').val() == '') { // Si el input de unidades está vacío
-								fila.find('.col-unidades input').val('1').focus().select(); // Rellenar con 1 y asignar foco
+							let inputUnidades = fila.find(`.${CLASE_UNIDADES}`); // Obtener input de unidades
+
+							if (inputUnidades.val() == '') { // Si el input de unidades está vacío
+								inputUnidades.val('1').focus().select(); // Rellenar con 1 y asignar foco
 							}
 
+							let inputPrecio = fila.find(`.${CLASE_PRECIO} input`); // Obtener input precio
+
 							if (parseInt(codigo) < 5) { // Si el código es menor que 5
-								if (fila.find('.col-precio input').val() === "") { // Si el input de precio está vacío
-									fila.find('.col-precio input').val(numerosDecimales(0)).focus().select(); // Rellenar con 0 y asignar foco
+								if (inputPrecio.val() === "") { // Si el input de precio está vacío
+									inputPrecio.val(numerosDecimales(0)).focus().select(); // Rellenar con 0 y asignar foco
 								}
 							} else { // Si el código es mayor que 5
-								fila.find('.col-precio input').val(numerosDecimales(producto.precio)); // Rellenar con precio
+								inputPrecio.val(numerosDecimales(producto.precio)); // Rellenar con precio del producto
 							}
 
 							actualizarTotal(); // Actualizar total
@@ -386,8 +407,8 @@ function eventoCeldas() {
 								if (respuesta) {
 									$('#btnInsertarProducto').click(); // Pulsar botón de insertar producto
 
-									let codigo = fila.find('.col-codigo input').val();
-									let precio = fila.find('.col-precio input').val();
+									let codigo = fila.find(`.${CLASE_CODIGO} input`).val();
+									let precio = fila.find(`.${CLASE_PRECIO} input`).val();
 
 									setTimeout(() => { // Esperar a que se cargue la tabla
 										$('#codigoAgregar').val(codigo); // Rellenar código
@@ -396,8 +417,8 @@ function eventoCeldas() {
 									}, 1000);
 								} else {
 									fila.find('input').val(''); // Vaciar input
-									fila.find('.col-descripcion').text(''); // Vaciar descripción
-									fila.find('.col-codigo input').focus(); // Asignar foco a código
+									fila.find(`.${CLASE_DESCRIPCION}`).text(''); // Vaciar descripción
+									fila.find(`.${CLASE_CODIGO} input`).focus(); // Asignar foco a código
 								}
 
 								actualizarTotal();
@@ -412,14 +433,14 @@ function eventoCeldas() {
 		}
 
 		function vaciarFila(fila) {
-			fila.find('.col-descripcion').text('');
-			fila.find('.col-precio input').val(numerosDecimales(0));
-			fila.find('.col-unidades input').val(1);
+			fila.find(`.${CLASE_DESCRIPCION}`).text('');
+			fila.find(`.${CLASE_PRECIO} input`).val(numerosDecimales(0));
+			fila.find(`.${CLASE_UNIDADES} input`).val(1);
 		}
 	});
 
 	// EVENTO CELDA UNIDADES
-	TBODY.find('td.col-unidades input').each((_index, element) => {
+	TBODY.find(`td.${CLASE_UNIDADES} input`).each((_index, element) => {
 		let celda = $(element)
 
 		celda.off('change');
@@ -439,7 +460,7 @@ function eventoCeldas() {
 	});
 
 	// EVENTO CELDA PRECIO
-	TBODY.find('td.col-precio input').each((_index, element) => {
+	TBODY.find(`td.${CLASE_PRECIO} input`).each((_index, element) => {
 		let celda = $(element);
 
 		celda.off('change');
@@ -461,9 +482,9 @@ function eventoCeldas() {
 
 	function actualizarPrecioProducto(celda) {
 		let fila = celda.parents('tr');
-		let codigo = fila.find('.col-codigo input').val();
-		let precio = fila.find('.col-precio input').val();
-		fila.find('.col-precio input').val(formatNumber(precio)); // Formatear precio
+		let codigo = fila.find(`.${CLASE_CODIGO} input`).val();
+		let precio = fila.find(`.${CLASE_PRECIO} input`).val();
+		fila.find(`.${CLASE_PRECIO} input`).val(formatNumber(precio)); // Formatear precio
 
 		let datos = `codigo=${codigo}&precio=${formatNumber(precio)}`;
 
@@ -506,8 +527,8 @@ function getProductos(elemento) {
 }
 
 function actualizarTotal() {
-	let unidades = $('.col-unidades input');
-	let precio = $('.col-precio input');
+	let unidades = $(`.${CLASE_UNIDADES} input`);
+	let precio = $(`.${CLASE_PRECIO} input`);
 	let total = 0;
 
 	unidades.each(function (index, unidad) {
@@ -533,9 +554,9 @@ function imprimirTicket() {
 		let fila = $(element);
 		if (fila.find('input').val() != '' && fila.text() != '') {
 
-			let descripcion = fila.find('td.col-descripcion').text();
-			let unidades = fila.find('td.col-unidades input').val();
-			let precio = fila.find('td.col-precio input').val();
+			let descripcion = fila.find(`td.${CLASE_DESCRIPCION}`).text();
+			let unidades = fila.find(`td.${CLASE_UNIDADES} input`).val();
+			let precio = fila.find(`td.${CLASE_PRECIO} input`).val();
 			let total = precio * unidades;
 
 			url += `unidades[]=${unidades}&descripcion[]=${descripcion}&precio[]=${precio}&total[]=${total}&`;
@@ -681,7 +702,7 @@ function msg(txt, color) {
 		alert.addClass(`alert ${clase} shadow alert-dismissible justify-content-start`);
 		alert.append(texto);
 
-		$('body').append(alert);
+		BODY.append(alert);
 		alert.append(boton);
 
 		$('.alert').css('transform', 'translateY(10em)').fadeIn(); // Mostrar alerta
