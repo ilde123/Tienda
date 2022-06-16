@@ -388,8 +388,6 @@ function eventoCeldas() {
 							if (inputUnidades.val() == '') { // Si el input de unidades está vacío
 								inputUnidades.val('1').focus().select(); // Rellenar con 1 y asignar foco
 							}
-							consola(inputUnidades.val());
-							consola(inputUnidades);
 
 							let inputPrecio = fila.find(`.${CLASE_PRECIO} input`); // Obtener input precio
 
