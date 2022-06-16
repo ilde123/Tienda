@@ -33,6 +33,7 @@ $.contextMenu({
 					case 'limpiar':
 						fila.find('input').val('');
 						fila.find(`.${CLASE_DESCRIPCION}`).text('');
+						fila.find('.col-codigo input').focus();
 						actualizarTotal();
 						break;
 

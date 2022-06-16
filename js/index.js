@@ -383,11 +383,13 @@ function eventoCeldas() {
 						if (producto != undefined) { // Si el producto existe
 							fila.find(`.${CLASE_DESCRIPCION}`).text(producto.descripcion); // Mostrar descripción
 
-							let inputUnidades = fila.find(`.${CLASE_UNIDADES}`); // Obtener input de unidades
+							let inputUnidades = fila.find(`.${CLASE_UNIDADES} input`); // Obtener input de unidades
 
 							if (inputUnidades.val() == '') { // Si el input de unidades está vacío
 								inputUnidades.val('1').focus().select(); // Rellenar con 1 y asignar foco
 							}
+							consola(inputUnidades.val());
+							consola(inputUnidades);
 
 							let inputPrecio = fila.find(`.${CLASE_PRECIO} input`); // Obtener input precio
 
