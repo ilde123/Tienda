@@ -4,17 +4,27 @@
 	$familia = trim($_POST['familia']);
 
 	if ($stmt = $conexion->prepare("INSERT INTO familia(familia) VALUES (?);")) {
-
-		$stmt->bind_param('s', $familia);
-
-		// ejecuta sentencias prepradas
-		$stmt->execute();
-
-		// cierra sentencia y conexión
-		$stmt->close();
-
 		$resultado = "ok";
-		$msg = "Operación realizada con éxito.";
+
+		try {
+			$stmt->bind_param('s', $familia);
+			$stmt->execute();
+			$stmt->close();
+			
+			$resultado = "ok";
+			$msg = "Familia insertada.";
+		}
+		catch (mysqli_sql_exception $e) {
+			if ($e->getCode() == 1062) {
+				$resultado = "fallo";
+				$msg = "Familia duplicada.";
+			}
+		}
+		catch (Exception $e) {
+			$resultado = "fallo";
+			$msg = "No se pudo insertar la familia.";
+		}
+
 	}
 	else {
 		$resultado = "fallo";

@@ -470,13 +470,14 @@ function eventoCeldas() {
 			// Actualizar precio al insertarlo en la celda
 			actualizarPrecioProducto(celda);
 
-			actualizarTotal();
 			// Precio con decimales
 			if (isNaN(numerosDecimales(celda.val()))) {
-				celda.val('0,00');
+				celda.val('0.00');
 			} else {
 				celda.val(formatNumber((numerosDecimales(celda.val()))));
 			}
+
+			actualizarTotal();
 		});
 	});
 
@@ -597,7 +598,7 @@ function eliminarCursorSpinner(selector) {
 
 function formatNumber(string) {// Devuelve un número válido
 	let out = '';
-	let filtro = '1234567890.,';// Caracteres validos
+	let filtro = '-1234567890.,';// Caracteres validos
 
 	// Recorrer el texto y verificar si el caracter se encuentra en la lista de validos 
 	for (var i=0; i < string.length; i++) {

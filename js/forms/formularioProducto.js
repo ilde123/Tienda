@@ -163,7 +163,8 @@ function cargarFormularioProducto(opciones) {
 	function insertarProducto(datos) {
 		$.post("php/insertarProducto.php", datos,
 			(json) => {
-				if (json.resultado = 'ok') {
+				console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
+				if (json.resultado == 'ok') {
 					msg(json.msg, 'success');
 
 					actualizarAutocomplete();

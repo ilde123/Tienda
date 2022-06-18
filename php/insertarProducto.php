@@ -10,34 +10,23 @@
 	$familia = trim($_POST['familia']);
 	$proveedor = trim($_POST['proveedor']);
 
-	if ($stmt = $conexion->prepare("INSERT INTO producto(codigo, descripcion, precio, iva, stock, stock_minimo, familia, proveedor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-									ON DUPLICATE KEY UPDATE codigo = VALUES(codigo), descripcion = VALUES(descripcion), precio = VALUES(precio), iva = VALUES(iva), stock = VALUES(stock), stock_minimo = VALUES(stock_minimo), familia = VALUES(familia), proveedor = VALUES(proveedor);")) {
-
-		$stmt->bind_param('ssdiiiss', $codigo, $descripcion, $precio, $iva, $stock, $stockMin, $familia, $proveedor);
-
-		// ejecuta sentencias prepradas
-		$stmt->execute();
-
-//		printf("%d Fila insertada.\n", $stmt->affected_rows);
-
-		// cierra sentencia y conexión
-		$stmt->close();
+	if ($stmt = $conexion->prepare("INSERT INTO producto(codigo, descripcion, precio, iva, stock, stock_minimo, familia, proveedor) VALUES (?, ?, ?, ?, ?, ?, ?, ?);")) {
 
 		$resultado = "ok";
-		$msg = "Operación realizada con éxito.";
-/*
-		$datos = array(
-			'codigo'=>$codigo,
-			'descripcion'=>$descripcion,
-			'precio'=>$precio,
-			'iva'=>$iva,
-			'stock'=>$stock,
-			'stock_minimo'=>$stockMin,
-			'familia'=>$familia,
-			'proveedor'=>$proveedor
-		);
 
-		$json = json_encode($datos);*/
+		try {
+			$stmt->bind_param('ssdiiiss', $codigo, $descripcion, $precio, $iva, $stock, $stockMin, $familia, $proveedor);
+			$stmt->execute();
+			$stmt->close();
+			$msg = "Operación realizada con éxito.";
+		}
+		catch (mysqli_sql_exception $e) {
+			if ($e->getCode() == 1062) {
+				$resultado = "fallo";
+				$msg = "Código de producto duplicado.";
+			}
+		}
+
 	}
 	else {
 		$resultado = "fallo";
