@@ -145,7 +145,7 @@ function cargarFormularioProducto(opciones) {
 						});
 
 						menuContextualTablaConsultarProducto(); // Crear menu contextual tabla consultar producto
-						filtro("#descripcionConsultar, #codigoConsultar", "#tablaProducto tbody tr"); // Crear filtro
+						filtro("#descripcionConsultar", "#codigoConsultar", "#tablaProducto tbody tr"); // Crear filtro
 						$('div.contenido-oculto').slideDown(); // Mostrar tabla productos
 					} else {
 						msg('No se encontraron productos', 'info');
@@ -163,7 +163,6 @@ function cargarFormularioProducto(opciones) {
 	function insertarProducto(datos) {
 		$.post("php/insertarProducto.php", datos,
 			(json) => {
-				console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
 				if (json.resultado == 'ok') {
 					msg(json.msg, 'success');
 
