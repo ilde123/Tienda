@@ -617,7 +617,11 @@ function numerosDecimales(valor) { // Pasar un número a decimal
 }
 
 function numerosDecimalesMostrar(valor) { // Cambia el caracter "." por ","
-	return valor.split(".").join(","); // Se reemplazan los puntos por comas
+	if (typeof(valor) == 'number') {
+		return valor.toString().split(".").join(","); // Se reemplazan los puntos por comas
+	} else {		
+		return valor.split(".").join(","); // Se reemplazan los puntos por comas
+	}
 }
 
 function ocultarAlert() {
