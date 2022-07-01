@@ -29,6 +29,7 @@
 #total {
 	font-weight: bolder;
 	color: #dc3545;
+	background-color: #fff;
 }
 
 .fila-activa, .fila-activa td {
