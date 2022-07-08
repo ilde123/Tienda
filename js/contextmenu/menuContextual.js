@@ -48,9 +48,24 @@ $.contextMenu({
 
 					case 'paste':
 						fila.find(`th.${CLASE_CODIGO} input`).focus().select();
+
 						navigator.clipboard.readText()
 							.then(texto => { // Promesa
-								fila.find(`th.${CLASE_CODIGO} input`).val(texto);
+								let i = 0;
+								let speed = 50;
+								typeWriter();
+
+								function typeWriter() {
+
+									if (i < texto.length) {
+										let textoAnterior = fila.find('th input').val();
+										fila.find(`th.${CLASE_CODIGO} input`).val(`${textoAnterior}${texto[i]}`);
+										i++;
+										setTimeout(typeWriter, speed);
+									} else {
+										fila.find(`th.${CLASE_CODIGO} input`).focus().change();
+									}
+								}
 							})
 							.catch(error => {
 								// Por si el usuario no da permiso u ocurre un error
