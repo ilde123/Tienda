@@ -10,7 +10,8 @@
 	$familia = trim($_POST['familia']);
 	$proveedor = trim($_POST['proveedor']);
 
-	if ($stmt = $conexion->prepare("INSERT INTO producto(codigo, descripcion, precio, iva, stock, stock_minimo, familia, proveedor) VALUES (?, ?, ?, ?, ?, ?, ?, ?);")) {
+	if ($stmt = $conexion->prepare("INSERT INTO producto(codigo, descripcion, precio, iva, stock, stock_minimo, familia, proveedor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+									ON DUPLICATE KEY UPDATE codigo = VALUES(codigo), descripcion = VALUES(descripcion), precio = VALUES(precio), iva = VALUES(iva), stock = VALUES(stock), stock_minimo = VALUES(stock_minimo), familia = VALUES(familia), proveedor = VALUES(proveedor);")) {
 
 		$resultado = "ok";
 
