@@ -26,7 +26,6 @@ const BOTON_CANCELAR_PEDIDO = $('#btnCancelarPedido');
 
 $(function () {
 	// $('#qrCanvas').WebCodeCam();
-
 	// Eventos de teclado
 	eventoCeldas();
 	limpiarTabla();
@@ -250,7 +249,6 @@ function agregarFila(datos) {
 	celdaCodigo.append(inputCodigo);
 	celdaCodigo.focus();
 
-
 	// Añadir celda a la fila
 	fila.append(celdaCodigo);
 
@@ -343,7 +341,7 @@ function eventoCeldas() {
 
 			let codigo = celda.val();
 
-			if (!codigo == '') {
+			if (!codigo == '') { // Si el código no está vacío
 				let estaEnTabla = false;
 				let celdaUnidades;
 
@@ -365,7 +363,7 @@ function eventoCeldas() {
 				} else { // Si el código es un número
 					consultarProducto(codigo);
 				}
-			} else {
+			} else { // Si el código está vacío
 				vaciarFila(fila);
 
 				actualizarTotal();
@@ -393,10 +391,10 @@ function eventoCeldas() {
 
 							if (parseInt(codigo) < 5) { // Si el código es menor que 5
 								if (inputPrecio.val() === "") { // Si el input de precio está vacío
-									inputPrecio.val(numerosDecimales(0)).focus().select(); // Rellenar con 0 y asignar foco
+									inputPrecio.val(numerosDecimalesMostrar(0)).focus().select(); // Rellenar con 0 y asignar foco
 								}
 							} else { // Si el código es mayor que 5
-								inputPrecio.val(numerosDecimales(producto.precio)); // Rellenar con precio del producto
+								inputPrecio.val(numerosDecimalesMostrar(producto.precio)); // Rellenar con precio del producto
 							}
 
 							actualizarTotal(); // Actualizar total
@@ -434,7 +432,7 @@ function eventoCeldas() {
 
 		function vaciarFila(fila) {
 			fila.find(`.${CLASE_DESCRIPCION}`).text('');
-			fila.find(`.${CLASE_PRECIO} input`).val(numerosDecimales(0));
+			fila.find(`.${CLASE_PRECIO} input`).val(numerosDecimalesMostrar(0));
 			fila.find(`.${CLASE_UNIDADES} input`).val(1);
 		}
 	});
@@ -474,7 +472,7 @@ function eventoCeldas() {
 			if (isNaN(numerosDecimales(celda.val()))) {
 				celda.val('0.00');
 			} else {
-				celda.val(formatNumber((numerosDecimales(celda.val()))));
+				celda.val(numerosDecimalesMostrar(celda.val()));
 			}
 
 			actualizarTotal();
@@ -533,7 +531,7 @@ function actualizarTotal() {
 	let total = 0;
 
 	unidades.each(function (index, unidad) {
-		total += precio[index].value * unidad.value;
+		total += numerosDecimales(precio[index].value) * unidad.value;
 	});
 
 	if (isNaN(numerosDecimales(total))) {
@@ -557,7 +555,7 @@ function imprimirTicket() {
 
 			let descripcion = fila.find(`td.${CLASE_DESCRIPCION}`).text();
 			let unidades = fila.find(`td.${CLASE_UNIDADES} input`).val();
-			let precio = fila.find(`td.${CLASE_PRECIO} input`).val();
+			let precio = numerosDecimales(fila.find(`td.${CLASE_PRECIO} input`).val());
 			let total = precio * unidades;
 
 			url += `unidades[]=${unidades}&descripcion[]=${descripcion}&precio[]=${precio}&total[]=${total}&`;
@@ -577,7 +575,6 @@ function imprimirTicket() {
 	ventana.print();
 
 	function limpiarCamposModalTicket() {
-		$('#myModal').modal('hide');
 		$('#modalNombre').val('');
 		$('#modalTelefono').val('');
 		BOTON_ACEPTAR_PEDIDO.click();
@@ -613,14 +610,18 @@ function formatNumber(string) {// Devuelve un número válido
 }
 
 function numerosDecimales(valor) { // Pasar un número a decimal
-	return Number.parseFloat(valor).toFixed(2); // Redondear a dos decimales
+	if (typeof(valor) == 'number') {
+		return Number.parseFloat(valor).toFixed(2); // Redondear a dos decimales
+	} else {
+		return Number.parseFloat(valor.split(",").join(".")).toFixed(2);
+	}
 }
 
 function numerosDecimalesMostrar(valor) { // Cambia el caracter "." por ","
 	if (typeof(valor) == 'number') {
-		return valor.toString().split(".").join(","); // Se reemplazan los puntos por comas
-	} else {		
-		return valor.split(".").join(","); // Se reemplazan los puntos por comas
+		return numerosDecimales(valor).toString().split(".").join(","); // Se reemplazan los puntos por comas
+	} else {
+		return numerosDecimales(valor).split(".").join(","); // Se reemplazan los puntos por comas
 	}
 }
 

@@ -18,7 +18,7 @@ INPUT_ENTREGA.keyup((e) => {
 		let imputCambio = $('#cambioModalCambio');
 
 		importe = formatNumber(INPUT_ENTREGA.val());
-		INPUT_ENTREGA.val(numerosDecimalesMostrar(importe));
+		INPUT_ENTREGA.val(importe);
 
 		// COMPROBAR QUE LA CANTIDAD INSERTADA SUPERA EL TOTAL A PAGAR
 		if (parseFloat(importe) >= parseFloat(totalAPagar)) {
@@ -40,7 +40,7 @@ BOTON_ACEPTAR.click((e) => { // Evento aceptar cambio
 		insertarPedido();
 	} else { // Si no es mayor o igual que el total a pagar
 		let falta = numerosDecimales(Math.abs(importe - totalAPagar));
-		msg(`Faltan ${numerosDecimalesMostrar(falta.toString())} €`, 'rojo');
+		msg(`Faltan ${numerosDecimalesMostrar(falta.toString())} €`, 'danger');
 	}
 });
 
@@ -52,7 +52,7 @@ function insertarPedido() {
 		let fila = $(element);
 		let codigo = fila.find('th input').val();
 		let unidades = fila.find(`td.${CLASE_UNIDADES} input`).val();
-		let precio = fila.find(`td.${CLASE_PRECIO} input`).val();
+		let precio = numerosDecimales(fila.find(`td.${CLASE_PRECIO} input`).val());
 
 		if (codigo != '' && unidades != '' && precio != '' && numerosDecimales(precio) > 0) { // Si no están vacíos y precio es mayor que 0
 			datos += `codigo[]=${codigo}&unidades[]=${unidades}&precio[]=${precio}&`;
@@ -66,11 +66,10 @@ function insertarPedido() {
 		$.post("php/insertarPedido.php", datos,
 			(json) => {
 				if (json.resultado == 'ok') {
-					//msg(json.msg, 'azul');
 					MODAL_CAMBIO.modal('hide');
 					limpiarTabla();
 				} else {
-					msg(json.msg, 'rojo');
+					msg(json.msg, 'danger');
 				}
 			},
 			"json"

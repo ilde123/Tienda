@@ -577,7 +577,7 @@ function cargarFormularioPedido() {
 
 		// Cuarta columna
 		celda = $('<td>');
-		celda.text(`${numerosDecimalesMostrar(numerosDecimales(total))} €`);
+		celda.text(`${numerosDecimalesMostrar(total)} €`);
 		filaPedido.append(celda);
 
 		// Mostrar/ocultar fila
@@ -657,7 +657,7 @@ function cargarFormularioPedido() {
 
 		// CUARTA CELDA
 		celda = $('<td>');
-		celda.attr('scope', 'row').addClass(CLASE_PRECIO).text(`${numerosDecimalesMostrar(numerosDecimales(precio))} €`);
+		celda.attr('scope', 'row').addClass(CLASE_PRECIO).text(`${numerosDecimalesMostrar(precio)} €`);
 		fila.append(celda);
 
 		// AGREGAR CELDAS
