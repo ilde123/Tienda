@@ -1,6 +1,8 @@
 function cargarFormularioProducto(opciones) {
 	const TABLA_PRODUCTOS = $('#tablaProducto'); // Tabla productos
 	const TBODY_TABLA_PRODUCTOS = TABLA_PRODUCTOS.find('tbody'); // Tbody tabla productos
+	const FORMULARIO_AGREGAR_PRODUCTO = 'Agregar'; // Clase formulario agregar producto
+	const FORMULARIO_CONSULTAR_PRODUCTO = 'ModalProducto'; // Clase formulario agregar producto
 	
 	if (opciones === "consulta") {
 		document.querySelector('#v-pills-profile-tab').click();
@@ -16,11 +18,11 @@ function cargarFormularioProducto(opciones) {
 	$('#btnAgregarProducto').click((e) => {
 		e.preventDefault();
 
-		if (validarFormularioProducto('Agregar')) { // Validar formulario agregar producto
+		if (validarFormularioProducto(FORMULARIO_AGREGAR_PRODUCTO)) { // Validar formulario agregar producto
 			let datos = $('form[name="formAgregarProducto"]').serializeArray(); // Obtener datos del formulario
 
 			insertarProducto(datos); // Insertar producto
-			limpiarFormularioProducto('Agregar'); // Limpiar formulario agreagar producto
+			limpiarFormularioProducto(FORMULARIO_AGREGAR_PRODUCTO); // Limpiar formulario agreagar producto
 
 			actualizarTotal(); // Actualizar total tabla
 		}
@@ -36,7 +38,7 @@ function cargarFormularioProducto(opciones) {
 		consultarProductoFormulario();
 	});
 
-	modalProducto();
+	modalProducto(); // Funcionalidad modal producto
 
 	function modalProducto() {
 		$('#modalProducto').on('show.bs.modal', (event) => {
@@ -56,7 +58,7 @@ function cargarFormularioProducto(opciones) {
 			$('#btnEditarProducto').on('click', (e) => { // Agregar evento click
 				e.preventDefault();
 
-				if (validarFormularioProducto('ModalProducto')) { // Validar formulario modal producto
+				if (validarFormularioProducto(FORMULARIO_CONSULTAR_PRODUCTO)) { // Validar formulario modal producto
 					let datos = $('form[name="formModalProducto"]').serializeArray();
 
 					insertarProducto(datos); // Editar producto
@@ -70,7 +72,7 @@ function cargarFormularioProducto(opciones) {
 
 					// OCULTAR MODAL
 					modal.modal('hide');
-					limpiarFormularioProducto('ModalProducto'); // Limpiar formulario modal producto
+					limpiarFormularioProducto(FORMULARIO_CONSULTAR_PRODUCTO); // Limpiar formulario modal producto
 				}
 				else {
 					msg('Revise los campos', 'danger');
@@ -273,7 +275,7 @@ function cargarFormularioProducto(opciones) {
 		let isValid = true;
 
 		// CAMPO CÓDIGO
-		let codigo = $('#codigo' + clase);
+		let codigo = $(`#codigo${clase}`);
 		let eReg = /^[0-9]+$/;
 
 		codigo.keyup(() => {
@@ -284,7 +286,7 @@ function cargarFormularioProducto(opciones) {
 			}
 		}).keyup();
 
-		let descripcion = $('#descripcion' + clase);
+		let descripcion = $(`#descripcion${clase}`);
 
 		descripcion.keyup(() => {
 			campoValido = validarInputVacio(descripcion);
@@ -294,7 +296,7 @@ function cargarFormularioProducto(opciones) {
 			}
 		}).keyup();
 
-		let precio = $('#precio' + clase);
+		let precio = $(`#precio${clase}`);
 
 		precio.keyup(() => {
 			campoValido = validarInputVacio(precio);
@@ -304,7 +306,7 @@ function cargarFormularioProducto(opciones) {
 			}
 		}).keyup();
 
-		let iva = $('#iva' + clase);
+		let iva = $(`#iva${clase}`);
 
 		iva.keyup(() => {
 			campoValido = validarInputVacio(iva);
@@ -314,7 +316,7 @@ function cargarFormularioProducto(opciones) {
 			}
 		}).keyup();
 
-		let familia = $('#familia' + clase);
+		let familia = $(`#familia${clase}`);
 
 		familia.keyup(() => {
 			campoValido = validarInputVacio(familia);
@@ -324,7 +326,7 @@ function cargarFormularioProducto(opciones) {
 			}
 		}).keyup();
 
-		let proveedor = $('#proveedor' + clase);
+		let proveedor = $(`#proveedor${clase}`);
 
 		proveedor.keyup(() => {
 			campoValido = validarInputVacio(proveedor);
@@ -334,7 +336,7 @@ function cargarFormularioProducto(opciones) {
 			}
 		}).keyup();
 
-		let stock = $('#stock' + clase);
+		let stock = $(`#stock${clase}`);
 
 		stock.keyup(() => {
 			campoValido = validarInputVacio(stock);
@@ -344,7 +346,7 @@ function cargarFormularioProducto(opciones) {
 			}
 		}).keyup();
 
-		let stockMin = $('#stockMin' + clase);
+		let stockMin = $(`#stockMin${clase}`);
 
 		stockMin.keyup(() => {
 			campoValido = validarInputVacio(stockMin);
@@ -356,30 +358,30 @@ function cargarFormularioProducto(opciones) {
 
 		return isValid;
 	}
-	
+
 	function limpiarFormularioProducto(clase) {
-		let codigo = $('#codigo' + clase);
+		let codigo = $(`#codigo${clase}`);
 		codigo.removeClass('is-valid is-invalid').val('');
-	
-		let descripcion = $('#descripcion' + clase);
+
+		let descripcion = $(`#descripcion${clase}`);
 		descripcion.removeClass('is-valid is-invalid').val('');
-	
-		let precio = $('#precio' + clase);
+
+		let precio = $(`#precio${clase}`);
 		precio.removeClass('is-valid is-invalid').val(0);
-	
-		let iva = $('#iva' + clase);
+
+		let iva = $(`#iva${clase}`);
 		iva.removeClass('is-valid is-invalid').prop('selectedIndex', 0);
-	
-		let familia = $('#familia' + clase);
+
+		let familia = $(`#familia${clase}`);
 		familia.removeClass('is-valid is-invalid').prop('selectedIndex', 0);
-	
-		let proveedor = $('#proveedor' + clase);
+
+		let proveedor = $(`#proveedor${clase}`);
 		proveedor.removeClass('is-valid is-invalid').prop('selectedIndex', 0);
-	
-		let stock = $('#stock' + clase);
+
+		let stock = $(`#stock${clase}`);
 		stock.removeClass('is-valid is-invalid').val(0);
-	
-		let stockMin = $('#stockMin' + clase);
+
+		let stockMin = $(`#stockMin${clase}`);
 		stockMin.removeClass('is-valid is-invalid').val(0);
 	}
 }
