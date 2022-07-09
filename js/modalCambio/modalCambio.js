@@ -4,7 +4,12 @@ const MODAL_CAMBIO = $('#modalCambio');
 
 // Evento mostrar modal cambio
 MODAL_CAMBIO.on('shown.bs.modal', () => {
-	INPUT_ENTREGA.focus();
+	if (TOTAL.val() == '' || numerosDecimales(TOTAL.val()) == 0) {
+		MODAL_CAMBIO.modal('hide');
+		msg('No hay nada que cobrar', 'danger');
+	} else {
+		INPUT_ENTREGA.focus();
+	}
 });
 
 INPUT_ENTREGA.keyup((e) => {

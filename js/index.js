@@ -23,6 +23,7 @@ const BOTON_TO_TOP = $('#toTop');
 const BOTON_AGREGAR_FILA = $('#btnAddRow');
 const BOTON_ACEPTAR_PEDIDO = $('#btnAceptarPedido');
 const BOTON_CANCELAR_PEDIDO = $('#btnCancelarPedido');
+const BOTON_IMPRIMIR_PEDIDO = $('#btnTicket');
 
 $(function () {
 	// $('#qrCanvas').WebCodeCam();

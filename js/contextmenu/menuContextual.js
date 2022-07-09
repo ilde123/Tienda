@@ -116,6 +116,38 @@ $.contextMenu({
 	}
 });
 
+$.contextMenu({
+	// Opciones del menú contextual
+	selector: '.fila-total',
+	build: ($trigger, _e) => {
+		return {
+			callback: (key, options, _e) => {
+				switch (key) {
+					case 'cancel':
+						BOTON_CANCELAR_PEDIDO.click();
+						break;
+
+					case 'acept':
+						BOTON_ACEPTAR_PEDIDO.click();
+						break;
+
+					case 'print':
+						BOTON_IMPRIMIR_PEDIDO.click();
+						break;
+
+					default:
+						break;
+				}
+			},
+			items: {
+				"acept": { name: "Aceptar pedido", icon: "fa-check", accesskey: 'a' },
+				"cancel": { name: "Cancelar pedido", icon: "fa-times", accesskey: 'c' },
+				"print": { name: "Imprimir pedido", icon: "fa-print", accesskey: 'i' }
+			}
+		};
+	}
+});
+
 function menuContextualTablaConsultarProducto() {
 	document.oncontextmenu = (e) => {
 		e.preventDefault();
