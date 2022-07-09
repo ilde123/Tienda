@@ -360,7 +360,6 @@ function eventoCeldas() {
 
 					actualizarTotal(); // Actualizar total
 				} else if (isNaN(parseInt(codigo))) { // Si el código no es un número
-					msg('El código debe ser numérico', 'warning');
 					celda.val(""); // Vaciar el input de código
 				} else { // Si el código es un número
 					consultarProducto(codigo);
