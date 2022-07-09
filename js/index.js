@@ -248,7 +248,6 @@ function agregarFila(datos) {
 		autocomplete: 'off'
 	}).addClass('form-control');
 	celdaCodigo.append(inputCodigo);
-	celdaCodigo.focus();
 
 	// Añadir celda a la fila
 	fila.append(celdaCodigo);
