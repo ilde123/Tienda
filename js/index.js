@@ -526,17 +526,20 @@ function getProductos(elemento) {
 }
 
 function actualizarTotal() {
-	let unidades = $(`.${CLASE_UNIDADES} input`);
-	let precio = $(`.${CLASE_PRECIO} input`);
+	let inputUnidades = $(`.${CLASE_UNIDADES} input`);
+	let inputPrecios = $(`.${CLASE_PRECIO} input`);
 	let total = 0;
 
-	unidades.each(function (index, unidad) {
-		if (!isNaN(numerosDecimales(precio[index].value)) && !isNaN(unidad.value)) {
-			total += numerosDecimales(precio[index].value) * unidad.value;
+	inputUnidades.each(function (index, inputUnidad) {
+		let precio = inputPrecios[index].value;
+		let unidad = inputUnidad.value;
+
+		if (!isNaN(numerosDecimales(precio)) && !isNaN(unidad)) { // Si el precio y la unidad son números
+			total += numerosDecimales(precio) * unidad; // Sumar al total
 		}
 	});
 
-	TOTAL.val(numerosDecimales(total));
+	TOTAL.val(numerosDecimales(total)); // Actualizar total
 }
 
 function imprimirTicket() {
