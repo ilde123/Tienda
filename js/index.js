@@ -531,12 +531,10 @@ function actualizarTotal() {
 	let total = 0;
 
 	unidades.each(function (index, unidad) {
-		total += numerosDecimales(precio[index].value) * unidad.value;
+		if (!isNaN(numerosDecimales(precio[index].value)) && !isNaN(unidad.value)) {
+			total += numerosDecimales(precio[index].value) * unidad.value;
+		}
 	});
-
-	if (isNaN(numerosDecimales(total))) {
-		total = 0;
-	}
 
 	TOTAL.val(numerosDecimales(total));
 }
