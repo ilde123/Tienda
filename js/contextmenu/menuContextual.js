@@ -119,9 +119,9 @@ $.contextMenu({
 $.contextMenu({
 	// Opciones del menú contextual
 	selector: '.fila-total',
-	build: ($trigger, _e) => {
+	build: (_$trigger, _e) => {
 		return {
-			callback: (key, options, _e) => {
+			callback: (key, _options, _e) => {
 				switch (key) {
 					case 'cancel':
 						BOTON_CANCELAR_PEDIDO.click();
@@ -143,6 +143,62 @@ $.contextMenu({
 				"acept": { name: "Aceptar pedido", icon: "fa-check", accesskey: 'a' },
 				"cancel": { name: "Cancelar pedido", icon: "fa-times", accesskey: 'c' },
 				"print": { name: "Imprimir pedido", icon: "fa-print", accesskey: 'i' }
+			}
+		};
+	}
+});
+
+$.contextMenu({
+	selector: '.pedido',
+	build: ($trigger, _e) => {
+
+		// FILA AFECTADA
+		let fila = $($trigger[0]);
+
+		let iconoVer = 'fa-eye';
+		let textoVer = 'Expander';
+
+		if (fila.hasClass('fila-activa')) {
+			iconoVer = 'fa-eye-slash';
+			textoVer = 'Ocultar';
+		}
+
+		return {
+			callback: (key, _options, _e) => {
+
+
+				switch (key) {
+					case 'expand':
+						fila.click();
+						break;
+
+					case 'delete':
+						fila.find('.btn-danger').click();
+						break;
+
+					case 'ver':
+						fila.find('.btn-success').click();
+						break;
+
+					case 'print':
+						fila.find('.btn-warning').click();
+						break;
+
+					default:
+						break;
+				}
+			},
+			items: {
+				"expand": { name: textoVer, icon: iconoVer, accesskey: 'v' },
+				"ver": { name: "Ver/Modificar", icon: 'fa-cart-arrow-down', accesskey: 'v' },
+				"delete": { name: "Eliminar", icon: "delete", accesskey: 'e' },
+				"print": { name: "Imprimir", icon: "fa-print", accesskey: 'i' },
+				"sep1": "---------",
+				"quit": {
+					name: "Cancelar", icon: () => {
+						return 'context-menu-icon context-menu-icon-quit';
+					}
+				}
 			}
 		};
 	}
