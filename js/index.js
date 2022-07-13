@@ -626,6 +626,22 @@ function numerosDecimalesMostrar(valor) { // Cambia el caracter "." por ","
 	}
 }
 
+function formatoFecha(fecha) { // Formato de fecha: dd/mm/yyyy
+	fecha = fecha.split('/');
+	fecha = fecha.reverse();
+	fecha = fecha.toString();
+	fecha = fecha.replace(/,/g, "-");
+	return fecha; // Formato de fecha: yyyy-mm-dd
+}
+
+function formatoFechaMostrar(fecha) { // Formato de fecha: mm-dd-yyyy
+	fecha = fecha.split('-');
+	fecha = fecha.reverse();
+	fecha = fecha.toString();
+	fecha = fecha.replace(/,/g, "/");
+	return fecha; // Formato de fecha: dd/mm/yyyy
+}
+
 function ocultarAlert() {
 	$('.alert').css('transform', '');
 	$('.alert').fadeOut(200, () => {

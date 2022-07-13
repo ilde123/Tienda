@@ -61,7 +61,6 @@ function insertarPedido() {
 
 		if (codigo != '' && unidades != '' && precio != '' && numerosDecimales(precio) > 0) { // Si no están vacíos y precio es mayor que 0
 			datos += `codigo[]=${codigo}&unidades[]=${unidades}&precio[]=${precio}&`;
-
 		}
 	});
 	// Borrar el último carácter "&"

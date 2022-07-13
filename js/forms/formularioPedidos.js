@@ -152,15 +152,6 @@ function cargarFormularioPedido() {
 		}
 	}
 
-	// Dar formato a fecha
-	function formatoFecha(fecha) {
-		fecha = fecha.split('/');
-		fecha = fecha.reverse();
-		fecha = fecha.toString();
-		fecha = fecha.replace(/,/g, "-");
-		return fecha;
-	}
-
 	function capitalize(palabra) {
 		return palabra[0].toUpperCase() + palabra.slice(1);
 	}
