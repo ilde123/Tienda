@@ -64,20 +64,20 @@ function insertarPedido() {
 
 			// Borrar el último carácter "&"
 			datos = datos.slice(0, -1);
-		
-			$.post("php/insertarPedido.php", datos,
-				(json) => {
-					if (json.resultado == 'ok') {
-						MODAL_CAMBIO.modal('hide');
-						limpiarTabla();
-					} else {
-						msg(json.msg, 'danger');
-					}
-				},
-				"json"
-			);
 		}
 	});
+
+	$.post("php/insertarPedido.php", datos,
+		(json) => {
+			if (json.resultado == 'ok') {
+				MODAL_CAMBIO.modal('hide');
+				limpiarTabla();
+			} else {
+				msg(json.msg, 'danger');
+			}
+		},
+		"json"
+	);
 
 }
 
