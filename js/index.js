@@ -634,7 +634,7 @@ function formatoFecha(fecha) { // Formato de fecha: dd/mm/yyyy
 	return fecha; // Formato de fecha: yyyy-mm-dd
 }
 
-function formatoFechaMostrar(fecha) { // Formato de fecha: mm-dd-yyyy
+function formatoFechaMostrar(fecha) { // Formato de fecha: yyyy-mm-dd
 	fecha = fecha.split('-');
 	fecha = fecha.reverse();
 	fecha = fecha.toString();
