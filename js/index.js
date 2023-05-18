@@ -383,7 +383,7 @@ function eventoCeldas() {
 						let producto = JSON.parse(json.json)[0]; // Obtener primer producto
 
 						if (producto != undefined) { // Si el producto existe
-							fila.find(`.${CLASE_DESCRIPCION}`).text(producto.descripcion); // Mostrar descripción
+							fila.find(`.${CLASE_DESCRIPCION}`).text(producto.descripcion.toUpperCase()); // Mostrar descripción
 
 							let inputUnidades = fila.find(`.${CLASE_UNIDADES} input`); // Obtener input de unidades
 
@@ -551,7 +551,7 @@ function actualizarTotal() {
 		}
 	});
 
-	TOTAL.val(numerosDecimales(total)); // Actualizar total
+	TOTAL.val(`${numerosDecimalesMostrar(total)} €`); // Actualizar total
 }
 
 function imprimirTicket() {
