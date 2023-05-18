@@ -488,7 +488,6 @@ function eventoCeldas(fila) {
 	});
 
 	function actualizarPrecioProducto() {
-	//	let fila = celda.parents('tr');
 		let codigo = fila.find(`.${CLASE_CODIGO} input`).val();
 		let precio = fila.find(`.${CLASE_PRECIO} input`).val();
 		fila.find(`.${CLASE_PRECIO} input`).val(formatNumber(precio)); // Formatear precio
