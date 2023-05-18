@@ -18,6 +18,7 @@ const CLASE_FALTAN = 'col-faltan';
 
 const NOMBRE_CLIENTE_MODAL_CAMBIO = $('#nombreClienteModalCambio');
 const COLLAPSE_NOMBRE_CLIENTE_MODAL_CAMBIO = $('#collapseNombreClienteModalCambio');
+const AGREGAR_FILA_TRAS_CONSULTAR_PRODUCTO = 'agregarFila';
 
 const BOTON_TO_TOP = $('#toTop');
 const BOTON_AGREGAR_FILA = $('#btnAddRow');
@@ -241,6 +242,7 @@ function agregarFila(datos) {
 	// Primera celda
 	let celdaCodigo = $("<th>");
 	celdaCodigo.attr('scope', 'row').addClass(CLASE_CODIGO);
+
 	// Input código
 	let inputCodigo = $('<input>');
 	inputCodigo.attr({
@@ -292,6 +294,8 @@ function agregarFila(datos) {
 	// Eventos celdas
 	eventoCeldas();
 	actualizarContador();
+
+	inputCodigo.focus();
 }
 
 function eliminarFila() {
@@ -384,17 +388,25 @@ function eventoCeldas() {
 							let inputUnidades = fila.find(`.${CLASE_UNIDADES} input`); // Obtener input de unidades
 
 							if (inputUnidades.val() == '') { // Si el input de unidades está vacío
-								inputUnidades.val('1').focus().select(); // Rellenar con 1 y asignar foco
+								inputUnidades.val('1'); // Rellenar con 1 y asignar foco
 							}
 
 							let inputPrecio = fila.find(`.${CLASE_PRECIO} input`); // Obtener input precio
 
-							if (parseInt(codigo) < 5) { // Si el código es menor que 5
+							if (parseInt(codigo) < 6) { // Si el código es menor que 5
 								if (inputPrecio.val() === "") { // Si el input de precio está vacío
 									inputPrecio.val(numerosDecimalesMostrar(0)).focus().select(); // Rellenar con 0 y asignar foco
 								}
 							} else { // Si el código es mayor que 5
 								inputPrecio.val(numerosDecimalesMostrar(producto.precio)); // Rellenar con precio del producto
+
+								let ultimaFila = TBODY.find('tr:last');
+
+								if (getItem(AGREGAR_FILA_TRAS_CONSULTAR_PRODUCTO) == "true" && fila.is(ultimaFila) && !isEmpty(codigo)) {
+									agregarFila();
+								} else if(fila.is(ultimaFila) && !isEmpty(codigo)) {
+									inputUnidades.focus().select();
+								}
 							}
 
 							actualizarTotal(); // Actualizar total
@@ -580,6 +592,34 @@ function imprimirTicket() {
 		$('#modalTelefono').val('');
 		BOTON_ACEPTAR_PEDIDO.click();
 	}
+}
+
+function isEmpty(valor) {
+	if (isNaN(valor)) {
+		if (valor == undefined || valor == null || valor == '') {
+			return true;
+		} else {
+			return false;
+		}
+	} else {
+		if (valor == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
+
+function setItem(id, valor) {
+	localStorage.setItem(id, valor);
+}
+
+function getItem(id) {
+	return localStorage.getItem(id);
+}
+
+function clearItems(id) {
+	localStorage.removeItem(id);
 }
 
 function cursorSpinner(selector) {

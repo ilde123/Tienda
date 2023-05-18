@@ -15,6 +15,9 @@ const JS_PEDIDO = "js/forms/formularioPedidos.js";
 const FORM_EXISTENCIAS = "html/frmExistencias.html";
 const JS_EXISTENCIAS = "js/forms/formularioExistencias.js";
 
+const FORM_CONFIGURACION = "html/frmConfiguracion.html";
+const JS_CONFIGURACION = "js/forms/formularioConfiguracion.js";
+
 CONTENIDO.hide();
 
 // Formulario proveedores
@@ -57,6 +60,14 @@ $('#btnOferta').click((e) => {
 	cargarFormularioOferta();
 });
 
+$('#btnConfiguración').click((e) => { 
+	e.preventDefault();
+
+	cargarFormulario(FORM_CONFIGURACION, cargarFormularioConfiguracion);
+});
+
+$.getScript(JS_CONFIGURACION);
+
 // Formulario Pedidos
 $('#btnPedidos').click((e) => { 
 	e.preventDefault();
@@ -93,12 +104,12 @@ $('#btnQr').click(function (e) {
 // Script calculadora
 $.getScript("js/calculadora/calculadora.js");
 
-function cargarFormularioOferta(opciones) {
+function cargarFormularioOferta() {
 	TABLA.fadeOut(() => {
 		CONTENIDO.load("html/frmOferta.html", null, () => {
 			// MOSTRAR FORMULARIO
 			CONTENIDO.fadeIn();
-			
+
 			btnVolver();
 		});
 	});
