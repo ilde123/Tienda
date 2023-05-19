@@ -351,7 +351,7 @@ function eventoCeldas(fila) {
 
 			// Comprobar si el código ya está en la tabla
 			TBODY.find('tr').each((_index, element) => {
-				if (codigo == $(element).find(`.${CLASE_CODIGO} input`).val() && !fila.is($(element)) && parseInt(codigo) > 5) { // Si el código coincide, no es la misma fila y es mayor que 5
+				if (codigo == $(element).find(`.${CLASE_CODIGO} input`).val() && !fila.is($(element)) && parseInt(codigo) > 4) { // Si el código coincide, no es la misma fila y es mayor que 5
 					celdaUnidades = $(element).find(`.${CLASE_UNIDADES} input`);
 					estaEnTabla = true;
 				}
@@ -393,7 +393,7 @@ function eventoCeldas(fila) {
 
 						let inputPrecio = fila.find(`.${CLASE_PRECIO} input`); // Obtener input precio
 
-						if (parseInt(codigo) < 6) { // Si el código es menor que 5
+						if (parseInt(codigo) < 5) { // Si el código es menor que 5
 							if (inputPrecio.val() === "") { // Si el input de precio está vacío
 								inputPrecio.val(numerosDecimalesMostrar(0)).focus().select(); // Rellenar con 0 y asignar foco
 							}
@@ -409,7 +409,7 @@ function eventoCeldas(fila) {
 							}
 						}
 
-						actualizarTotal(); // Actualizar total
+						
 					} else { // Si el producto no existe
 						vaciarFila(fila); // Limpiar fila
 
@@ -431,9 +431,9 @@ function eventoCeldas(fila) {
 								fila.find(`.${CLASE_CODIGO} input`).focus(); // Asignar foco a código
 							}
 
-							actualizarTotal();
 						});
 					}
+					actualizarTotal(); // Actualizar total
 				} else {
 					msg(json.msg, 'danger');
 				}
