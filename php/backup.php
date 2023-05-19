@@ -2,7 +2,7 @@
 	require 'datosDB.php';
 
 	$sentenciaBackup = "";
-
+	define("RUTA", "../backup/");
 
 	// TABLA FAMILIA
 	$sql = "SELECT familia FROM familia ORDER BY familia;";
@@ -17,10 +17,6 @@
 			$sentenciaBackup .= "ON DUPLICATE KEY UPDATE familia = familia;";
 		}
 	}
-
-//	$sentenciaBackup = substr($sentenciaBackup, 0, -1); // Eleiminar último carácter
-//	$sentenciaBackup .= ";"; // Añadir ; al final
-
 
 	// TABLA LPEDIDO
 	$sql = "SELECT npedido, nlinea, codigo, unidades, precio FROM lpedido";
@@ -92,8 +88,19 @@
 	$sentenciaBackup = substr($sentenciaBackup, 0, -1); // Eleiminar último carácter
 	$sentenciaBackup .= ";"; // Añadir ; al final
 
-
 	echo $sentenciaBackup;
 
+/*	$archivo  = fopen(RUTA."datos.sql", "w");
+
+	if($archivo == false) {
+		echo "Error al crear el archivo";
+	} else {
+
+		fwrite($archivo, $sentenciaBackup);
+	}
+
+
+	fclose($archivo);   // Cerrar el archivo
+*/
 	$conexion->close();
 ?>
