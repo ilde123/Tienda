@@ -18,6 +18,9 @@ const JS_EXISTENCIAS = "js/forms/formularioExistencias.js";
 const FORM_CONFIGURACION = "html/frmConfiguracion.html";
 const JS_CONFIGURACION = "js/forms/formularioConfiguracion.js";
 
+const FORM_COPIA_SEGURIDAD = "html/frmCopiaSeguridad.html";
+const JS_COPIA_SEGURIDAD = "js/forms/formularioCopiaSeguridad.js";
+
 CONTENIDO.hide();
 
 // Formulario proveedores
@@ -67,6 +70,14 @@ $('#btnConfiguración').click((e) => {
 });
 
 $.getScript(JS_CONFIGURACION);
+
+$('#btnCopiaSeguridad').click((e) => { 
+	e.preventDefault();
+
+	cargarFormulario(FORM_COPIA_SEGURIDAD, cargarFormularioCopiaSeguridad);
+});
+
+$.getScript(JS_COPIA_SEGURIDAD);
 
 // Formulario Pedidos
 $('#btnPedidos').click((e) => { 
