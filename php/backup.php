@@ -1,6 +1,7 @@
 <?php
 	require 'datosDB.php';
 
+	echo '--'.date('j/n/Y')."\r\n";
 	$sentenciaBackup = "DELETE FROM familia;\r\nDELETE FROM lpedido;\r\nDELETE FROM pedido;\r\nDELETE FROM producto;\r\nDELETE FROM proveedor;\r\n";
 
 	define("RUTA", "../backup/");
