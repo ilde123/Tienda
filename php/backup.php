@@ -1,7 +1,8 @@
 <?php
 	require 'datosDB.php';
 
-	$sentenciaBackup = "";
+	$sentenciaBackup = "DELETE FROM familia;\r\nDELETE FROM lpedido;\r\nDELETE FROM pedido;\r\nDELETE FROM producto;\r\nDELETE FROM proveedor;\r\n";
+
 	define("RUTA", "../backup/");
 
 	// TABLA FAMILIA
@@ -10,12 +11,15 @@
 	$n_filas = $resultado->num_rows;
 
 	if ($n_filas > 0) {		
-		
+		$sentenciaBackup .= "INSERT INTO familia(familia) VALUES \r\n";
+
 		while ($fila = $resultado->fetch_assoc()) {
-			$sentenciaBackup .= "INSERT INTO familia(familia) VALUES ";
-			$sentenciaBackup .= "('".$fila['familia']."') ";
-			$sentenciaBackup .= "ON DUPLICATE KEY UPDATE familia = familia;";
+			$sentenciaBackup .= '("'.$fila['familia'].'")'.",\r\n";
+//			$sentenciaBackup .= "ON DUPLICATE KEY UPDATE familia = familia;";
 		}
+
+		$sentenciaBackup = substr($sentenciaBackup, 0, -3); // Eleiminar últimos caracteres
+		$sentenciaBackup .= ";\r\n"; // Añadir ; al final
 	}
 
 	// TABLA LPEDIDO
@@ -24,12 +28,15 @@
 	$n_filas = $resultado->num_rows;
 
 	if ($n_filas > 0) {		
+		$sentenciaBackup .= "INSERT INTO lpedido (npedido, nlinea, codigo, unidades, precio) VALUES \r\n";
 		
 		while ($fila = $resultado->fetch_assoc()) {
-			$sentenciaBackup .= "INSERT INTO lpedido (npedido, nlinea, codigo, unidades, precio) VALUES ";
-			$sentenciaBackup .= "(".$fila['npedido'].", ".$fila['nlinea'].", '".$fila['codigo']."', ".$fila['unidades'].", ".$fila['precio'].") ";
-			$sentenciaBackup .= "ON DUPLICATE KEY UPDATE npedido = npedido, nlinea = nlinea, codigo = codigo, unidades = unidades, precio = precio;";
+			$sentenciaBackup .= "(".$fila['npedido'].", ".$fila['nlinea'].", '".$fila['codigo']."', ".$fila['unidades'].", ".$fila['precio']."),\r\n";
+//			$sentenciaBackup .= "ON DUPLICATE KEY UPDATE npedido = npedido, nlinea = nlinea, codigo = codigo, unidades = unidades, precio = precio;";
 		}
+		
+		$sentenciaBackup = substr($sentenciaBackup, 0, -3); // Eleiminar último carácter
+		$sentenciaBackup .= ";\r\n"; // Añadir ; al final
 	}
 
 	// TABLA PEDIDO
@@ -37,10 +44,10 @@
 	$resultado = $conexion->query($sql);
 	$n_filas = $resultado->num_rows;
 
-	if ($n_filas > 0) {		
+	if ($n_filas > 0) {
+		$sentenciaBackup .= "INSERT INTO pedido(npedido, fecha, nombre_cliente) VALUES \r\n";
 		
 		while ($fila = $resultado->fetch_assoc()) {
-			$sentenciaBackup .= "INSERT INTO pedido(npedido, fecha, nombre_cliente) VALUES ";
 			$nombreCliente = "";
 
 			if (is_null($fila['nombre_cliente'])) {
@@ -49,9 +56,12 @@
 				$nombreCliente = "'".$fila['nombre_cliente']."'";
 			}
 
-			$sentenciaBackup .= "(".$fila['npedido'].", '".$fila['fecha']."', ".$nombreCliente.") ";
-			$sentenciaBackup .= "ON DUPLICATE KEY UPDATE npedido = npedido, fecha = fecha, nombre_cliente = nombre_cliente;";
+			$sentenciaBackup .= "(".$fila['npedido'].", '".$fila['fecha']."', ".$nombreCliente."),\r\n";
+//			$sentenciaBackup .= "ON DUPLICATE KEY UPDATE npedido = npedido, fecha = fecha, nombre_cliente = nombre_cliente;";
 		}
+		
+		$sentenciaBackup = substr($sentenciaBackup, 0, -3); // Eleiminar último carácter
+		$sentenciaBackup .= ";\r\n"; // Añadir ; al final
 	}
 
 	// TABLA PRODUCTO
@@ -60,16 +70,16 @@
 	$n_filas = $resultado->num_rows;
 
 	if ($n_filas > 0) {		
+		$sentenciaBackup .= "INSERT INTO producto(codigo, descripcion, precio, iva, stock, stock_minimo, familia, proveedor) VALUES \r\n";
 		
 		while ($fila = $resultado->fetch_assoc()) {
-			$sentenciaBackup .= "INSERT INTO producto(codigo, descripcion, precio, iva, stock, stock_minimo, familia, proveedor) VALUES ";
-			$sentenciaBackup .= "('".$fila['codigo']."', '".$fila['descripcion']."', ".$fila['precio'].", ".$fila['iva'].", ".$fila['stock'].", ".$fila['stock_minimo'].", '".$fila['familia']."', '".$fila['proveedor']."') ";
-			$sentenciaBackup .= "ON DUPLICATE KEY UPDATE codigo = codigo, descripcion = descripcion, precio = precio, iva = iva, stock = stock, stock_minimo = stock_minimo, familia = familia, proveedor = proveedor;";
+			$sentenciaBackup .= '("'.$fila['codigo'].'", "'.$fila['descripcion'].'", '.$fila['precio'].", ".$fila['iva'].", ".$fila['stock'].", ".$fila['stock_minimo'].', "'.$fila['familia'].'", "'.$fila['proveedor'].'")'.",\r\n";
+//			$sentenciaBackup .= "ON DUPLICATE KEY UPDATE codigo = codigo, descripcion = descripcion, precio = precio, iva = iva, stock = stock, stock_minimo = stock_minimo, familia = familia, proveedor = proveedor;";
 		}
+		
+		$sentenciaBackup = substr($sentenciaBackup, 0, -3); // Eleiminar último carácter
+		$sentenciaBackup .= ";\r\n"; // Añadir ; al final
 	}
-
-	$sentenciaBackup = substr($sentenciaBackup, 0, -1); // Eleiminar último carácter
-	$sentenciaBackup .= ";"; // Añadir ; al final
 
 	// TABLA PROVEEDOR
 	$sql = "SELECT descripcion, direccion, telefono FROM proveedor;";
@@ -77,16 +87,16 @@
 	$n_filas = $resultado->num_rows;
 
 	if ($n_filas > 0) {		
+		$sentenciaBackup .= "INSERT INTO proveedor(descripcion, direccion, telefono) VALUES \r\n";
 		
 		while ($fila = $resultado->fetch_assoc()) {
-			$sentenciaBackup .= "INSERT INTO proveedor(descripcion, direccion, telefono) VALUES ";
-			$sentenciaBackup .= "('".$fila['descripcion']."', '".$fila['direccion']."', ".$fila['telefono'].") ";
-			$sentenciaBackup .= "ON DUPLICATE KEY UPDATE descripcion = descripcion, direccion = direccion, telefono = telefono;";
+			$sentenciaBackup .= '("'.$fila['descripcion'].'", "'.$fila['direccion'].'", '.$fila['telefono']."),\r\n";
+//			$sentenciaBackup .= "ON DUPLICATE KEY UPDATE descripcion = descripcion, direccion = direccion, telefono = telefono;";
 		}
+		
+		$sentenciaBackup = substr($sentenciaBackup, 0, -3); // Eleiminar último carácter
+		$sentenciaBackup .= ";\r\n"; // Añadir ; al final
 	}
-
-	$sentenciaBackup = substr($sentenciaBackup, 0, -1); // Eleiminar último carácter
-	$sentenciaBackup .= ";"; // Añadir ; al final
 
 	echo $sentenciaBackup;
 
