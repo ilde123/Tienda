@@ -36,7 +36,7 @@ CREATE TABLE `familia` (
 -- Volcado de datos para la tabla `familia`
 --
 
-INSERT INTO `familia` (`familia`) VALUES
+INSERT IGNORE INTO `familia` (`familia`) VALUES
 ('Alimentación'),
 ('Bebidas'),
 ('Droguería'),
@@ -62,7 +62,7 @@ CREATE TABLE `lpedido` (
 -- Volcado de datos para la tabla `lpedido`
 --
 
-INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
+INSERT IGNORE INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
 (3, 4, '5360', 1, 0.00),
 (4, 5, '27600675', 2, 0.00),
 (5, 6, '5360', 1, 0.00),
@@ -1837,7 +1837,7 @@ INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALU
 (433, 1775, '8410100000169', 1, 2.10),
 (434, 1776, '1', 1, 2.26),
 (434, 1777, '3', 1, 1.10);
-INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
+INSERT IGNORE INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
 (435, 1778, '8410121060333', 1, 3.95),
 (435, 1779, '8420947001892', 1, 1.00),
 (435, 1780, '8411585465030', 1, 0.90),
@@ -3514,7 +3514,7 @@ INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALU
 (834, 3451, '1', 1, 2.10),
 (834, 3452, '3', 1, 1.65),
 (834, 3453, '8420947603027', 1, 1.35);
-INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
+INSERT IGNORE INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
 (834, 3454, '8410218174974', 1, 0.65),
 (834, 3455, '8420947600019', 1, 0.75),
 (834, 3456, '3', 1, 2.00),
@@ -5111,7 +5111,7 @@ INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALU
 (1245, 5047, '8420947600545', 1, 1.65),
 (1245, 5048, '8420947603041', 1, 1.50),
 (1245, 5049, '8411069010015', 1, 1.25);
-INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
+INSERT IGNORE INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
 (1245, 5050, '8429536010031', 1, 4.30),
 (1245, 5051, '8421352002023', 1, 0.75),
 (1245, 5052, '8410069016867', 1, 0.60),
@@ -6656,7 +6656,7 @@ INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALU
 (1665, 6591, '3', 1, 4.30),
 (1665, 6592, '5', 1, 0.05),
 (1666, 6593, '1', 1, 0.90);
-INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
+INSERT IGNORE INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
 (1666, 6594, '8410320127936', 1, 1.00),
 (1666, 6595, '8411700026139', 2, 0.90),
 (1666, 6596, '1', 1, 0.81),
@@ -8275,7 +8275,7 @@ INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALU
 (2123, 8209, '3', 1, 0.75),
 (2123, 8210, '3', 1, 2.60),
 (2123, 8211, '3', 1, 0.80);
-INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
+INSERT IGNORE INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
 (2123, 8212, '5', 1, 0.05),
 (2124, 8213, '8420947601214', 1, 0.85),
 (2125, 8214, '8001090229083', 1, 1.99),
@@ -9908,7 +9908,7 @@ INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALU
 (2635, 9841, '3', 1, 0.65),
 (2635, 9842, '5', 1, 0.10),
 (2636, 9843, '8420947600255', 1, 0.80);
-INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
+INSERT IGNORE INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
 (2637, 9844, '4084500289772', 1, 2.95),
 (2637, 9845, '8411897114398', 1, 0.99),
 (2637, 9846, '8004260427951', 1, 2.25),
@@ -11460,7 +11460,7 @@ INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALU
 (3083, 11392, '8410728180120', 1, 0.65),
 (3083, 11393, '8437002460013', 1, 0.35),
 (3084, 11394, '8719200039353', 1, 1.75);
-INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
+INSERT IGNORE INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
 (3085, 11395, '8436001860282', 2, 3.10),
 (3086, 11396, '3', 1, 2.32),
 (3086, 11397, '3', 1, 1.85),
@@ -12896,7 +12896,7 @@ INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALU
 (3528, 12827, '8420947600637', 1, 2.85),
 (3528, 12828, '8437009311110', 1, 2.20),
 (3528, 12829, '8411069010084', 1, 2.95);
-INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
+INSERT IGNORE INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
 (3528, 12830, '8411090310139', 12, 0.50),
 (3529, 12831, '3', 1, 1.00),
 (3529, 12832, '8411582230464', 1, 2.15),
@@ -14337,7 +14337,7 @@ INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALU
 (3985, 14267, '5', 1, 0.10),
 (3985, 14268, '3', 1, 9.95),
 (3985, 14269, '3', 1, 4.45);
-INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
+INSERT IGNORE INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
 (3986, 14270, '8480012007242', 1, 0.60),
 (3987, 14271, '3', 1, 11.34),
 (3987, 14272, '3', 1, 2.65),
@@ -15783,7 +15783,7 @@ INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALU
 (4352, 15712, '8402034201934', 1, 2.00),
 (4352, 15713, '3', 1, 1.00),
 (4352, 15714, '3', 1, 2.53);
-INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
+INSERT IGNORE INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
 (4352, 15715, '5', 1, 0.10),
 (4353, 15716, '8429536010031', 1, 4.70),
 (4354, 15717, '3', 1, 6.70),
@@ -17231,7 +17231,7 @@ INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALU
 (4744, 17159, '8436000470666', 1, 0.70),
 (4744, 17160, '8436000470659', 1, 0.70),
 (4744, 17161, '8437001960019', 1, 2.20);
-INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
+INSERT IGNORE INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
 (4745, 17162, '1', 1, 0.67),
 (4745, 17163, '1', 1, 0.58),
 (4745, 17164, '1', 1, 0.76),
@@ -18674,7 +18674,7 @@ INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALU
 (5102, 18605, '3', 1, 1.50),
 (5102, 18606, '5', 1, 0.10),
 (5103, 18607, '1', 1, 1.90);
-INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
+INSERT IGNORE INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
 (5103, 18608, '1', 1, 0.95),
 (5103, 18609, '1', 1, 0.58),
 (5103, 18610, '8410069018731', 1, 1.40),
@@ -20180,7 +20180,7 @@ INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALU
 (5438, 20110, '3', 1, 1.15),
 (5438, 20111, '2', 1, 2.90),
 (5438, 20112, '3', 1, 3.20);
-INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
+INSERT IGNORE INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
 (5438, 20113, '5', 1, 0.10),
 (5439, 20114, '3', 1, 3.95),
 (5439, 20115, '3', 1, 1.15),
@@ -21649,7 +21649,7 @@ INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALU
 (5811, 21578, '1', 1, 2.35),
 (5811, 21579, '8420947600378', 1, 1.00),
 (5812, 21580, '8410320127936', 2, 1.00);
-INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
+INSERT IGNORE INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
 (5812, 21581, '8410843035558', 1, 2.00),
 (5813, 21582, '8411700004359', 2, 0.90),
 (5813, 21583, '8420947601443', 1, 0.50),
@@ -23157,7 +23157,7 @@ INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALU
 (6161, 23085, '5449000004840', 1, 1.35),
 (6161, 23086, '8436025815060', 1, 2.40),
 (6161, 23087, '5', 1, 0.10);
-INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
+INSERT IGNORE INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
 (6162, 23088, '3', 1, 1.80),
 (6162, 23089, '8436007400901', 1, 1.00),
 (6163, 23090, '3', 1, 6.11),
@@ -24676,7 +24676,7 @@ INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALU
 (6528, 24603, '5', 1, 0.10),
 (6529, 24604, '5449000033819', 2, 0.80),
 (6529, 24605, '3', 1, 1.50);
-INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
+INSERT IGNORE INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
 (6529, 24606, '3', 1, 1.00),
 (6529, 24607, '8420947002516', 1, 3.30),
 (6529, 24608, '8411090406252', 1, 2.80),
@@ -26218,7 +26218,7 @@ INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALU
 (6873, 26144, '8410813218554', 1, 1.10),
 (6873, 26145, '8411090010107', 1, 1.55),
 (6873, 26146, '5', 1, 0.10);
-INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
+INSERT IGNORE INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
 (6874, 26147, '8420947604475', 1, 1.60),
 (6875, 26148, '3', 1, 0.60),
 (6875, 26149, '3', 6, 0.75),
@@ -27729,7 +27729,7 @@ INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALU
 (7251, 27671, '2', 1, 4.15),
 (7251, 27672, '8436047522458', 2, 5.99),
 (7251, 27673, '3', 4, 1.45);
-INSERT INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
+INSERT IGNORE INTO `lpedido` (`npedido`, `nlinea`, `codigo`, `unidades`, `precio`) VALUES
 (7251, 27674, '8410043011529', 1, 1.25),
 (7251, 27675, '8434165468849', 1, 2.40),
 (7251, 27676, '5', 1, 0.10),
@@ -28462,7 +28462,7 @@ CREATE TABLE `pedido` (
 -- Volcado de datos para la tabla `pedido`
 --
 
-INSERT INTO `pedido` (`npedido`, `fecha`, `nombre_cliente`) VALUES
+INSERT IGNORE INTO `pedido` (`npedido`, `fecha`, `nombre_cliente`) VALUES
 (3, '2020-09-21 17:41:52', NULL),
 (4, '2020-09-21 21:26:28', NULL),
 (5, '2020-09-21 22:43:36', NULL),
@@ -29921,7 +29921,7 @@ INSERT INTO `pedido` (`npedido`, `fecha`, `nombre_cliente`) VALUES
 (1458, '2008-01-06 22:15:02', NULL),
 (1459, '2008-01-06 22:17:03', NULL),
 (1460, '2008-01-06 22:19:40', NULL);
-INSERT INTO `pedido` (`npedido`, `fecha`, `nombre_cliente`) VALUES
+INSERT IGNORE INTO `pedido` (`npedido`, `fecha`, `nombre_cliente`) VALUES
 (1461, '2008-01-06 22:31:02', NULL),
 (1462, '2008-01-06 22:35:34', NULL),
 (1463, '2008-01-06 22:39:00', NULL),
@@ -31348,7 +31348,7 @@ INSERT INTO `pedido` (`npedido`, `fecha`, `nombre_cliente`) VALUES
 (2884, '2021-07-09 13:15:29', NULL),
 (2885, '2021-07-09 13:40:41', NULL),
 (2886, '2021-07-09 14:18:52', NULL);
-INSERT INTO `pedido` (`npedido`, `fecha`, `nombre_cliente`) VALUES
+INSERT IGNORE INTO `pedido` (`npedido`, `fecha`, `nombre_cliente`) VALUES
 (2887, '2021-07-09 19:24:38', NULL),
 (2888, '2021-07-09 19:42:31', NULL),
 (2889, '2021-07-09 19:49:30', NULL),
@@ -32775,7 +32775,7 @@ INSERT INTO `pedido` (`npedido`, `fecha`, `nombre_cliente`) VALUES
 (4310, '2021-09-23 12:08:09', NULL),
 (4311, '2021-09-23 12:12:52', NULL),
 (4312, '2021-09-23 12:13:34', NULL);
-INSERT INTO `pedido` (`npedido`, `fecha`, `nombre_cliente`) VALUES
+INSERT IGNORE INTO `pedido` (`npedido`, `fecha`, `nombre_cliente`) VALUES
 (4313, '2021-09-23 12:22:19', NULL),
 (4314, '2021-09-23 12:43:26', NULL),
 (4315, '2021-09-23 12:45:28', NULL),
@@ -34202,7 +34202,7 @@ INSERT INTO `pedido` (`npedido`, `fecha`, `nombre_cliente`) VALUES
 (5736, '2021-12-04 10:53:21', NULL),
 (5737, '2021-12-04 10:54:21', NULL),
 (5738, '2021-12-04 10:55:16', NULL);
-INSERT INTO `pedido` (`npedido`, `fecha`, `nombre_cliente`) VALUES
+INSERT IGNORE INTO `pedido` (`npedido`, `fecha`, `nombre_cliente`) VALUES
 (5739, '2021-12-04 10:58:32', NULL),
 (5740, '2021-12-04 11:00:03', NULL),
 (5741, '2021-12-04 11:05:18', NULL),
@@ -35629,7 +35629,7 @@ INSERT INTO `pedido` (`npedido`, `fecha`, `nombre_cliente`) VALUES
 (7162, '2022-04-15 13:29:44', NULL),
 (7163, '2022-04-16 11:35:46', NULL),
 (7164, '2022-04-18 13:49:59', NULL);
-INSERT INTO `pedido` (`npedido`, `fecha`, `nombre_cliente`) VALUES
+INSERT IGNORE INTO `pedido` (`npedido`, `fecha`, `nombre_cliente`) VALUES
 (7165, '2022-04-18 18:30:26', NULL),
 (7166, '2022-04-18 18:42:27', NULL),
 (7167, '2022-04-18 19:07:57', NULL),
@@ -35909,7 +35909,7 @@ CREATE TABLE `producto` (
 -- Volcado de datos para la tabla `producto`
 --
 
-INSERT INTO `producto` (`codigo`, `descripcion`, `precio`, `iva`, `stock`, `stock_minimo`, `familia`, `proveedor`) VALUES
+INSERT IGNORE INTO `producto` (`codigo`, `descripcion`, `precio`, `iva`, `stock`, `stock_minimo`, `familia`, `proveedor`) VALUES
 ('01084104363744392001', 'WIPP ESPRESS 40 LAVADOS', 9.99, 21, -1, 0, 'Droguería', 'Ayala'),
 ('01900000000240093102000130370110212639', 'JAMONCITO BANDEJA', 3.85, 10, -1, 0, 'Alimentación', 'Ayala'),
 ('03478410809133458', 'TAQUITO SURIMI', 1.45, 0, 0, 0, 'Alimentación', 'Ayala'),
@@ -36535,7 +36535,7 @@ INSERT INTO `producto` (`codigo`, `descripcion`, `precio`, `iva`, `stock`, `stoc
 ('8410090839312', 'ENSALADA MEDITERRANEA CALVO 150G', 1.15, 10, -5, 0, 'Alimentación', 'Ayala'),
 ('8410090839411', 'ENSALADA RUSA CALVO 150G', 1.15, 10, -8, 0, 'Alimentación', 'Ayala'),
 ('8410090839619', 'ENSALADA MARINERA CON MEJILLONES', 1.15, 0, -1, 0, 'Alimentación', 'Ayala');
-INSERT INTO `producto` (`codigo`, `descripcion`, `precio`, `iva`, `stock`, `stock_minimo`, `familia`, `proveedor`) VALUES
+INSERT IGNORE INTO `producto` (`codigo`, `descripcion`, `precio`, `iva`, `stock`, `stock_minimo`, `familia`, `proveedor`) VALUES
 ('8410090999276', 'ATÚN CLARO CALVO 6 LATAS', 3.50, 10, -9, 0, 'Alimentación', 'Ayala'),
 ('8410090999290', 'ATUN CALVO ACEITE GIRASOL 4 LATAS', 2.00, 10, -24, 0, 'Alimentación', 'Ayala'),
 ('8410091061323', 'HORNIMANS COLA DE CABALLO', 1.90, 21, -1, 0, 'Droguería', 'Ayala'),
@@ -37147,7 +37147,7 @@ INSERT INTO `producto` (`codigo`, `descripcion`, `precio`, `iva`, `stock`, `stoc
 ('8411125000004', 'ZZ POLVO 50G', 0.90, 21, -1, 0, 'Droguería', 'Ayala'),
 ('8411125000103', 'ZZ POLVO 250G', 2.25, 21, -1, 0, 'Droguería', 'Ayala'),
 ('8411125081249', 'ZZ PAFF AZUL 750ML', 2.99, 21, -1, 0, 'Droguería', 'Ayala');
-INSERT INTO `producto` (`codigo`, `descripcion`, `precio`, `iva`, `stock`, `stock_minimo`, `familia`, `proveedor`) VALUES
+INSERT IGNORE INTO `producto` (`codigo`, `descripcion`, `precio`, `iva`, `stock`, `stock_minimo`, `familia`, `proveedor`) VALUES
 ('8411126014253', 'GEL NATURAL HONEY NUTRITIVO', 2.15, 21, 0, 0, 'Droguería', 'Ayala'),
 ('8411126020612', 'ELIXIR DE JUVENTUD NATURAL HONEY', 3.30, 21, -1, 0, 'Droguería', 'Ayala'),
 ('8411126021190', 'CREMA PIERNAS CANSADAS NATURAL HONEY', 3.30, 21, 0, 0, 'Droguería', 'Ayala'),
@@ -37752,7 +37752,7 @@ INSERT INTO `producto` (`codigo`, `descripcion`, `precio`, `iva`, `stock`, `stoc
 ('8420947600378', 'COMPRESA AYALA SUPER', 1.00, 21, -10, 0, 'Alimentación', 'Ayala'),
 ('8420947600392', 'PROTEDESLIP AYALA', 1.10, 21, -12, 0, 'Droguería', 'Ayala'),
 ('8420947600415', 'COMPRESA AYALA', 1.00, 21, -5, 0, 'Droguería', 'Ayala');
-INSERT INTO `producto` (`codigo`, `descripcion`, `precio`, `iva`, `stock`, `stock_minimo`, `familia`, `proveedor`) VALUES
+INSERT IGNORE INTO `producto` (`codigo`, `descripcion`, `precio`, `iva`, `stock`, `stock_minimo`, `familia`, `proveedor`) VALUES
 ('8420947600422', 'PAÑALES AYALA TALLA 3', 8.75, 21, 0, 0, 'Droguería', 'Ayala'),
 ('8420947600439', 'PAÑALES AYALA TALLA 4', 9.20, 21, -7, 0, 'Droguería', 'Ayala'),
 ('8420947600446', 'PAÑALES AYALA TALLA 5', 8.75, 21, -4, 0, 'Droguería', 'Ayala'),
@@ -38361,7 +38361,7 @@ INSERT INTO `producto` (`codigo`, `descripcion`, `precio`, `iva`, `stock`, `stoc
 ('8436020254499', 'PAPEL REGALO', 0.75, 0, 0, 0, 'Alimentación', 'Ayala'),
 ('8436020257407', 'PAPEL DE REGALO', 0.80, 21, -1, 0, 'Droguería', 'Ayala'),
 ('8436021257543', 'PIZZA DE JAMÓN LA MIA CASA', 2.40, 10, -2, 0, 'Alimentación', 'Ayala');
-INSERT INTO `producto` (`codigo`, `descripcion`, `precio`, `iva`, `stock`, `stock_minimo`, `familia`, `proveedor`) VALUES
+INSERT IGNORE INTO `producto` (`codigo`, `descripcion`, `precio`, `iva`, `stock`, `stock_minimo`, `familia`, `proveedor`) VALUES
 ('8436021257581', 'PIZZA MARGARITA', 2.40, 0, 0, 0, 'Alimentación', 'Ayala'),
 ('8436021259530', 'MINI PIZZAS SUSPICOLINOS', 3.20, 10, -9, 0, 'Alimentación', 'Ayala'),
 ('8436025120522', 'ACEITUNAS PARTIDAS ABUELA 550 G', 2.70, 10, -9, 0, 'Alimentación', 'Ayala'),
@@ -38667,7 +38667,7 @@ CREATE TABLE `proveedor` (
 -- Volcado de datos para la tabla `proveedor`
 --
 
-INSERT INTO `proveedor` (`descripcion`, `direccion`, `telefono`) VALUES
+INSERT IGNORE INTO `proveedor` (`descripcion`, `direccion`, `telefono`) VALUES
 ('Ayala', 'Utrera', 666666666),
 ('Logista', '', 0);
 
