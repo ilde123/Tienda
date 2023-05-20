@@ -1,29 +1,44 @@
 function cargarFormularioCopiaSeguridad() {
-	$('#btnCrearCopiaSeguridad').click(function (e) { 
+	let formFile = $('#formFile');
+
+	$('#btnCrearCopiaSeguridad').click(() => { 
 		msg('Archivo descargado', 'primary');
 	});
 
-	$('#btnEliminarArchivoRestaurarCopiaSeguridad').click(function (e) { 
+	$('#btnEliminarArchivoRestaurarCopiaSeguridad').click((e) => { 
 		e.preventDefault();
 
-		$('#formFile').val('');
+		limpiarFormFile();
 		msg('Archivo deseleccionado', 'info');
 	});
 
-	$('#btnRestaurarCopiaSeguridad').click(function (e) { 
+	$('#btnRestaurarCopiaSeguridad').click((e) => { 
 		e.preventDefault();
 
-		if ($('#formFile').val() == "") {
+		if (formFile.val() == "") {
 			msg('No ha seleccionado ningún archivo', 'danger');
 		} else {
+/*
+			let file = formFile[0].files[0];
+			let fileReader = new FileReader();
+
+			fileReader.readAsText(file); 
+			fileReader.onload = function() {
+        		consola(fileReader.result);
+			};
+*/
 			msgConfirm('Restaurar copia de seguridad', '¿Está seguro de que desea restaurar la copia de seguridad?', (respuesta) => {
 				if (respuesta) {
-					
+
+					limpiarFormFile();
 				} else {
-					
+
 				}
-	
 			});
 		}
 	});
+
+	function limpiarFormFile() {
+		formFile.val('');
+	}
 }
