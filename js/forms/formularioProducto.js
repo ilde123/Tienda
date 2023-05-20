@@ -44,37 +44,14 @@ function cargarFormularioProducto(opciones) {
 		$('#fileImgProducto').click();
 	});
 
-	$('#fileImgProducto').change((e) => { 
-		e.preventDefault();
-
-		let formData = new FormData(document.getElementById("formModalProducto"));
-
-		$.ajax({
-			url: "php/setImgagenProducto.php",
-			type: "post",
-			dataType: "html",
-			data: formData,
-			fileName: "file",
-			cache: false,
-			contentType: false,
-	 		processData: false
-		}).done((url) => {
-			if (url == 0) {
-				msg('Fallo al guardar imagen', 'danger');
-			} else if (url == 1) {
-				msg('El fichero seleccionado no es una imagen', 'danger');
-			} else {
-				$('#imgProducto').attr('src', url);
-			}
-		});
-	});
-
 	modalProducto(); // Funcionalidad modal producto
 
 	function modalProducto() {
+		let fila;
+
 		$('#modalProducto').on('show.bs.modal', (event) => {
 			let button = $(event.relatedTarget); // Botón que activó el modal
-			let fila = button.parents('tr'); // Fila que contiene el botón
+			fila = button.parents('tr'); // Fila que contiene el botón
 			let json = fila.data('producto'); // Datos del producto
 
 			let modal = $(event.target); // Modal
@@ -114,6 +91,39 @@ function cargarFormularioProducto(opciones) {
 		$('#modalProducto').on('hide.bs.modal', () => {
 			limpiarFormularioProducto('ModalProducto'); // Limpiar formulario modal producto
 			TBODY.find('th input').change(); // Actualizar filas
+		});
+
+		$('#fileImgProducto').change((e) => {
+			e.preventDefault();
+	
+			msgConfirm('Cambiar imagen producto', 'Va a cambiar la imagen del producto ¿Desea continuar?', (respuesta) => {
+				if (respuesta) {
+					let formData = new FormData(document.getElementById("formModalProducto"));
+		
+					$.ajax({
+						url: "php/setImgagenProducto.php",
+						type: "post",
+						dataType: "html",
+						data: formData,
+						fileName: "file",
+						cache: false,
+						contentType: false,
+						processData: false
+					}).done((url) => {
+						if (url == 0) {
+							msg('Fallo al guardar imagen', 'danger');
+						} else if (url == 1) {
+							msg('El fichero seleccionado no es una imagen', 'danger');
+						} else {
+							$('#imgProducto').attr('src', url);
+							msg('Imagen guardada con éxito', 'primary');
+							fila.data('producto').url_imagen = url;
+						}
+					});
+				} else {
+					
+				}
+			});
 		});
 
 		function destruirNumberSpinnerModal() {

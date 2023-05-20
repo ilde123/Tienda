@@ -8,10 +8,11 @@
 		
 		if (move_uploaded_file($_FILES["img"]["tmp_name"], $ruta_relativa.date('U').$nombre_fichero)) {
 			$ruta_fichero_final = $ruta_absoluta.date('U').$nombre_fichero;
+			$codigo = $_POST['codigo'];
 
-			if ($stmt = $conexion->prepare("UPDATE producto SET url_imagen = ?;")) {
+			if ($stmt = $conexion->prepare("UPDATE producto SET url_imagen = ? WHERE codigo = ?;")) {
 
-				$stmt->bind_param('s', $ruta_fichero_final);
+				$stmt->bind_param('ss', $ruta_fichero_final, $codigo);
 
 				// ejecuta sentencias prepradas
 				$stmt->execute();
