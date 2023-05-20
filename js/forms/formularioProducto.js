@@ -38,6 +38,37 @@ function cargarFormularioProducto(opciones) {
 		consultarProductoFormulario();
 	});
 
+	$('#imgProducto').click((e) => { 
+		e.preventDefault();
+
+		$('#fileImgProducto').click();
+	});
+
+	$('#fileImgProducto').change((e) => { 
+		e.preventDefault();
+
+		let formData = new FormData(document.getElementById("formModalProducto"));
+
+		$.ajax({
+			url: "php/setImgagenProducto.php",
+			type: "post",
+			dataType: "html",
+			data: formData,
+			fileName: "file",
+			cache: false,
+			contentType: false,
+	 		processData: false
+		}).done((url) => {
+			if (url == 0) {
+				msg('Fallo al guardar imagen', 'danger');
+			} else if (url == 1) {
+				msg('El fichero seleccionado no es una imagen', 'danger');
+			} else {
+				$('#imgProducto').attr('src', url);
+			}
+		});
+	});
+
 	modalProducto(); // Funcionalidad modal producto
 
 	function modalProducto() {
@@ -117,6 +148,9 @@ function cargarFormularioProducto(opciones) {
 			formModalProducto.stockMinModalProducto.value = json.stock_minimo;
 			formModalProducto.familiaModalProducto.value = json.familia;
 			formModalProducto.proveedorModalProducto.value = json.proveedor;
+			if (json.url_imagen != "") {
+				formModalProducto.imgProducto.src = json.url_imagen;
+			}
 		}
 	}
 
@@ -179,7 +213,7 @@ function cargarFormularioProducto(opciones) {
 
 	function actualizarAutocomplete() {
 		TBODY.find(`th.${CLASE_CODIGO} input`).each((_index, elemento) => {
-			getProductos(elemento)
+			getProductos(elemento);
 		});
 	}
 
