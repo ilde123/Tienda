@@ -11,11 +11,19 @@
 		// ejecuta sentencias prepradas
 		$stmt->execute();
 
-		// cierra sentencia y conexión
-		$stmt->close();
+		if ($stmt = $conexion->prepare("INSERT INTO historial_producto(codigo, precio) VALUES (?, ?)")) {
 
-		$resultado = "ok";
-		$msg = "Precio actualizado.";
+			$stmt->bind_param('sd', $codigo, $precio);
+	
+			// ejecuta sentencias prepradas
+			$stmt->execute();
+	
+			// cierra sentencia y conexión
+			$stmt->close();
+	
+			$resultado = "ok";
+			$msg = "Precio actualizado.";
+		}
 	}
 	else {
 		$resultado = "fallo";

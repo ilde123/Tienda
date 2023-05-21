@@ -8,14 +8,6 @@
 		$descripcion = trim($_POST['descripcion']);
 	}
 
-/*	$familia = trim($_POST['familia']);
-	$precio = trim($_POST['precio']);
-	$iva = trim($_POST['iva']);
-	$stock = trim($_POST['stock']);
-	$stockMin = trim($_POST['stockMin']);
-	$proveedor = trim($_POST['proveedor']);
-*/
-
 	$param = "";
 
 	if ($codigo == '') {
@@ -38,9 +30,6 @@
 
 		// ejecuta sentencias prepradas
 		$stmt->execute();
-
-		/* ligar variables de resultado */
-//		$stmt->bind_result($cod, $desc, $pre, $iva, $stock, $stockMin, $familia, $proveedor);
 
 		$result = $stmt->get_result();
 
