@@ -48,13 +48,7 @@ $(function () {
 	tablaNavegable();
 
 	$(window).scroll(() => {
-		let filaTotal = $('.fila-total')[0];
-
-		if (!isInViewport(filaTotal)) {
-			TOTAL_NAVBAR.fadeIn().val(TOTAL.val());
-		} else {
-			TOTAL_NAVBAR.fadeOut();
-		}
+		toggleTotalNavbar();
 	});
 
 	$('#btnAceptarTicket').click((e) => {
@@ -90,6 +84,16 @@ $(function () {
 
 		agregarFila();
 	});
+
+	function toggleTotalNavbar() {
+		let filaTotal = $('.fila-total')[0];
+
+		if (!isInViewport(filaTotal)) {
+			TOTAL_NAVBAR.fadeIn().val(TOTAL.val());
+		} else {
+			TOTAL_NAVBAR.fadeOut();
+		}
+	}
 
 	function botonToTop() {
 		BOTON_TO_TOP.click((e) => {
@@ -624,7 +628,7 @@ function isEmpty(valor) {
 function isInViewport(elem) {
 	let distance = elem.getBoundingClientRect();
 	return (
-		distance.top < (window.innerHeight || document.documentElement.clientHeight) && distance.bottom > 0
+		(distance.top + (distance.height / 2)) < (window.innerHeight || document.documentElement.clientHeight) && distance.bottom > 0
 	);
 }
 
