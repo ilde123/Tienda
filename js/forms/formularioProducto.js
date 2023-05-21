@@ -42,7 +42,11 @@ function cargarFormularioProducto(opciones) {
 	$('#imgProducto').click((e) => { 
 		e.preventDefault();
 
-		$('#fileImgProducto').click();
+		msgConfirm('Cambiar imagen producto', 'Va a cambiar la imagen del producto ¿Desea continuar?', (respuesta) => {
+			if (respuesta) {
+				$('#fileImgProducto').click();
+			}
+		});
 	});
 
 	modalProducto(); // Funcionalidad modal producto
@@ -97,30 +101,26 @@ function cargarFormularioProducto(opciones) {
 		$('#fileImgProducto').change((e) => {
 			e.preventDefault();
 	
-			msgConfirm('Cambiar imagen producto', 'Va a cambiar la imagen del producto ¿Desea continuar?', (respuesta) => {
-				if (respuesta) {
-					let formData = new FormData(document.getElementById("formModalProducto"));
+			let formData = new FormData(document.getElementById("formModalProducto"));
 
-					$.ajax({
-						url: "php/setImgagenProducto.php",
-						type: "post",
-						dataType: "html",
-						data: formData,
-						fileName: "file",
-						cache: false,
-						contentType: false,
-						processData: false
-					}).done((url) => {
-						if (url == 0) {
-							msg('Fallo al guardar imagen', 'danger');
-						} else if (url == 1) {
-							msg('El fichero seleccionado no es una imagen', 'danger');
-						} else {
-							$('#imgProducto').attr('src', url);
-							msg('Imagen guardada con éxito', 'primary');
-							fila.data('producto').url_imagen = url;
-						}
-					});
+			$.ajax({
+				url: "php/setImgagenProducto.php",
+				type: "post",
+				dataType: "html",
+				data: formData,
+				fileName: "file",
+				cache: false,
+				contentType: false,
+				processData: false
+			}).done((url) => {
+				if (url == 0) {
+					msg('Fallo al guardar imagen', 'danger');
+				} else if (url == 1) {
+					msg('El fichero seleccionado no es una imagen', 'danger');
+				} else {
+					$('#imgProducto').attr('src', url);
+					msg('Imagen guardada con éxito', 'primary');
+					fila.data('producto').url_imagen = url;
 				}
 			});
 		});
