@@ -51,6 +51,54 @@ function cargarFormularioProducto(opciones) {
 
 	modalProducto(); // Funcionalidad modal producto
 
+	$('#modalHistorialProducto').on('show.bs.modal', (event) => {
+		let button = $(event.relatedTarget); // Botón que activó el modal
+		let fila = button.parents('tr'); // Fila que contiene el botón
+		let json = fila.data('producto'); // Datos del producto
+
+		let fechas = [];
+		let precios = [];
+		let descripcion = json.descripcion;
+
+		$.get("php/getHistorialProducto.php", `codigo=${json.codigo}`,
+			(respuesta) => {
+				$.each(respuesta, (_index, producto) => { 
+					fechas.push(producto.fecha);
+					precios.push(producto.precio);
+				});
+			},
+			"json"
+		);
+
+		let ctx = document.getElementById('grafica');
+
+		window.grafica = new Chart(ctx, {
+			type: 'line',
+			data: {
+				labels: fechas,
+				datasets: [{
+					label: descripcion,
+					data: precios,
+					fill: false,
+					borderColor: 'rgb(75, 192, 192)',
+					tension: 0.1
+				}]
+			  },
+			options: {
+				scales: {
+					y: {
+						beginAtZero: true
+					}
+				}
+			}
+		});
+	});
+
+	$('#modalHistorialProducto').on('hide.bs.modal', (event) => {
+		window.grafica.clear();
+		window.grafica.destroy();
+	});
+
 	function modalProducto() {
 		let fila;
 
@@ -257,6 +305,18 @@ function cargarFormularioProducto(opciones) {
 			type: 'button',
 			'data-bs-toggle': 'modal',
 			'backdrop': "static",
+			'data-bs-target': '#modalHistorialProducto'
+		}).addClass('btn btn-info');
+
+		let icono = $('<i>').addClass('fa fa-history');
+		boton.append(icono);
+		buttonGroup.append(boton);
+
+		// BOTÓN EDITAR/VISUALIZAR
+		boton = $('<button>').attr({
+			type: 'button',
+			'data-bs-toggle': 'modal',
+			'backdrop': "static",
 			'data-bs-target': '#modalProducto'
 		}).addClass('btn btn-warning');
 
@@ -266,7 +326,7 @@ function cargarFormularioProducto(opciones) {
 			$(e.target).parents('td').next().find('button:first').click();
 		});
 
-		let icono = $('<i>').addClass('far fa-eye');
+		icono = $('<i>').addClass('far fa-eye');
 		boton.append(icono);
 		buttonGroup.append(boton);
 

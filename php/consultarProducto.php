@@ -12,12 +12,12 @@
 
 	if ($codigo == '') {
 		$sql = "SELECT * FROM producto
-				WHERE descripcion LIKE CONCAT('%',?,'%') ORDER BY codigo;";
+				WHERE descripcion LIKE CONCAT('%',?,'%') ORDER BY descripcion;";
 
 		$param = $descripcion;
 	} else if ($descripcion == '') {
 		$sql = "SELECT * FROM producto
-					WHERE codigo = ? ORDER BY codigo;";
+				WHERE producto.codigo = ? ORDER BY descripcion;";
 
 		$param = $codigo;
 	}
