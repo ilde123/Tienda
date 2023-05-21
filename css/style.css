@@ -12,6 +12,7 @@
 	border-radius: 5px;
 	cursor: pointer;
 	transition: 0.3s;
+	width: 20rem;
 }
 
 #imgProducto:hover {
