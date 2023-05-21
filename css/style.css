@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
 
+#navbarText {
+	display: none;
+	font-size: x-large;
+	font-weight: bolder;
+	background-color: #fff;
+}
+
 #imgProducto {
 	border-radius: 5px;
 	cursor: pointer;

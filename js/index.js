@@ -6,6 +6,7 @@ const TABLA = $('#tabla');
 const THEAD = TABLA.find('thead');
 const TBODY = TABLA.find('tbody:first');
 const TOTAL = $('#total');
+const TOTAL_NAVBAR = $('#navbarText');
 
 // Clases de las columnas
 const CLASE_CODIGO = 'col-codigo';
@@ -45,6 +46,16 @@ $(function () {
 
 	// Navegación entre celdas
 	tablaNavegable();
+
+	$(window).scroll(() => {
+		let filaTotal = $('.fila-total')[0];
+
+		if (!isInViewport(filaTotal)) {
+			TOTAL_NAVBAR.fadeIn().val(TOTAL.val());
+		} else {
+			TOTAL_NAVBAR.fadeOut();
+		}
+	});
 
 	$('#btnAceptarTicket').click((e) => {
 		e.preventDefault();
@@ -548,7 +559,10 @@ function actualizarTotal() {
 		}
 	});
 
-	TOTAL.val(`${numerosDecimalesMostrar(total)} €`); // Actualizar total
+	let valor = `${numerosDecimalesMostrar(total)} €`;
+
+	TOTAL.val(valor); // Actualizar total
+	TOTAL_NAVBAR.val(valor);
 }
 
 function imprimirTicket() {
@@ -605,6 +619,13 @@ function isEmpty(valor) {
 			return false;
 		}
 	}
+}
+
+function isInViewport(elem) {
+	let distance = elem.getBoundingClientRect();
+	return (
+		distance.top < (window.innerHeight || document.documentElement.clientHeight) && distance.bottom > 0
+	);
 }
 
 function setItem(id, valor) {
