@@ -313,6 +313,7 @@ function agregarFila(datos) {
 	actualizarContador();
 
 	inputCodigo.focus();
+	$(window).scroll();
 }
 
 function eliminarFila() {
@@ -323,6 +324,7 @@ function eliminarFila() {
 	// Borrar fila
 	TBODY.find('tr:last').remove();
 	actualizarContador();
+	$(window).scroll();
 }
 
 function limpiarTabla() {
