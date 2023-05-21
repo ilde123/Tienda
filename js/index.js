@@ -528,7 +528,8 @@ function eventoCeldas(fila) {
 	}
 
 	// EVENTO CLICK SOBRE INPUT
-	HTML.find('input').click((e) => {
+	HTML.find('input').off('click');
+	HTML.find('input').on('click', (e) => {
 		e.preventDefault();
 
 		$(e.target).select();
