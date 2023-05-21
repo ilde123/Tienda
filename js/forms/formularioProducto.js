@@ -3,6 +3,7 @@ function cargarFormularioProducto(opciones) {
 	const TBODY_TABLA_PRODUCTOS = TABLA_PRODUCTOS.find('tbody'); // Tbody tabla productos
 	const FORMULARIO_AGREGAR_PRODUCTO = 'Agregar'; // Clase formulario agregar producto
 	const FORMULARIO_CONSULTAR_PRODUCTO = 'ModalProducto'; // Clase formulario agregar producto
+	const RUTA_IMAGEN_PRODUCTO_DEFECTO = 'img/productos/img_defecto.png'; // Foto por defecto para el producto
 	
 	if (opciones === "consulta") {
 		document.querySelector('#v-pills-profile-tab').click();
@@ -99,7 +100,7 @@ function cargarFormularioProducto(opciones) {
 			msgConfirm('Cambiar imagen producto', 'Va a cambiar la imagen del producto ¿Desea continuar?', (respuesta) => {
 				if (respuesta) {
 					let formData = new FormData(document.getElementById("formModalProducto"));
-		
+
 					$.ajax({
 						url: "php/setImgagenProducto.php",
 						type: "post",
@@ -120,8 +121,6 @@ function cargarFormularioProducto(opciones) {
 							fila.data('producto').url_imagen = url;
 						}
 					});
-				} else {
-					
 				}
 			});
 		});
@@ -158,7 +157,9 @@ function cargarFormularioProducto(opciones) {
 			formModalProducto.stockMinModalProducto.value = json.stock_minimo;
 			formModalProducto.familiaModalProducto.value = json.familia;
 			formModalProducto.proveedorModalProducto.value = json.proveedor;
-			if (json.url_imagen != "") {
+			if (isEmpty(json.url_imagen)) {
+				formModalProducto.imgProducto.src = RUTA_IMAGEN_PRODUCTO_DEFECTO;
+			} else {
 				formModalProducto.imgProducto.src = json.url_imagen;
 			}
 		}

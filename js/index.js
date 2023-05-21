@@ -156,7 +156,7 @@ function tablaNavegable() {
 				// Comprueba si existe más de una fila
 				if (TBODY.find('tr').length > 1) {
 					// COMPRUEBA LAS FILAS VACIAS
-					if (TBODY.find('tr:last input').val() == "") {
+					if (isEmpty(TBODY.find('tr:last input').val())) {
 						eliminarFila();
 					} else {
 						// Posicionarse en la celda de arriba
@@ -345,7 +345,7 @@ function eventoCeldas(fila) {
 
 		let codigo = inputCodigo.val();
 
-		if (!codigo == '') { // Si el código no está vacío
+		if (!isEmpty(codigo)) { // Si el código no está vacío
 			let estaEnTabla = false;
 			let celdaUnidades;
 
@@ -362,6 +362,8 @@ function eventoCeldas(fila) {
 				inputCodigo.val(""); // Vaciar el input de código
 
 				actualizarTotal(); // Actualizar total
+				let ultimaFila = TBODY.find('tr:last');
+				ultimaFila.find(`.${CLASE_CODIGO} input`).focus();
 			} else if (isNaN(parseInt(codigo))) { // Si el código no es un número
 				inputCodigo.val(""); // Vaciar el input de código
 			} else { // Si el código es un número
@@ -387,14 +389,14 @@ function eventoCeldas(fila) {
 
 						let inputUnidades = fila.find(`.${CLASE_UNIDADES} input`); // Obtener input de unidades
 
-						if (inputUnidades.val() == '') { // Si el input de unidades está vacío
+						if (isEmpty(inputUnidades.val())) { // Si el input de unidades está vacío
 							inputUnidades.val('1'); // Rellenar con 1 y asignar foco
 						}
 
 						let inputPrecio = fila.find(`.${CLASE_PRECIO} input`); // Obtener input precio
 
-						if (parseInt(codigo) < 5) { // Si el código es menor que 5
-							if (inputPrecio.val() === "") { // Si el input de precio está vacío
+						if (isEmpty(producto.precio)) { // Si el producto no tiene precio establecido
+							if (isEmpty(inputPrecio.val())) { // Si el input de precio está vacío
 								inputPrecio.val(numerosDecimalesMostrar(0)).focus().select(); // Rellenar con 0 y asignar foco
 							}
 						} else { // Si el código es mayor que 5

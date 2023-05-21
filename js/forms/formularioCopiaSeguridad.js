@@ -15,7 +15,7 @@ function cargarFormularioCopiaSeguridad() {
 	$('#btnRestaurarCopiaSeguridad').click((e) => { 
 		e.preventDefault();
 
-		if (formFile.val() == "") {
+		if (isEmpty(formFile.val())) {
 			msg('No ha seleccionado ningún archivo', 'danger');
 		} else {
 /*
