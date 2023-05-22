@@ -80,25 +80,42 @@ function cargarFormularioProducto(opciones) {
 					label: descripcion,
 					data: precios,
 					fill: false,
-					borderColor: 'rgb(75, 192, 192)',
 					tension: 0.1
 				}]
 			  },
 			options: {
+				responsive: true,
 				scales: {
 					y: {
 						title: {
 							display: true,
-							text: 'Precios'
+							text: 'Precios',
+							color: '#36a2eb',
+							font: {
+								family: 'Comic Sans MS',
+								weight: 'bold',
+								lineHeight: 1.2
+							}
 						},
 						beginAtZero: true,
-						suggestedMax: 5
+						ticks: {
+							align: 'center'
+						}
 					},
 					x: {
 						title: {
 							display: true,
-							text: 'Fechas'
-						  }
+							text: 'Fechas',
+							color: '#36a2eb',
+							font: {
+								family: 'Comic Sans MS',
+								weight: 'bold',
+								lineHeight: 1.2
+							}
+						},
+						ticks: {
+							align: 'center'
+						}
 					}
 				}
 			}
