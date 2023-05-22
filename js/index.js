@@ -97,12 +97,10 @@ $(function () {
 		let filaTotal = $('.fila-total')[0];
 
 		if (isInViewport(filaTotal)) {
-			$('#inputGroupNavbarText').fadeOut(() => {
-				$('#inputGroupNavbarText').removeClass('d-flex');
-			});
+			$('#inputGroupNavbarText').fadeOut();
 		} else {
 			TOTAL_NAVBAR.val(TOTAL.val());
-			$('#inputGroupNavbarText').fadeIn().addClass('d-flex');;
+			$('#inputGroupNavbarText').fadeIn();
 		}
 	}
 
