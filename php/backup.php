@@ -66,18 +66,18 @@
 	}
 
 	// TABLA PRODUCTO
-	$sql = "SELECT codigo, descripcion, precio, iva, stock, stock_minimo, familia, proveedor FROM producto ORDER BY descripcion;";
+	$sql = "SELECT codigo, descripcion, precio, iva, stock, stock_minimo, familia, proveedor, url_imagen FROM producto ORDER BY descripcion;";
 	$resultado = $conexion->query($sql);
 	$n_filas = $resultado->num_rows;
 
 	if ($n_filas > 0) {		
-		$sentenciaBackup .= "INSERT INTO producto(codigo, descripcion, precio, iva, stock, stock_minimo, familia, proveedor) VALUES \r\n";
+		$sentenciaBackup .= "INSERT INTO producto(codigo, descripcion, precio, iva, stock, stock_minimo, familia, proveedor, url_imagen) VALUES \r\n";
 		
 		while ($fila = $resultado->fetch_assoc()) {
-			$sentenciaBackup .= '("'.$fila['codigo'].'", "'.$fila['descripcion'].'", '.$fila['precio'].", ".$fila['iva'].", ".$fila['stock'].", ".$fila['stock_minimo'].', "'.$fila['familia'].'", "'.$fila['proveedor'].'")'.",\r\n";
+			$sentenciaBackup .= '("'.$fila['codigo'].'", "'.$fila['descripcion'].'", '.$fila['precio'].", ".$fila['iva'].", ".$fila['stock'].", ".$fila['stock_minimo'].', "'.$fila['familia'].'", "'.$fila['proveedor'].'", '.$fila['url_imagen'].')'.",\r\n";
 //			$sentenciaBackup .= "ON DUPLICATE KEY UPDATE codigo = codigo, descripcion = descripcion, precio = precio, iva = iva, stock = stock, stock_minimo = stock_minimo, familia = familia, proveedor = proveedor;";
 		}
-		
+
 		$sentenciaBackup = substr($sentenciaBackup, 0, -3); // Eleiminar último carácter
 		$sentenciaBackup .= ";\r\n"; // Añadir ; al final
 	}
@@ -92,6 +92,23 @@
 		
 		while ($fila = $resultado->fetch_assoc()) {
 			$sentenciaBackup .= '("'.$fila['descripcion'].'", "'.$fila['direccion'].'", '.$fila['telefono']."),\r\n";
+//			$sentenciaBackup .= "ON DUPLICATE KEY UPDATE descripcion = descripcion, direccion = direccion, telefono = telefono;";
+		}
+		
+		$sentenciaBackup = substr($sentenciaBackup, 0, -3); // Eleiminar último carácter
+		$sentenciaBackup .= ";\r\n"; // Añadir ; al final
+	}
+
+	// TABLA HISTORIAL PRODUCTO
+	$sql = "SELECT codigo, fecha, precio FROM historial_producto;";
+	$resultado = $conexion->query($sql);
+	$n_filas = $resultado->num_rows;
+
+	if ($n_filas > 0) {		
+		$sentenciaBackup .= "INSERT INTO historial_producto(codigo, fecha, precio) VALUES \r\n";
+		
+		while ($fila = $resultado->fetch_assoc()) {
+			$sentenciaBackup .= '("'.$fila['codigo'].'", "'.$fila['fecha'].'", '.$fila['precio']."),\r\n";
 //			$sentenciaBackup .= "ON DUPLICATE KEY UPDATE descripcion = descripcion, direccion = direccion, telefono = telefono;";
 		}
 		
