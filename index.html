@@ -167,7 +167,18 @@
 						</span>-->
 					</ul>
 					<ul class="nav justify-content-between">
-						<input id="navbarText" class="form-control form-control-sm text-danger text-center" type="text" readonly>
+						<div class="input-group" id="inputGroupNavbarText">
+							<input id="navbarText" class="form-control form-control-sm text-danger text-center" type="text" readonly>
+							<button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalTicket">
+								<i class="fa fa-print" aria-hidden="true"></i>
+							</button>
+							<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalCambio" data-backdrop="static">
+								<i class="fa fa-check" aria-hidden="true"></i>
+							</button>
+							<button id="btnCancelarPedidoNavbar" type="button" class="btn btn-outline-danger">
+								<i class="fa fa-times" aria-hidden="true"></i>
+							</button>
+						</div>
 					</ul>
 					<ul class="nav justify-content-end d-none d-sm-block">
 						<a target="_blank" href="#">
@@ -225,7 +236,7 @@
 										<button id="btnAceptarPedido" type="button" class="btn btn-lg btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalCambio" data-backdrop="static">
 											<i class="fa fa-check" aria-hidden="true"></i>
 										</button>
-										<button  id="btnCancelarPedido" type="button" class="btn btn-lg btn-outline-danger">
+										<button id="btnCancelarPedido" type="button" class="btn btn-lg btn-outline-danger">
 											<i class="fa fa-times" aria-hidden="true"></i>
 										</button>
 									</div>

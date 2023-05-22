@@ -25,6 +25,7 @@ const BOTON_TO_TOP = $('#toTop');
 const BOTON_AGREGAR_FILA = $('#btnAddRow');
 const BOTON_ACEPTAR_PEDIDO = $('#btnAceptarPedido');
 const BOTON_CANCELAR_PEDIDO = $('#btnCancelarPedido');
+const BOTON_CANCELAR_PEDIDO_NAVBAR = $('#btnCancelarPedidoNavbar');
 const BOTON_IMPRIMIR_PEDIDO = $('#btnTicket');
 
 $(function () {
@@ -68,8 +69,15 @@ $(function () {
 		// Asigna el foco al campo código
 		TBODY.find("th input").select();
 
+		toggleTotalNavbar();
 		actualizarTotal();
 		reiniciarContador();
+	});
+
+	BOTON_CANCELAR_PEDIDO_NAVBAR.click((e) => {
+		e.preventDefault();
+
+		BOTON_CANCELAR_PEDIDO.click();
 	});
 
 	// borrarLoader
@@ -88,10 +96,13 @@ $(function () {
 	function toggleTotalNavbar() {
 		let filaTotal = $('.fila-total')[0];
 
-		if (!isInViewport(filaTotal)) {
-			TOTAL_NAVBAR.fadeIn().val(TOTAL.val());
+		if (isInViewport(filaTotal)) {
+			$('#inputGroupNavbarText').fadeOut(() => {
+				$('#inputGroupNavbarText').removeClass('d-flex');
+			});
 		} else {
-			TOTAL_NAVBAR.fadeOut();
+			TOTAL_NAVBAR.val(TOTAL.val());
+			$('#inputGroupNavbarText').fadeIn().addClass('d-flex');;
 		}
 	}
 
@@ -328,6 +339,7 @@ function eliminarFila() {
 }
 
 function limpiarTabla() {
+	TOTAL_NAVBAR.val('');
 	TBODY.find('tr:not(tr:last)').remove(); // Elimina todas las filas excepto la última
 	$('tbody input').val(''); // Limpia todos los inputs
 	TBODY.find(`td.${CLASE_DESCRIPCION}`).text(''); // Limpia la descripción

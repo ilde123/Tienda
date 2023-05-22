@@ -1,11 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
 
 #navbarText {
-	display: none;
 	font-size: x-large;
 	font-weight: bolder;
 	background-color: #fff;
 	width: 65%;
+}
+
+#inputGroupNavbarText {
+	display: none;
 }
 
 #imgProducto {
