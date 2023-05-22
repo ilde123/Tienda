@@ -87,7 +87,18 @@ function cargarFormularioProducto(opciones) {
 			options: {
 				scales: {
 					y: {
-						beginAtZero: true
+						title: {
+							display: true,
+							text: 'Precios'
+						},
+						beginAtZero: true,
+						suggestedMax: 5
+					},
+					x: {
+						title: {
+							display: true,
+							text: 'Fechas'
+						  }
 					}
 				}
 			}
