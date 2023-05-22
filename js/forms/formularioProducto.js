@@ -62,10 +62,16 @@ function cargarFormularioProducto(opciones) {
 
 		$.get("php/getHistorialProducto.php", `codigo=${json.codigo}`,
 			(respuesta) => {
+				let precioActual = 0;
+
 				$.each(respuesta, (_index, producto) => { 
 					fechas.push(producto.fecha);
 					precios.push(producto.precio);
+					precioActual = producto.precio;
 				});
+
+				fechas.push('Ahora');
+				precios.push(precioActual);
 			},
 			"json"
 		);
