@@ -352,12 +352,12 @@ function cargarFormularioProducto(opciones) {
 			'data-bs-toggle': 'modal',
 			'backdrop': "static",
 			'data-bs-target': '#modalProducto'
-		}).addClass('btn btn-warning');
+		}).addClass('btn btn-warning btn-ver-producto');
 
 		enlace.click((e) => {
 			e.preventDefault();
 
-			$(e.target).parents('td').next().find('button:first').click();
+			$(e.target).parents('td').next().find('.btn-ver-producto').click();
 		});
 
 		icono = $('<i>').addClass('far fa-eye');
