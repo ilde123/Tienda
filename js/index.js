@@ -373,28 +373,30 @@ function eventoCeldas(fila) {
 		let codigo = inputCodigo.val();
 
 		if (!isEmpty(codigo)) { // Si el código no está vacío
-			let estaEnTabla = false;
-			let celdaUnidades;
-
-			// Comprobar si el código ya está en la tabla
-			TBODY.find('tr').each((_index, element) => {
-				if (codigo == $(element).find(`.${CLASE_CODIGO} input`).val() && !fila.is($(element)) && parseInt(codigo) > 4) { // Si el código coincide, no es la misma fila y es mayor que 5
-					celdaUnidades = $(element).find(`.${CLASE_UNIDADES} input`);
-					estaEnTabla = true;
+			if (isNaN(parseInt(codigo))) { // Si el código no es un número
+				inputCodigo.val(""); // Vaciar el input de código
+			} else {
+				let productoEnTabla = false;
+				let celdaUnidades;
+	
+				// Comprobar si el código ya está en la tabla
+				TBODY.find('tr').each((_index, element) => {
+					if (codigo == $(element).find(`.${CLASE_CODIGO} input`).val() && !fila.is($(element)) && parseInt(codigo) > 4) { // Si el código coincide, no es la misma fila y es mayor que 5
+						celdaUnidades = $(element).find(`.${CLASE_UNIDADES} input`);
+						productoEnTabla = true;
+					}
+				});
+	
+				if (productoEnTabla) { // Si el código ya está en la tabla
+					celdaUnidades.val(parseInt(celdaUnidades.val()) + 1); // Sumar una unidad
+					inputCodigo.val(""); // Vaciar el input de código
+	
+					actualizarTotal(); // Actualizar total
+					let ultimaFila = TBODY.find('tr:last');
+					ultimaFila.find(`.${CLASE_CODIGO} input`).focus();
+				} else { // Si el código es un número
+					consultarProducto(codigo);
 				}
-			});
-
-			if (estaEnTabla) { // Si el código ya está en la tabla
-				celdaUnidades.val(parseInt(celdaUnidades.val()) + 1); // Sumar una unidad
-				inputCodigo.val(""); // Vaciar el input de código
-
-				actualizarTotal(); // Actualizar total
-				let ultimaFila = TBODY.find('tr:last');
-				ultimaFila.find(`.${CLASE_CODIGO} input`).focus();
-			} else if (isNaN(parseInt(codigo))) { // Si el código no es un número
-				inputCodigo.val(""); // Vaciar el input de código
-			} else { // Si el código es un número
-				consultarProducto(codigo);
 			}
 		} else { // Si el código está vacío
 			vaciarFila(fila);
