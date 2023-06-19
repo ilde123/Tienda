@@ -65,6 +65,11 @@ form input {
 	display: block;
 }
 
+#logoCalculadora {
+	width: 50%;
+	height: 50%;
+}
+
 /*--------------------------- Light & Dark System ---------------------------*/
 
 /* Light Theme */
@@ -85,7 +90,7 @@ form input {
 	color: #263238;
 }
 
-.btn {
+#clear {
 	font-weight: bold;
 }
 
