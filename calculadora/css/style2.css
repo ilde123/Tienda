@@ -84,6 +84,92 @@ form input {
 .form-input-light {
 	color: #263238;
 }
+
+.operand-group, .operand-group:focus {
+	box-shadow: 0px 5px 0px #0baccc80;
+	background-color: #0dcaf0;
+	border-color: #0dcaf0;
+	color: #ffffff;
+}
+
+.operand-group:active {
+	box-shadow: 0px 2px 0px #0baccc80;
+	top: 3px;
+}
+
+.operand-group:hover {
+	background-color: #3dd5f3;
+	color: #ffffff;
+}
+
+.operator-group, .operator-group:focus {
+	background-color: #1c1f23;
+	border-color: #1c1f23;
+	color: #ffffff;
+	box-shadow: 0px 5px 0px #42464980;
+}
+
+.operator-group:hover {
+	background-color: #1a1e21;
+	color: #ffffff;
+}
+
+.operator-group:active {
+	box-shadow: 0px 2px 0px #42464980;
+	top: 3px;
+}
+
+.equal-light, .equal-light:focus {
+	background-color: #157347;
+	border-color: #157347;
+	color: #ffffff;
+	box-shadow: 0px 5px 0px #3c996e80;
+}
+
+.equal-light:hover {
+	color: #ffffff;
+	background-color: #146c43;
+}
+
+.equal-light:active {
+	box-shadow: 0px 2px 0px #3c996e80;
+	top: 3px;
+}
+
+.backspace-light, .backspace-light:focus {
+	background-color: #ffca2c;
+	border-color: #ffca2c;
+	color: #000000;
+	box-shadow: 0px 5px 0px #d9a40680;
+}
+
+.backspace-light:active {
+	box-shadow: 0px 2px 0px #ffcd39;
+	top: 3px;
+}
+
+.backspace-light:hover {
+	background-color: #ecbf35;
+	color: #ffffff;
+}
+
+.clear-light, .clear-light:focus {
+	background-color: #bb2d3b;
+	border-color: #bb2d3b;
+	color: #ffffff;
+	box-shadow: 0px 5px 0px rgba(225, 83, 97, .5);
+}
+
+.clear-light:active{
+	box-shadow: 0px 2px 0px #e1536180;
+	top: 3px;
+}
+
+.clear-light:hover {
+	background-color: #b02a37;
+	color: #ffffff;
+}
+
 /*
 .operand-group-light {
 	background-color: #90a4ae;
