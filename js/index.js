@@ -353,7 +353,7 @@ function limpiarTabla() {
 }
 
 function actualizarContador() {
-	THEAD.find('th:first').text(contador);
+	THEAD.find('th:first').html(`# ${contador}`);
 }
 
 function reiniciarContador() {

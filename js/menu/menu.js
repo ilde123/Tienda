@@ -160,6 +160,7 @@ function ocultarContenidoFormularios() {
 			CONTENIDO.empty();
 			setTimeout(() => {
 				TBODY.find('th input').change().select();
+				$(window).scroll();
 			}, 500);
 		});
 	});
