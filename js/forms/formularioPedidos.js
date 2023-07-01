@@ -678,17 +678,22 @@ function cargarFormularioPedido() {
 	function eliminarLineaPedido(npedido, nlinea, filaLineaPedido) {
 		let datos = `npedido=${npedido}&nlinea=${nlinea}`; // Crear datos
 		cursorSpinner();
+		
+		let timeOut = setTimeout(() => {
+			msg('Puede tardar algún tiempo, por favor espere.', 'info');
+		}, 5000);
 
 		$.post("php/eliminarLineaPedido.php", datos,
 			(json) => {
 				if (json.resultado == 'ok') {
 					filaLineaPedido.remove(); // Eliminar fila
-
+					
 					msg(json.msg, 'success'); // Mostrar mensaje
 				} else {
 					alert(json.msg, 'danger'); // Mostrar mensaje
 				}
 
+				clearInterval(timeOut);
 				eliminarCursorSpinner();
 			},
 			"json"
