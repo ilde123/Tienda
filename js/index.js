@@ -660,14 +660,18 @@ function clearItems(id) {
 }
 
 function cursorSpinner(selector) {
-	$(selector).addClass('spinner-border spinner-border-sm');
-	$(selector).removeClass('fa-search');
+	if (!isEmpty(selector)) {
+		$(selector).addClass('spinner-border spinner-border-sm');
+		$(selector).removeClass('fa-search');
+	}
 	$('*').addClass('cursor-wait');
 }
 
 function eliminarCursorSpinner(selector) {
-	$(selector).removeClass('spinner-border spinner-border-sm');
-	$(selector).addClass('fa-search');
+	if (!isEmpty(selector)) {
+		$(selector).removeClass('spinner-border spinner-border-sm');
+		$(selector).addClass('fa-search');
+	}
 	$('*').removeClass('cursor-wait');
 }
 
