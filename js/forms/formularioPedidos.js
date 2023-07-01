@@ -677,6 +677,7 @@ function cargarFormularioPedido() {
 
 	function eliminarLineaPedido(npedido, nlinea, filaLineaPedido) {
 		let datos = `npedido=${npedido}&nlinea=${nlinea}`; // Crear datos
+		cursorSpinner();
 
 		$.post("php/eliminarLineaPedido.php", datos,
 			(json) => {
@@ -687,6 +688,8 @@ function cargarFormularioPedido() {
 				} else {
 					alert(json.msg, 'danger'); // Mostrar mensaje
 				}
+
+				eliminarCursorSpinner();
 			},
 			"json"
 		);
