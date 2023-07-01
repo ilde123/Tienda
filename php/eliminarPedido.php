@@ -3,22 +3,35 @@
 
 	$npedido = $_POST['npedido'];
 
-	$resultado = "ok";
-	$msg = "Pedido eliminado con éxito.";
+	$conexion->autocommit(false);
+	$resultado = "";
+	$msg = "";
 
-	if ($stmt = $conexion->prepare("DELETE FROM pedido WHERE npedido = ?;")) {
-
-		$stmt->bind_param('i', $npedido);
+	try {
+		$resultadoPedido = $conexion->prepare("DELETE FROM pedido WHERE npedido = ?;");
+		$resultadoPedido->bind_param('i', $npedido);
 
 		// ejecuta sentencias prepradas
-		#$stmt->execute();
+		$resultadoPedido->execute();
 
-		// cierra sentencia y conexión
-		$stmt->close();
-	}
-	else {
+		if ($resultadoPedido) {
+			$stmt = $conexion->prepare("DELETE FROM lpedido WHERE npedido = ?;");
+			$stmt->bind_param('i', $npedido);
+
+			$stmt->execute();
+
+			$stmt->close();
+			// cierra sentencia y conexión
+			if ($conexion->commit()) {
+				$resultado = "ok";
+				$msg = "Pedido eliminado con éxito.";
+			}
+		}
+
+	} catch (Exception $e) {
 		$resultado = "fallo";
-		$msg = "Fallo al eliminar pedido.";
+		$msg = "Fallo al eliminar pedido.\n".$e;
+		$conexion->rollback();
 	}
 
 	$miArray = array("resultado"=>$resultado, "msg"=>$msg);

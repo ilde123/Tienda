@@ -489,7 +489,7 @@ function cargarFormularioPedido() {
 		// Agregar fila a tabla
 		TBODY_TABLA_PEDIDO.append(fila);
 	}
-
+	
 	// Filas tabla pedido
 	function agregarFilaTablaPedido(npedido, total, fecha, nombreCliente) {
 		let filaPedido = $("<tr>");
@@ -582,14 +582,6 @@ function cargarFormularioPedido() {
 		TBODY_TABLA_PEDIDO.prepend(filaPedido);
 	}
 
-	function toggleFilaLPedido(e, filaPedido, npedido) {
-		if (e.target.nodeName != "BUTTON" && e.target.nodeName != "I") {
-			// Marcar fila seleccionada						
-			filaPedido.toggleClass('fila-activa');
-			$(`.pedido-${npedido}`).toggle(250);
-		}
-	}
-
 	// Filas linea de pedido
 	function agregarFilaLineaPedido(pedido) {
 		// datos pedido
@@ -600,11 +592,11 @@ function cargarFormularioPedido() {
 		let unidades = pedido.unidades;
 		let precio = pedido.precio;
 
-		let fila = $("<tr>");
-		fila.addClass(`pedido-${npedido}`).hide();
+		let filaLineaPedido = $("<tr>");
+		filaLineaPedido.addClass(`pedido-${npedido}`).hide();
 
 		// Añaadir datos a fila
-		fila.data({
+		filaLineaPedido.data({
 			npedido: npedido,
 			nlinea: nlinea,
 			codigo: codigo,
@@ -622,7 +614,7 @@ function cargarFormularioPedido() {
 
 		celda.addClass(CLASE_DESCRIPCION).append(enlace);
 
-		fila.append(celda);
+		filaLineaPedido.append(celda);
 		
 		// SEGUNDA CELDA
 		celda = $('<td>');
@@ -630,10 +622,20 @@ function cargarFormularioPedido() {
 		let icon = $('<i>');
 
 		icon.addClass('fas fa-trash-alt');
-		boton.addClass('btn btn-danger').append(icon);
+		boton.addClass('btn btn-danger').append(icon).click((e) => {
+			e.preventDefault();
+
+			msgConfirm('Eliminar línea pedido', '¿Estás seguro de eliminar la línea de pedido?', (respuesta) => {
+				if (respuesta) {
+					eliminarLineaPedido(npedido, nlinea, filaLineaPedido);
+				} else {
+					msg('Operación cancelada', 'info');
+				}
+			});
+		});
 
 		celda.attr('scope', 'row').addClass(CLASE_CODIGO).append(boton);
-		fila.append(celda);
+		filaLineaPedido.append(celda);
 
 		// TERCERA CELDA
 		celda = $('<td>');
@@ -644,15 +646,15 @@ function cargarFormularioPedido() {
 		} else {
 			celda.text(`${unidades} Unidades`);
 		}
-		fila.append(celda);
+		filaLineaPedido.append(celda);
 
 		// CUARTA CELDA
 		celda = $('<td>');
 		celda.attr('scope', 'row').addClass(CLASE_PRECIO).text(`${numerosDecimalesMostrar(precio)} €`);
-		fila.append(celda);
+		filaLineaPedido.append(celda);
 
 		// AGREGAR CELDAS
-		TBODY_TABLA_PEDIDO.prepend(fila);
+		TBODY_TABLA_PEDIDO.prepend(filaLineaPedido);
 	}
 
 	function eliminarPedido(npedido, filaPedido) {
@@ -671,5 +673,30 @@ function cargarFormularioPedido() {
 			},
 			"json"
 		);
+	}
+
+	function eliminarLineaPedido(npedido, nlinea, filaLineaPedido) {
+		let datos = `npedido=${npedido}&nlinea=${nlinea}`; // Crear datos
+
+		$.post("php/eliminarLineaPedido.php", datos,
+			(json) => {
+				if (json.resultado == 'ok') {
+					filaLineaPedido.remove(); // Eliminar fila
+
+					msg(json.msg, 'success'); // Mostrar mensaje
+				} else {
+					alert(json.msg, 'danger'); // Mostrar mensaje
+				}
+			},
+			"json"
+		);
+	}
+
+	function toggleFilaLPedido(e, filaPedido, npedido) {
+		if (e.target.nodeName != "BUTTON" && e.target.nodeName != "I") {
+			// Marcar fila seleccionada						
+			filaPedido.toggleClass('fila-activa');
+			$(`.pedido-${npedido}`).toggle(250);
+		}
 	}
 }

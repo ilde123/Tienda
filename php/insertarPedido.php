@@ -29,12 +29,13 @@
 			$resulset = $conexion->query($sql);
 			$fila = $resulset->fetch_array();
 			$nPedido = $fila[0];
+			$i = 1;
 
 			foreach ($codigo as $k => $v) {
-				$sql = "INSERT INTO lpedido(npedido, nlinea, codigo, unidades, precio) VALUES ($nPedido, DEFAULT, ?, ?, ?)";
+				$sql = "INSERT INTO lpedido(npedido, nlinea, codigo, unidades, precio) VALUES ($nPedido, ?, ?, ?, ?)";
 
 				$stmt = $conexion->prepare($sql);
-				$stmt->bind_param('sid', $codigo[$k], $unidades[$k], $precio[$k]);
+				$stmt->bind_param('isid', $i, $codigo[$k], $unidades[$k], $precio[$k]);
 
 				// ejecuta sentencias prepradas
 				$stmt->execute();
@@ -48,6 +49,7 @@
 
 				// ejecuta sentencias prepradas
 				$stmt->execute();
+				$i++;
 			}
 
 			$stmt->close();
