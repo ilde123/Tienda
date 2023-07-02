@@ -269,11 +269,9 @@ function cargarFormularioPedido() {
 		input.keyup((e) => {
 			TBODY_TABLA_PEDIDO.find("tr.fila-activa").click(); // Desactivar filtro de tabla
 			let valorBuscado = $(e.target).val().toLowerCase();
-			let npedido;
 
-			TBODY_TABLA_PEDIDO.find("tr.pedido").filter(function() {
+			TBODY_TABLA_PEDIDO.find("tr.cabecera-pedido").filter(function() {
 				let fila = $(this);
-				npedido = fila.data('npedido');
 
 				fila.toggle(fila.text().toLowerCase().indexOf(valorBuscado) > -1);
 			});
@@ -493,7 +491,7 @@ function cargarFormularioPedido() {
 	// Filas tabla pedido
 	function agregarFilaTablaPedido(npedido, total, fecha, nombreCliente) {
 		let filaPedido = $("<tr>");
-		filaPedido.addClass('pedido');
+		filaPedido.addClass(`cabecera-pedido-${npedido}`);
 		filaPedido.data('npedido', npedido); // Agregar datos npedido
 
 		// Primera columna
@@ -568,7 +566,7 @@ function cargarFormularioPedido() {
 
 		// Cuarta columna
 		celda = $('<td>');
-		celda.text(`${numerosDecimalesMostrar(total)} €`);
+		celda.text(`${numerosDecimalesMostrar(total)} €`).addClass(CLASE_PRECIO);
 		filaPedido.append(celda);
 
 		// Mostrar/ocultar fila
@@ -681,13 +679,25 @@ function cargarFormularioPedido() {
 		
 		let timeOut = setTimeout(() => {
 			msg('Puede tardar algún tiempo, por favor espere.', 'info');
-		}, 5000);
+		}, 3000);
 
 		$.post("php/eliminarLineaPedido.php", datos,
 			(json) => {
 				if (json.resultado == 'ok') {
-					filaLineaPedido.remove(); // Eliminar fila
+					let npedido = filaLineaPedido.data('npedido');
+					let precioLineaPedido = numerosDecimales(filaLineaPedido.children(`.${CLASE_PRECIO}`).text());
+					let unidadesLineaPedido = parseInt(filaLineaPedido.children(`.${CLASE_UNIDADES}`).text());
+
+					let filaCabeceraPedido = $(`.cabecera-pedido-${npedido}`)
+					let celdaPrecioCabeceraPedido = filaCabeceraPedido.children(`td.${CLASE_PRECIO}`)
 					
+					consola(numerosDecimales(celdaPrecioCabeceraPedido.text()))
+					consola(precioLineaPedido)
+					consola(unidadesLineaPedido)
+					celdaPrecioCabeceraPedido.text(`${numerosDecimalesMostrar(numerosDecimales(celdaPrecioCabeceraPedido.text()) - precioLineaPedido * unidadesLineaPedido)} €`)
+
+//					filaLineaPedido.remove(); // Eliminar fila
+
 					msg(json.msg, 'success'); // Mostrar mensaje
 				} else {
 					alert(json.msg, 'danger'); // Mostrar mensaje
