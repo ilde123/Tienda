@@ -11,18 +11,22 @@
 		// ejecuta sentencias prepradas
 		$stmt->execute();
 
-		if ($stmt = $conexion->prepare("INSERT INTO historial_producto(codigo, precio) VALUES (?, ?)")) {
+		$n_filas = $stmt->affected_rows;
 
-			$stmt->bind_param('sd', $codigo, $precio);
-	
-			// ejecuta sentencias prepradas
-			$stmt->execute();
-	
-			// cierra sentencia y conexión
-			$stmt->close();
-	
-			$resultado = "ok";
-			$msg = "Precio actualizado.";
+		if ($n_filas > 0) {
+			if ($stmt = $conexion->prepare("INSERT INTO historial_producto(codigo, precio) VALUES (?, ?)")) {
+				
+				$stmt->bind_param('sd', $codigo, $precio);
+				
+				// ejecuta sentencias prepradas
+				$stmt->execute();
+				
+				// cierra sentencia y conexión
+				$stmt->close();
+				
+				$resultado = "ok";
+				$msg = "Precio actualizado.";
+			}
 		}
 	}
 	else {
