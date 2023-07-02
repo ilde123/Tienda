@@ -695,6 +695,10 @@ function cargarFormularioPedido() {
 
 					filaLineaPedido.remove(); // Eliminar fila
 
+					if ($(`.pedido-${npedido}`).length == 0) {
+						filaCabeceraPedido.remove();
+					}
+
 					msg(json.msg, 'success'); // Mostrar mensaje
 				} else {
 					alert(json.msg, 'danger'); // Mostrar mensaje
