@@ -691,12 +691,9 @@ function cargarFormularioPedido() {
 					let filaCabeceraPedido = $(`.cabecera-pedido-${npedido}`)
 					let celdaPrecioCabeceraPedido = filaCabeceraPedido.children(`td.${CLASE_PRECIO}`)
 					
-					consola(numerosDecimales(celdaPrecioCabeceraPedido.text()))
-					consola(precioLineaPedido)
-					consola(unidadesLineaPedido)
 					celdaPrecioCabeceraPedido.text(`${numerosDecimalesMostrar(numerosDecimales(celdaPrecioCabeceraPedido.text()) - precioLineaPedido * unidadesLineaPedido)} €`)
 
-//					filaLineaPedido.remove(); // Eliminar fila
+					filaLineaPedido.remove(); // Eliminar fila
 
 					msg(json.msg, 'success'); // Mostrar mensaje
 				} else {
