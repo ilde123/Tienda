@@ -20,7 +20,7 @@ function cargarFormularioFamilias() {
 		let optionsSelected = SELECT_FAMILIAS_EXISTENTES.find('option:selected'); // Familias seleccionadas
 
 		if (optionsSelected.length > 0) { // Si hay familias seleccionadas
-			msgConfirm('Borrar familia', '¿Está seguro de borrar la familia?', (respuesta) => { // Confirmar borrado
+			msgConfirm('Borrar familia', `¿Está seguro de borrar la familia "${optionsSelected.text()}"?`, (respuesta) => { // Confirmar borrado
 				if (respuesta) {
 					eliminarFamilia();
 				} else {
