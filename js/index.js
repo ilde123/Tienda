@@ -20,6 +20,7 @@ const CLASE_FALTAN = 'col-faltan';
 const NOMBRE_CLIENTE_MODAL_CAMBIO = $('#nombreClienteModalCambio');
 const COLLAPSE_NOMBRE_CLIENTE_MODAL_CAMBIO = $('#collapseNombreClienteModalCambio');
 const AGREGAR_FILA_TRAS_CONSULTAR_PRODUCTO = 'agregarFila';
+const MOSTRAR_FAMILIA_TABLA = 'mostrarFamilia';
 
 const BOTON_TO_TOP = $('#toTop');
 const BOTON_AGREGAR_FILA = $('#btnAddRow');
@@ -414,7 +415,40 @@ function eventoCeldas(fila) {
 					let producto = JSON.parse(json.json)[0]; // Obtener primer producto
 
 					if (producto != undefined) { // Si el producto existe
-						fila.find(`.${CLASE_DESCRIPCION}`).text(producto.descripcion.toUpperCase()); // Mostrar descripción
+						let celdaDescripcion = fila.find(`.${CLASE_DESCRIPCION}`);
+						celdaDescripcion.text(producto.descripcion.toUpperCase()); // Mostrar descripción
+
+						if (getItem(MOSTRAR_FAMILIA_TABLA) == "true") {
+							let badge = $('<span>');
+							badge.addClass('badge rounded-pill ms-2').text(producto.familia);
+	
+							switch (producto.familia) {
+								case 'Alimentación':
+									badge.addClass('bg-danger');
+									break;
+							
+								case 'Bebidas':
+									badge.addClass('bg-primary');
+									break;
+	
+								case 'Droguería':
+										badge.addClass('bg-success');
+										break;
+	
+								case 'Tabaco':
+									badge.addClass('bg-warning');
+									break;
+	
+								case 'Varios':
+									badge.addClass('bg-info');
+									break;
+								default:
+									badge.addClass('bg-primary');
+									break;
+							}
+	
+							celdaDescripcion.append(badge);
+						}
 
 						let inputUnidades = fila.find(`.${CLASE_UNIDADES} input`); // Obtener input de unidades
 
@@ -428,7 +462,7 @@ function eventoCeldas(fila) {
 							if (isEmpty(inputPrecio.val())) { // Si el input de precio está vacío
 								inputPrecio.val(numerosDecimalesMostrar(0)).focus().select(); // Rellenar con 0 y asignar foco
 							}
-						} else { // Si el código es mayor que 5
+						} else { // Si el producto tiene precio establecido
 							inputPrecio.val(numerosDecimalesMostrar(producto.precio)); // Rellenar con precio del producto
 
 							let ultimaFila = TBODY.find('tr:last');
