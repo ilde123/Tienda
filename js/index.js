@@ -422,31 +422,33 @@ function eventoCeldas(fila) {
 							let badge = $('<span>');
 							badge.addClass('badge rounded-pill align-top ms-2').text(producto.familia);
 	
-							switch (producto.familia) {
-								case 'Alimentación':
+							switch (producto.color) {
+								case 'rojo':
 									badge.addClass('bg-danger');
 									break;
-							
-								case 'Bebidas':
+
+								case 'azul':
 									badge.addClass('bg-primary');
 									break;
-	
-								case 'Droguería':
-										badge.addClass('bg-success');
-										break;
-	
-								case 'Tabaco':
+
+								case 'verde':
+									badge.addClass('bg-success');
+									break;
+
+								case 'amarillo':
 									badge.addClass('bg-warning text-dark');
 									break;
-	
-								case 'Varios':
+
+								case 'cyan':
 									badge.addClass('bg-info text-dark');
 									break;
+
+								case null:
 								default:
-									badge.addClass('bg-primary');
+									badge.addClass('bg-secondary');
 									break;
 							}
-	
+
 							celdaDescripcion.append(badge);
 						}
 

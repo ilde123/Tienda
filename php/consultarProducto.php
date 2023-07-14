@@ -12,11 +12,13 @@
 
 	if ($codigo == '') {
 		$sql = "SELECT * FROM producto
+				INNER JOIN familia USING(familia)
 				WHERE descripcion LIKE CONCAT('%',?,'%') ORDER BY descripcion;";
 
 		$param = $descripcion;
 	} else if ($descripcion == '') {
 		$sql = "SELECT * FROM producto
+				INNER JOIN familia USING(familia)
 				WHERE producto.codigo = ? ORDER BY descripcion;";
 
 		$param = $codigo;
