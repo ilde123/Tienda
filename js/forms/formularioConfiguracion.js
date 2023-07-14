@@ -18,13 +18,6 @@ function cargarFormularioConfiguracion() {
 	});
 
 
-
-
-
-
-
-
-
 	if (isEmpty(getItem(MOSTRAR_FAMILIA_TABLA))) {
 		let valor = formConfiguracion.mostrarFamilia.checked;
 
