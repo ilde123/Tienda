@@ -1,7 +1,7 @@
 <?php
 	require 'datosDB.php';
 
-	$sql = "SELECT familia FROM familia ORDER BY familia;";
+	$sql = "SELECT familia, color FROM familia ORDER BY familia;";
 	if ($resultado = $conexion->query($sql)) {
 		$n_filas = $resultado->num_rows;
 
