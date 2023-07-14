@@ -420,7 +420,7 @@ function eventoCeldas(fila) {
 
 						if (getItem(MOSTRAR_FAMILIA_TABLA) == "true") {
 							let badge = $('<span>');
-							badge.addClass('badge rounded-pill ms-2').text(producto.familia);
+							badge.addClass('badge rounded-pill align-top ms-2').text(producto.familia);
 	
 							switch (producto.familia) {
 								case 'Alimentación':
@@ -436,11 +436,11 @@ function eventoCeldas(fila) {
 										break;
 	
 								case 'Tabaco':
-									badge.addClass('bg-warning');
+									badge.addClass('bg-warning text-dark');
 									break;
 	
 								case 'Varios':
-									badge.addClass('bg-info');
+									badge.addClass('bg-info text-dark');
 									break;
 								default:
 									badge.addClass('bg-primary');
