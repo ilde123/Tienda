@@ -99,7 +99,7 @@ function cargarFormularioPedido() {
 					let pedidos = JSON.parse(json.json);
 
 					if (Object.keys(pedidos).length > 0) { // Si hay pedidos
-						cargarCabezeraTablaPedidos();
+						cargarCabeceraTablaPedidos();
 
 						let fecha;
 
@@ -114,7 +114,7 @@ function cargarFormularioPedido() {
 								nombreCliente = lineaPedido.nombre_cliente; // Nombre del cliente
 							});
 
-							agregarFilaTablaPedido(npedido, total, fecha, nombreCliente); // Agregar fila de pedido
+							agregarFilaCabeceraPedido(npedido, total, fecha, nombreCliente); // Agregar fila de pedido
 						});
 					} else {
 						msg("No hay pedidos en ese rango de fechas", "info");
@@ -131,7 +131,7 @@ function cargarFormularioPedido() {
 				(json) => {
 					let pedidos = JSON.parse(json.json); // Pedidos
 					if (pedidos.length > 0) { // Si hay pedidos
-						cargarCabezeraTablaPedidosTotal(); // Cargar cabezera tabla de pedidos total
+						cargarCabeceraTablaTotalPedidos(); // Cargar cabezera tabla de pedidos total
 
 						let precioTotal = 0; // Total de pedidos
 
@@ -226,7 +226,7 @@ function cargarFormularioPedido() {
 		ventana.print();
 	}
 
-	function cargarCabezeraTablaPedidos() {
+	function cargarCabeceraTablaPedidos() {
 		let nombresFilas = ['', 'Acciones', 'Fecha', 'Total']; // Nombres cabeceras tabla pedidos
 
 		cabeceraTablaPedidos(nombresFilas); // Cambiar nombres cabeceras tabla pedidos
@@ -234,7 +234,7 @@ function cargarFormularioPedido() {
 		mostrarTablaFormulario(); // Mostrar tabla de formulario
 	}
 
-	function cargarCabezeraTablaPedidosTotal() {
+	function cargarCabeceraTablaTotalPedidos() {
 		let nombresFilas = ['Fecha', 'Precio', null, null]; // Nombres cabeceras tabla pedidos total
 
 		cabeceraTablaPedidos(nombresFilas); // Cambiar nombres de cabeceras tabla pedidos total
@@ -489,9 +489,9 @@ function cargarFormularioPedido() {
 	}
 	
 	// Filas tabla pedido
-	function agregarFilaTablaPedido(npedido, total, fecha, nombreCliente) {
+	function agregarFilaCabeceraPedido(npedido, total, fecha, nombreCliente) {
 		let filaPedido = $("<tr>");
-		filaPedido.addClass(`cabecera-pedido-${npedido}`);
+		filaPedido.addClass(`cabecera-pedido-${npedido} .border`);
 		filaPedido.data('npedido', npedido); // Agregar datos npedido
 
 		// Primera columna
