@@ -368,6 +368,25 @@ function eventoCeldas(fila) {
 	let celda = fila.children(`.${CLASE_CODIGO}`);
 	let inputCodigo = celda.children('input');
 
+	fila.dblclick(function (e) {
+		e.preventDefault();
+
+		let codigo = fila.find('th input').val();
+
+		$('#btnConsultarProducto').click();
+
+		// ABRIR CONSULTAR PRODUCTO
+		setTimeout(() => {
+			$('#codigoConsultar').val(codigo);
+
+			$('#btnBuscarProducto').click();
+
+			setTimeout(() => {
+				$('.btn-warning').click();
+			}, 500);
+		}, 1000);
+	});
+
 	inputCodigo.change((e) => {
 		e.preventDefault();
 
