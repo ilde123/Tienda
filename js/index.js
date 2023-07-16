@@ -373,18 +373,22 @@ function eventoCeldas(fila) {
 
 		let codigo = fila.find('th input').val();
 
-		$('#btnConsultarProducto').click();
-
-		// ABRIR CONSULTAR PRODUCTO
-		setTimeout(() => {
-			$('#codigoConsultar').val(codigo);
-
-			$('#btnBuscarProducto').click();
-
+		if (isEmpty(codigo)) {
+			msg('No hay ningún producto en la fila.', 'danger');
+		} else {
+			$('#btnConsultarProducto').click();
+	
+			// ABRIR CONSULTAR PRODUCTO
 			setTimeout(() => {
-				$('.btn-warning').click();
-			}, 500);
-		}, 1000);
+				$('#codigoConsultar').val(codigo);
+	
+				$('#btnBuscarProducto').click();
+	
+				setTimeout(() => {
+					$('.btn-ver-producto').click();
+				}, 500);
+			}, 1000);
+		}
 	});
 
 	inputCodigo.change((e) => {
@@ -498,8 +502,6 @@ function eventoCeldas(fila) {
 								inputUnidades.focus().select();
 							}
 						}
-
-						
 					} else { // Si el producto no existe
 						vaciarFila(fila); // Limpiar fila
 
@@ -523,6 +525,7 @@ function eventoCeldas(fila) {
 
 						});
 					}
+
 					actualizarTotal(); // Actualizar total
 				} else {
 					msg(json.msg, 'danger');
