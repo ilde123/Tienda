@@ -368,7 +368,7 @@ function eventoCeldas(fila) {
 	let celda = fila.children(`.${CLASE_CODIGO}`);
 	let inputCodigo = celda.children('input');
 
-	fila.dblclick(function (e) {
+	fila.dblclick((e) => {
 		e.preventDefault();
 
 		let codigo = fila.find('th input').val();
@@ -437,7 +437,7 @@ function eventoCeldas(fila) {
 						let celdaDescripcion = fila.find(`.${CLASE_DESCRIPCION}`);
 						celdaDescripcion.text(producto.descripcion.toUpperCase()); // Mostrar descripción
 
-						if (getItem(MOSTRAR_FAMILIA_TABLA) == "true") {
+						if (getItem(MOSTRAR_FAMILIA_TABLA) == "true") { // Mostrar etiqueta familia
 							let badge = $('<span>');
 							badge.addClass('badge rounded-pill align-top ms-2').text(producto.familia);
 	
