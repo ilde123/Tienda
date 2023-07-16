@@ -481,8 +481,12 @@ function eventoCeldas(fila) {
 
 						if (isEmpty(producto.precio)) { // Si el producto no tiene precio establecido
 							if (isEmpty(inputPrecio.val())) { // Si el input de precio está vacío
-								inputPrecio.val(numerosDecimalesMostrar(0)).focus().select(); // Rellenar con 0 y asignar foco
+								inputPrecio.val(numerosDecimalesMostrar(0)); // Rellenar con 0
+							} else {
+								inputPrecio.val(numerosDecimalesMostrar(inputPrecio.val())); // Rellenar con el valor del input
 							}
+
+							inputPrecio.focus().select() // Asignar foco
 						} else { // Si el producto tiene precio establecido
 							inputPrecio.val(numerosDecimalesMostrar(producto.precio)); // Rellenar con precio del producto
 
