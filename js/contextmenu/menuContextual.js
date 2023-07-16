@@ -85,7 +85,7 @@ $.contextMenu({
 							$('#btnBuscarProducto').click();
 
 							setTimeout(() => {
-								$('.btn-warning').click();
+								$('.btn-ver-producto').click();
 							}, 500);
 						}, 1000);
 						break;
