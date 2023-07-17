@@ -194,17 +194,20 @@ function cargarFormularioProducto(opciones) {
 				cache: false,
 				contentType: false,
 				processData: false
-			}).done((url) => {
-				if (url == 0) {
+			}).done((respuesta) => {
+				if (respuesta.resultado == 0) {
 					msg('Error al guardar ruta en la base de datos', 'danger');
-				} else if (url == 1) {
+					consola(respuesta.msg);
+				} else if (respuesta.resultado == 1) {
 					msg('Error al mover fichero', 'danger');
-				} else if(url == 2) {
+					consola(respuesta.msg);
+				} else if(respuesta.resultado == 2) {
 					msg('El fichero seleccionado no es una imagen', 'danger');
+					consola(respuesta.msg);
 				} else {
-					$('#imgProducto').attr('src', url);
+					$('#imgProducto').attr('src', respuesta.msg);
 					msg('Imagen guardada con éxito', 'primary');
-					fila.data('producto').url_imagen = url;
+					fila.data('producto').url_imagen = respuesta.msg;
 				}
 			});
 		});
