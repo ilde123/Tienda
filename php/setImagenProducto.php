@@ -5,7 +5,7 @@
 		$ruta_absoluta = "img/productos/";
 		$ruta_relativa = "../img/productos/";
 		$nombre_fichero = $_FILES['img']['name'];
-		
+
 		if (move_uploaded_file($_FILES["img"]["tmp_name"], $ruta_relativa.date('U').$nombre_fichero)) {
 			$ruta_fichero_final = $ruta_absoluta.date('U').$nombre_fichero;
 			$codigo = $_POST['codigo'];
@@ -20,17 +20,24 @@
 				// cierra sentencia y conexión
 				$stmt->close();
 
-				echo  $ruta_fichero_final;
-			}
-			else {
-				echo 0;
+				$resultado = "ok";
+				$msg = $ruta_fichero_final;
+			} else {
+//				$resultado = $conexion->errno;
+				$resultado = 0;
+				$msg = "(".$conexion->errno.") ".$conexion->error;
 			}
 		} else {
-			echo 1;
+			$resultado = 1;
+			$msg = "(".$conexion->errno.") ".$conexion->error;
 		}
 	} else {
-		echo 2;
+		$resultado = 2;
+		$msg = "(".$conexion->errno.") ".$conexion->error;
 	}
+
+	$respuesta = array("resultado"=>$resultado, "msg"=>$msg);
+	echo json_encode($respuesta);
 
 	$conexion->close();
 ?>
