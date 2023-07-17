@@ -23,13 +23,13 @@
 				echo  $ruta_fichero_final;
 			}
 			else {
-				echo 0;
+				echo "Error al guardar ruta en la base de datos";
 			}
 		} else {
-			echo 0;
+			echo "Error al mover fichero";
 		}
 	} else {
-		echo 1;
+		echo "Formato de fichero no válido";
 	}
 
 	$conexion->close();

@@ -186,7 +186,7 @@ function cargarFormularioProducto(opciones) {
 			let formData = new FormData(document.getElementById("formModalProducto"));
 
 			$.ajax({
-				url: "php/setImgagenProducto.php",
+				url: "php/setImagenProducto.php",
 				type: "post",
 				dataType: "html",
 				data: formData,
