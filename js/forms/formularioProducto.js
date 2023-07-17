@@ -195,9 +195,25 @@ function cargarFormularioProducto(opciones) {
 				contentType: false,
 				processData: false
 			}).done((url) => {
+				switch (url) {
+					case 0:
+						
+						break;
+					case 1:
+						
+						break;
+					case 2:
+						
+						break;
+				
+					default:
+						break;
+				}
 				if (url == 0) {
-					msg('Fallo al guardar imagen', 'danger');
+					msg('Error al guardar ruta en la base de datos', 'danger');
 				} else if (url == 1) {
+					msg('Error al mover fichero', 'danger');
+				} else if(url == 2) {
 					msg('El fichero seleccionado no es una imagen', 'danger');
 				} else {
 					$('#imgProducto').attr('src', url);
