@@ -209,7 +209,7 @@ function cargarFormularioProducto(opciones) {
 					fila.data('producto').url_imagen = respuesta.msg;
 					setTimeout(() => {
 						$('#imgProducto').attr('src', respuesta.msg);
-					}, 500);
+					}, 1000);
 				}
 			});
 		});
