@@ -205,9 +205,9 @@ function cargarFormularioProducto(opciones) {
 					msg('El fichero seleccionado no es una imagen', 'danger');
 					consola(respuesta.msg);
 				} else {
-					$('#imgProducto').attr('src', respuesta.msg);
 					msg('Imagen guardada con éxito', 'primary');
 					fila.data('producto').url_imagen = respuesta.msg;
+					$('#imgProducto').attr('src', respuesta.msg);
 				}
 			});
 		});
