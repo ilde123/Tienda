@@ -207,7 +207,9 @@ function cargarFormularioProducto(opciones) {
 				} else {
 					msg('Imagen guardada con éxito', 'primary');
 					fila.data('producto').url_imagen = respuesta.msg;
-					$('#imgProducto').attr('src', respuesta.msg);
+					setTimeout(() => {
+						$('#imgProducto').attr('src', respuesta.msg);
+					}, 500);
 				}
 			});
 		});
