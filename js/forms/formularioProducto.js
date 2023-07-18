@@ -203,6 +203,7 @@ function cargarFormularioProducto(opciones) {
 				} else if(respuesta.resultado == 2) {
 					msg('El fichero seleccionado no es una imagen', 'danger');
 				} else {
+					let url = respuesta.msg;
 					msg('Imagen guardada con éxito', 'primary');
 					fila.data('producto').url_imagen = respuesta.msg;
 					$('#imgProducto').attr('src', url);
