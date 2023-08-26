@@ -494,10 +494,10 @@ function eventoCeldas(fila) {
 						} else { // Si el producto tiene precio establecido
 							inputPrecio.val(numerosDecimalesMostrar(producto.precio)); // Rellenar con precio del producto
 
-							if (getItem(AGREGAR_FILA_TRAS_CONSULTAR_PRODUCTO) == "true") {
+							let ultimaFila = TBODY.find('tr:last');
+
+							if (getItem(AGREGAR_FILA_TRAS_CONSULTAR_PRODUCTO) == "true" && fila.is(ultimaFila)) {
 								agregarFila();
-							} else {
-								inputUnidades.focus().select();
 							}
 						}
 					} else { // Si el producto no existe
