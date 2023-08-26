@@ -1,10 +1,10 @@
 <?php
 	require 'datosDB.php';
 
-	$fechaInicio = trim($_POST['fechaInicio']);
-	$fechaFin = trim($_POST['fechaFin']);
-	$horaInicio = trim($_POST['horaInicio']);
-	$horaFin = trim($_POST['horaFin']);
+	$fechaInicio = trim($_GET['fechaInicio']);
+	$fechaFin = trim($_GET['fechaFin']);
+	$horaInicio = trim($_GET['horaInicio']);
+	$horaFin = trim($_GET['horaFin']);
 
 	// Sumar un día a la fecha de fin para que incluya la fecha de fin
 	$fechaFin = date('Y-m-d', strtotime($fechaFin . ' + 1 day'));
@@ -19,12 +19,23 @@
 
 	$fi = $fechaInicio.' '.$horaInicio;
 	$ff = $fechaFin.' '.$horaFin;
+
+	$cadenaFamilias = '';
+
+	if (isset($_GET['familias'])) {
+		$familias = $_GET['familias'];
+
+		foreach ($familias as $key => $familia) {
+			$cadenaFamilias .= "AND UPPER(producto.familia) != UPPER('".$familia."') "; 
+		}
+	}
+
 	$respuesta;
 
 	$sql = "SELECT SUM(lpedido.unidades * lpedido.precio) total, DATE_FORMAT(pedido.fecha, '%d/%m/%Y') fecha FROM pedido
 			INNER JOIN lpedido USING(npedido)
 			INNER JOIN producto USING(codigo)
-			WHERE fecha BETWEEN ? AND ? AND DATE_FORMAT(pedido.fecha, '%H:%i') BETWEEN ? AND ? AND UPPER(producto.familia) != 'TABACO'
+			WHERE fecha BETWEEN ? AND ? AND DATE_FORMAT(pedido.fecha, '%H:%i') BETWEEN ? AND ? ".$cadenaFamilias."
 			GROUP BY DATE_FORMAT(pedido.fecha, '%d %m %Y')
 			ORDER BY pedido.fecha DESC, producto.descripcion DESC;";
 

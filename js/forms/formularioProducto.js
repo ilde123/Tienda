@@ -195,7 +195,7 @@ function cargarFormularioProducto(opciones) {
 				contentType: false,
 				processData: false
 			}).done((res) => {
-				let respuesta = JSON.parse(res)
+				let respuesta = JSON.parse(res);
 				if (respuesta.resultado == 0) {
 					msg('Error al guardar ruta en la base de datos', 'danger');
 				} else if (respuesta.resultado == 1) {

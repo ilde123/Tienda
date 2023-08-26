@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
 
+#btnCollapseFamilias i {
+	transition-duration: 0.5s;
+	transform-origin: center;
+}
+
+i.rotar {
+	transform: rotate(-180deg);
+}
+
 #navbarText {
 	font-size: x-large;
 	font-weight: bolder;

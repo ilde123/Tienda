@@ -18,6 +18,12 @@ function cargarFormularioPedido() {
 
 	crearPickers();
 
+	$('#btnCollapseFamilias').click(function (e) { 
+		e.preventDefault();
+
+		$(this).children().toggleClass('rotar');
+	});
+
 	$('#btnConsultarPedido').click((e) => {
 		e.preventDefault();
 
@@ -79,11 +85,37 @@ function cargarFormularioPedido() {
 		let horaInicio = HORA_INICIO.val();
 		let horaFin = HORA_FIN.val();
 
+		let checkAlimentacion = $('#checkAlimentacion');
+		let checkBebidas = $('#checkBebidas');
+		let checkDrogueria = $('#checkDrogueria');
+		let checkTabaco = $('#checkTabaco');
+		let checkVarios = $('#checkVarios');
+
 		// Formatear fechas
 		fechaInicio = formatoFecha(fechaInicio);
 		fechaFin = formatoFecha(fechaFin);
 
 		let datos = `fechaInicio=${fechaInicio}&fechaFin=${fechaFin}&horaInicio=${horaInicio}&horaFin=${horaFin}`;
+
+		if (!checkAlimentacion.is(':checked')) {
+			datos += `&familias[]=${checkAlimentacion.val() }`;
+		}
+
+		if (!checkBebidas.is(':checked')) {
+			datos += `&familias[]=${checkBebidas.val() }`;
+		}
+
+		if (!checkDrogueria.is(':checked')) {
+			datos += `&familias[]=${checkDrogueria.val() }`;
+		}
+
+		if (!checkTabaco.is(':checked')) {
+			datos += `&familias[]=${checkTabaco.val() }`;
+		}
+
+		if (!checkVarios.is(':checked')) {
+			datos += `&familias[]=${checkVarios.val() }`;
+		}
 
 		if ($('input[name=opcion]:checked').val() == 'producto') { // Muestra el listado de pedidos
 			consultarPedido(); // Consultar pedidos
@@ -94,7 +126,7 @@ function cargarFormularioPedido() {
 		function consultarPedido() {
 			TBODY_TABLA_PEDIDO.empty(); // Vaciar tabla
 
-			$.post("php/consultarPedido.php", datos,
+			$.get("php/consultarPedido.php", datos,
 				(json) => {
 					let pedidos = JSON.parse(json.json);
 
@@ -127,7 +159,7 @@ function cargarFormularioPedido() {
 		function consultarPedidoTotal() {
 			TBODY_TABLA_PEDIDO.empty(); // Vaciar tabla de pedidos
 
-			$.post("php/consultarPedidoPorDia.php", datos,
+			$.get("php/consultarPedidoPorDia.php", datos,
 				(json) => {
 					let pedidos = JSON.parse(json.json); // Pedidos
 					if (pedidos.length > 0) { // Si hay pedidos
