@@ -188,6 +188,10 @@ i.rotar {
 	BARRA DE SCROLL
 */
 
+.modal-body {
+	scrollbar-width: thin;
+}
+
 ::-webkit-scrollbar {
 	width: 7px;
 	height: 7px;
