@@ -438,12 +438,12 @@ function cargarFormularioProducto(opciones) {
 	}
 
 	function crearPickerRange() {
-		let colorGris = '#C6C6C6';
-		let colorVerde = '#387bbe';
+		let colorPrimario = '#387bbe';
+		let colorSecundario = '#C6C6C6';
 
 		function controlFromInput(fromSlider, fromInput, toInput, controlSlider) {
 			const [from, to] = getParsed(fromInput, toInput);
-			fillSlider(fromInput, toInput, colorGris, colorVerde, controlSlider);
+			fillSlider(fromInput, toInput, colorSecundario, colorPrimario, controlSlider);
 
 			if (from > to) {
 				fromSlider.value = to;
@@ -457,7 +457,7 @@ function cargarFormularioProducto(opciones) {
 
 		function controlToInput(toSlider, fromInput, toInput, controlSlider) {
 			const [from, to] = getParsed(fromInput, toInput);
-			fillSlider(fromInput, toInput, colorGris, colorVerde, controlSlider);
+			fillSlider(fromInput, toInput, colorSecundario, colorPrimario, controlSlider);
 			setToggleAccessible(toInput);
 
 			if (from <= to) {
@@ -472,7 +472,7 @@ function cargarFormularioProducto(opciones) {
 
 		function controlFromSlider(fromSlider, toSlider, fromInput) {
 			const [from, to] = getParsed(fromSlider, toSlider);
-			fillSlider(fromSlider, toSlider, colorGris, colorVerde, toSlider);
+			fillSlider(fromSlider, toSlider, colorSecundario, colorPrimario, toSlider);
 
 			if (from > to) {
 				fromSlider.value = to;
@@ -484,7 +484,7 @@ function cargarFormularioProducto(opciones) {
 
 		function controlToSlider(fromSlider, toSlider, toInput) {
 			const [from, to] = getParsed(fromSlider, toSlider);
-			fillSlider(fromSlider, toSlider, colorGris, colorVerde, toSlider);
+			fillSlider(fromSlider, toSlider, colorSecundario, colorPrimario, toSlider);
 			setToggleAccessible(toSlider);
 
 			if (from <= to) {
@@ -533,7 +533,7 @@ function cargarFormularioProducto(opciones) {
 
 		getPrecioMax();
 
-		fillSlider(fromSlider, toSlider, colorGris, colorVerde, toSlider);
+		fillSlider(fromSlider, toSlider, colorSecundario, colorPrimario, toSlider);
 		setToggleAccessible(toSlider);
 
 		fromSlider.oninput = () => controlFromSlider(fromSlider, toSlider, fromInput);
