@@ -432,7 +432,7 @@ function eventoCeldas(fila) {
 	function consultarProducto(codigo) {
 		let datos = `codigo=${codigo}`;
 
-		$.post("php/consultarProducto.php", datos,
+		$.get("php/consultarProducto.php", datos,
 			(json) => {
 				if (json.resultado == 'ok') {
 					let producto = JSON.parse(json.json)[0]; // Obtener primer producto
