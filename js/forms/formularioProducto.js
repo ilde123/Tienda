@@ -452,7 +452,7 @@ function cargarFormularioProducto(opciones) {
 				fromSlider.value = from;
 			}
 
-			fromInput.value = `${fromSlider.value} €`;
+			fromInput.value = `${numerosDecimalesMostrar(fromSlider.value)} €`;
 		}
 
 		function controlToInput(toSlider, fromInput, toInput, controlSlider) {
@@ -467,7 +467,7 @@ function cargarFormularioProducto(opciones) {
 				toInput.value = `${numerosDecimalesMostrar(from)} €`;
 			}
 
-			toInput.value = `${toSlider.value} €`;
+			toInput.value = `${numerosDecimalesMostrar(toSlider.value)} €`;
 		}
 
 		function controlFromSlider(fromSlider, toSlider, fromInput) {
