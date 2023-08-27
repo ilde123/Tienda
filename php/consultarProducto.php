@@ -3,8 +3,14 @@
 
 	$codigo = trim($_GET['codigo']);
 	$descripcion = "";
-	$precioMin = $_GET['precioMin'];
-	$precioMax = $_GET['precioMax'];
+	$cadenaPrecios = '';
+
+	if (isset($_GET['precioMin']) && isset($_GET['precioMax'])) {
+		$precioMin = $_GET['precioMin'];
+		$precioMax = $_GET['precioMax'];
+
+		$cadenaPrecios = 'AND producto.precio BETWEEN ? AND ?';
+	}
 
 	if (isset($_GET['descripcion'])) {
 		$descripcion = trim($_GET['descripcion']);
@@ -15,14 +21,14 @@
 	if ($codigo == '') {
 		$sql = "SELECT * FROM producto
 				INNER JOIN familia USING(familia)
-				WHERE descripcion LIKE CONCAT('%',?,'%') AND producto.precio BETWEEN ? AND ?
+				WHERE descripcion LIKE CONCAT('%',?,'%') ".$cadenaPrecios."
 				ORDER BY descripcion;";
 
 		$param = $descripcion;
 	} else if ($descripcion == '') {
 		$sql = "SELECT * FROM producto
 				INNER JOIN familia USING(familia)
-				WHERE producto.codigo = ? AND producto.precio BETWEEN ? AND ?
+				WHERE producto.codigo = ? ".$cadenaPrecios."
 				ORDER BY descripcion;";
 
 		$param = $codigo;
@@ -32,7 +38,11 @@
 
 	if ($stmt = $conexion->prepare($sql)) {
 
-		$stmt->bind_param('sdd', $param, $precioMin, $precioMax);
+		if ($cadenaPrecios == '') {
+			$stmt->bind_param('s', $param);
+		} else {
+			$stmt->bind_param('sdd', $param, $precioMin, $precioMax);
+		}
 
 		// ejecuta sentencias prepradas
 		$stmt->execute();
