@@ -12,7 +12,10 @@ function cargarFormularioProducto(opciones) {
 	// CREAR SPINNER INPUT NUMÉRICO
 	crearNumbersSpinners();
 
-	getFamilias('#familiaAgregar, #familiaConsultar, #familiaModalProducto'); // Cargar datos familias
+	// Crear picker input range
+	crearPickerRange();
+
+	getFamilias('#familiaAgregar, #familiaConsultar, #familiaModalProducto, #familias'); // Cargar datos familias
 	getProveedores('#proveedorAgregar, #proveedorConsultar, #proveedorModalProducto'); // Cargar datos proveedores
 
 	// BOTÓN AGREGAR PRODUCTO
@@ -265,7 +268,7 @@ function cargarFormularioProducto(opciones) {
 
 		let datos = $('form[name="formConsultarProducto"]').serializeArray();
 
-		$.post("php/consultarProducto.php", datos,
+		$.get("php/consultarProducto.php", datos,
 			(json) => {
 				if (json.resultado == 'ok') {
 					let productos = JSON.parse(json.json);
@@ -281,6 +284,7 @@ function cargarFormularioProducto(opciones) {
 						filtro("#descripcionConsultar", "#codigoConsultar", "#tablaProducto tbody tr"); // Crear filtro
 						$('div.contenido-oculto').slideDown(); // Mostrar tabla productos
 					} else {
+						limpiarTablaConsultarProducto();
 						msg('No se encontraron productos', 'info');
 					}
 
@@ -293,6 +297,25 @@ function cargarFormularioProducto(opciones) {
 		);
 	}
 
+	function getPrecioMax() {
+		$.get("php/getPrecioMax.php", null,
+			function (res) {
+				const fromSlider = document.querySelector('#fromSlider');
+				const toSlider = document.querySelector('#toSlider');
+				const fromInput = document.querySelector('#fromInput');
+				const toInput = document.querySelector('#toInput');
+				let precio = parseInt(res) + 1;
+
+				toInput.value = `${numerosDecimalesMostrar(precio)} €`;
+				toSlider.max = precio;
+				fromSlider.max = precio;
+				toSlider.value = precio;
+				fromInput.value = `${numerosDecimalesMostrar(fromInput.value)} €`;
+			},
+			"text"
+		);
+	}
+
 	function insertarProducto(datos) {
 		$.post("php/insertarProducto.php", datos,
 			(json) => {
@@ -300,6 +323,7 @@ function cargarFormularioProducto(opciones) {
 					msg(json.msg, 'success');
 
 					actualizarAutocomplete();
+					getPrecioMax();
 				} else {
 					msg(json.msg, 'danger');
 				}
@@ -412,6 +436,111 @@ function cargarFormularioProducto(opciones) {
 			"json"
 		);
 	}
+
+	function crearPickerRange() {
+		let colorGris = '#C6C6C6';
+		let colorVerde = '#387bbe';
+
+		function controlFromInput(fromSlider, fromInput, toInput, controlSlider) {
+			const [from, to] = getParsed(fromInput, toInput);
+			fillSlider(fromInput, toInput, colorGris, colorVerde, controlSlider);
+
+			if (from > to) {
+				fromSlider.value = to;
+				fromInput.value = `${numerosDecimalesMostrar(to)} €`;
+			} else {
+				fromSlider.value = from;
+			}
+
+			fromInput.value = `${fromSlider.value} €`;
+		}
+
+		function controlToInput(toSlider, fromInput, toInput, controlSlider) {
+			const [from, to] = getParsed(fromInput, toInput);
+			fillSlider(fromInput, toInput, colorGris, colorVerde, controlSlider);
+			setToggleAccessible(toInput);
+
+			if (from <= to) {
+				toSlider.value = to;
+				toInput.value = `${numerosDecimalesMostrar(to)} €`;
+			} else {
+				toInput.value = `${numerosDecimalesMostrar(from)} €`;
+			}
+
+			toInput.value = `${toSlider.value} €`;
+		}
+
+		function controlFromSlider(fromSlider, toSlider, fromInput) {
+			const [from, to] = getParsed(fromSlider, toSlider);
+			fillSlider(fromSlider, toSlider, colorGris, colorVerde, toSlider);
+
+			if (from > to) {
+				fromSlider.value = to;
+				fromInput.value = `${numerosDecimalesMostrar(to)} €`;
+			} else {
+				fromInput.value = `${numerosDecimalesMostrar(from)} €`;
+			}
+		}
+
+		function controlToSlider(fromSlider, toSlider, toInput) {
+			const [from, to] = getParsed(fromSlider, toSlider);
+			fillSlider(fromSlider, toSlider, colorGris, colorVerde, toSlider);
+			setToggleAccessible(toSlider);
+
+			if (from <= to) {
+				toSlider.value = to;
+				toInput.value = `${numerosDecimalesMostrar(to)} €`;
+			} else {
+				toInput.value = `${numerosDecimalesMostrar(from)} €`;
+				toSlider.value = from;
+			}
+		}
+
+		function getParsed(currentFrom, currentTo) {
+			const from = parseFloat(numerosDecimales(currentFrom.value));
+			const to = parseFloat(numerosDecimales(currentTo.value));
+			return [from, to];
+		}
+
+		function fillSlider(from, to, sliderColor, rangeColor, controlSlider) {
+			const rangeDistance = to.max - to.min;
+			const fromPosition = from.value - to.min;
+			const toPosition = to.value - to.min;
+			controlSlider.style.background = `linear-gradient(
+			  to right,
+			  ${sliderColor} 0%,
+			  ${sliderColor} ${(fromPosition)/(rangeDistance)*100}%,
+			  ${rangeColor} ${((fromPosition)/(rangeDistance))*100}%,
+			  ${rangeColor} ${(toPosition)/(rangeDistance)*100}%, 
+			  ${sliderColor} ${(toPosition)/(rangeDistance)*100}%, 
+			  ${sliderColor} 100%)`;
+		}
+
+		function setToggleAccessible(currentTarget) {
+			const toSlider = document.querySelector('#toSlider');
+
+			if (Number(currentTarget.value) <= 0 ) {
+				toSlider.style.zIndex = 2;
+			} else {
+				toSlider.style.zIndex = 0;
+			}
+		}
+
+		const fromSlider = document.querySelector('#fromSlider');
+		const toSlider = document.querySelector('#toSlider');
+		const fromInput = document.querySelector('#fromInput');
+		const toInput = document.querySelector('#toInput');
+
+		getPrecioMax();
+
+		fillSlider(fromSlider, toSlider, colorGris, colorVerde, toSlider);
+		setToggleAccessible(toSlider);
+
+		fromSlider.oninput = () => controlFromSlider(fromSlider, toSlider, fromInput);
+		toSlider.oninput = () => controlToSlider(fromSlider, toSlider, toInput);
+		fromInput.oninput = () => controlFromInput(fromSlider, fromInput, toInput, toSlider);
+		toInput.oninput = () => controlToInput(toSlider, fromInput, toInput, toSlider);
+	}	
 
 	function validarFormularioProducto(clase) {
 		let campoValido = true;

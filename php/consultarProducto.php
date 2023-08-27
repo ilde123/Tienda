@@ -1,11 +1,13 @@
 <?php
 	require 'datosDB.php';
 
-	$codigo = trim($_POST['codigo']);
+	$codigo = trim($_GET['codigo']);
 	$descripcion = "";
-	
-	if (isset($_POST['descripcion'])) {
-		$descripcion = trim($_POST['descripcion']);
+	$precioMin = $_GET['precioMin'];
+	$precioMax = $_GET['precioMax'];
+
+	if (isset($_GET['descripcion'])) {
+		$descripcion = trim($_GET['descripcion']);
 	}
 
 	$param = "";
@@ -13,13 +15,15 @@
 	if ($codigo == '') {
 		$sql = "SELECT * FROM producto
 				INNER JOIN familia USING(familia)
-				WHERE descripcion LIKE CONCAT('%',?,'%') ORDER BY descripcion;";
+				WHERE descripcion LIKE CONCAT('%',?,'%') AND producto.precio BETWEEN ? AND ?
+				ORDER BY descripcion;";
 
 		$param = $descripcion;
 	} else if ($descripcion == '') {
 		$sql = "SELECT * FROM producto
 				INNER JOIN familia USING(familia)
-				WHERE producto.codigo = ? ORDER BY descripcion;";
+				WHERE producto.codigo = ? AND producto.precio BETWEEN ? AND ?
+				ORDER BY descripcion;";
 
 		$param = $codigo;
 	}
@@ -28,7 +32,7 @@
 
 	if ($stmt = $conexion->prepare($sql)) {
 
-		$stmt->bind_param('s', $param);
+		$stmt->bind_param('sdd', $param, $precioMin, $precioMax);
 
 		// ejecuta sentencias prepradas
 		$stmt->execute();
