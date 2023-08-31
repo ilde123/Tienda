@@ -500,7 +500,7 @@ function eventoCeldas(fila) {
 								let ultimaFila = TBODY.find('tr:last');
 								let codigoUltimaFila = ultimaFila.find(`.${CLASE_CODIGO} input`);
 
-								if (codigoUltimaFila.val() != '') {
+								if (!isEmpty(codigoUltimaFila.val())) {
 									agregarFila();
 								}
 							} else {
@@ -692,17 +692,19 @@ function imprimirTicket() {
 
 function isEmpty(valor) {
 	if (isNaN(valor)) {
-		if (valor == undefined || valor == null || valor == '') {
+		if (valor == undefined) {
 			return true;
 		} else {
 			return false;
 		}
+	} else if (valor == 0) {
+		return true;
+	} else if (valor == '') {
+		return true;
+	} else if (valor == null) {
+		return true;
 	} else {
-		if (valor == 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return false;
 	}
 }
 
