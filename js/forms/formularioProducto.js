@@ -180,7 +180,7 @@ function cargarFormularioProducto(opciones) {
 
 		$('#modalProducto').on('hide.bs.modal', () => {
 			limpiarFormularioProducto('ModalProducto'); // Limpiar formulario modal producto
-			TBODY.find('th input').change(); // Actualizar filas
+//			TBODY.find('th input').change(); // Actualizar filas
 		});
 
 		$('#fileImgProducto').change((e) => {
