@@ -402,19 +402,21 @@ function eventoCeldas(fila) {
 			} else {
 				let productoEnTabla = false;
 				let celdaUnidades;
-	
+
 				// Comprobar si el código ya está en la tabla
-				TBODY.find('tr').each((_index, element) => {
-					if (codigo == $(element).find(`.${CLASE_CODIGO} input`).val() && !fila.is($(element)) && parseInt(codigo) > 4) { // Si el código coincide, no es la misma fila y es mayor que 5
-						celdaUnidades = $(element).find(`.${CLASE_UNIDADES} input`);
+				TBODY.find('tr').each((_index, filaBuscada) => {
+					let codigoBuscado = $(filaBuscada).find(`.${CLASE_CODIGO} input`).val();
+
+					if (codigo == codigoBuscado && !fila.is($(filaBuscada)) && parseInt(codigo) > 4) { // Si el código coincide, no es la misma fila y es mayor que 5
+						celdaUnidades = $(filaBuscada).find(`.${CLASE_UNIDADES} input`);
 						productoEnTabla = true;
 					}
 				});
-	
+
 				if (productoEnTabla) { // Si el código ya está en la tabla
 					celdaUnidades.val(parseInt(celdaUnidades.val()) + 1); // Sumar una unidad
 					inputCodigo.val(""); // Vaciar el input de código
-	
+
 					actualizarTotal(); // Actualizar total
 					let ultimaFila = TBODY.find('tr:last');
 					ultimaFila.find(`.${CLASE_CODIGO} input`).focus();
@@ -494,10 +496,13 @@ function eventoCeldas(fila) {
 						} else { // Si el producto tiene precio establecido
 							inputPrecio.val(numerosDecimalesMostrar(producto.precio)); // Rellenar con precio del producto
 
-							let ultimaFila = TBODY.find('tr:last');
-
 							if (getItem(AGREGAR_FILA_TRAS_CONSULTAR_PRODUCTO) == "true") {
-								agregarFila();
+								let ultimaFila = TBODY.find('tr:last');
+								let codigoUltimaFila = ultimaFila.find(`.${CLASE_CODIGO} input`);
+
+								if (codigoUltimaFila.val() != '') {
+									agregarFila();
+								}
 							} else {
 								inputUnidades.select().focus();
 							}
@@ -522,7 +527,6 @@ function eventoCeldas(fila) {
 								fila.find(`.${CLASE_DESCRIPCION}`).text(''); // Vaciar descripción
 								fila.find(`.${CLASE_CODIGO} input`).focus(); // Asignar foco a código
 							}
-
 						});
 					}
 
