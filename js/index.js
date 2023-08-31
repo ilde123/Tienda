@@ -10,9 +10,16 @@ const TOTAL_NAVBAR = $('#navbarText');
 
 // Clases de las columnas
 const CLASE_CODIGO = 'col-codigo';
+const CELDA_CODIGO = `.${CLASE_CODIGO}`;
+const INPUT_CODIGO = `.${CLASE_CODIGO} input`;
 const CLASE_DESCRIPCION = 'col-descripcion';
+const CELDA_DESCRIPCION = `td.${CLASE_DESCRIPCION}`;
 const CLASE_PRECIO = 'col-precio';
+const CELDA_PRECIO = `.${CLASE_PRECIO}`;
+const INPUT_PRECIO = `.${CLASE_PRECIO} input`;
 const CLASE_UNIDADES = 'col-unidades';
+const CELDA_UNIDADES = `.${CLASE_UNIDADES}`;
+const INPUT_UNIDADES = `.${CLASE_UNIDADES} input`;
 const CLASE_EXISTENCIAS = 'col-existencias';
 const CLASE_MINIMO = 'col-minimo';
 const CLASE_FALTAN = 'col-faltan';
@@ -66,7 +73,7 @@ $(function () {
 		TBODY.children("tr:not(tr:first)").remove();
 		// Resetea los valores de los campos
 		TBODY.find("tr:first input").val('');
-		TBODY.find(`tr:first td.${CLASE_DESCRIPCION}`).text('');
+		TBODY.find(`tr:first ${CELDA_DESCRIPCION}`).text('');
 		// Asigna el foco al campo código
 		TBODY.find("th input").select();
 
@@ -341,7 +348,7 @@ function limpiarTabla() {
 	TOTAL_NAVBAR.val('');
 	TBODY.find('tr:not(tr:last)').remove(); // Elimina todas las filas excepto la última
 	$('tbody input').val(''); // Limpia todos los inputs
-	TBODY.find(`td.${CLASE_DESCRIPCION}`).text(''); // Limpia la descripción
+	TBODY.find(CELDA_DESCRIPCION).text(''); // Limpia la descripción
 
 	NOMBRE_CLIENTE_MODAL_CAMBIO.val(''); // Limpia el nombre del cliente
 	COLLAPSE_NOMBRE_CLIENTE_MODAL_CAMBIO.removeClass('show'); // Elimina la clase show
@@ -365,7 +372,7 @@ function reiniciarContador() {
 function eventoCeldas(fila) {
 	// Evento código
 
-	let celda = fila.children(`.${CLASE_CODIGO}`);
+	let celda = fila.children(CELDA_CODIGO);
 	let inputCodigo = celda.children('input');
 
 	fila.dblclick((e) => {
@@ -405,10 +412,10 @@ function eventoCeldas(fila) {
 
 				// Comprobar si el código ya está en la tabla
 				TBODY.find('tr').each((_index, filaBuscada) => {
-					let codigoBuscado = $(filaBuscada).find(`.${CLASE_CODIGO} input`).val();
+					let codigoBuscado = $(filaBuscada).find(INPUT_CODIGO).val();
 
 					if (codigo == codigoBuscado && !fila.is($(filaBuscada)) && parseInt(codigo) > 4) { // Si el código coincide, no es la misma fila y es mayor que 5
-						celdaUnidades = $(filaBuscada).find(`.${CLASE_UNIDADES} input`);
+						celdaUnidades = $(filaBuscada).find(INPUT_CODIGO);
 						productoEnTabla = true;
 					}
 				});
@@ -419,7 +426,7 @@ function eventoCeldas(fila) {
 
 					actualizarTotal(); // Actualizar total
 					let ultimaFila = TBODY.find('tr:last');
-					ultimaFila.find(`.${CLASE_CODIGO} input`).focus();
+					ultimaFila.find(INPUT_CODIGO).focus();
 				} else { // Si el código es un número
 					consultarProducto(codigo);
 				}
@@ -440,7 +447,7 @@ function eventoCeldas(fila) {
 					let producto = JSON.parse(json.json)[0]; // Obtener primer producto
 
 					if (producto != undefined) { // Si el producto existe
-						let celdaDescripcion = fila.find(`.${CLASE_DESCRIPCION}`);
+						let celdaDescripcion = fila.find(CELDA_DESCRIPCION);
 						celdaDescripcion.text(producto.descripcion.toUpperCase()); // Mostrar descripción
 
 						if (getItem(MOSTRAR_FAMILIA_TABLA) == "true") { // Mostrar etiqueta familia
@@ -477,13 +484,13 @@ function eventoCeldas(fila) {
 							celdaDescripcion.append(badge);
 						}
 
-						let inputUnidades = fila.find(`.${CLASE_UNIDADES} input`); // Obtener input de unidades
+						let inputUnidades = fila.find(INPUT_UNIDADES); // Obtener input de unidades
 
 						if (isEmpty(inputUnidades.val())) { // Si el input de unidades está vacío
 							inputUnidades.val('1'); // Rellenar con 1 y asignar foco
 						}
 
-						let inputPrecio = fila.find(`.${CLASE_PRECIO} input`); // Obtener input precio
+						let inputPrecio = fila.find(INPUT_PRECIO); // Obtener input precio
 
 						if (isEmpty(producto.precio)) { // Si el producto no tiene precio establecido
 							if (isEmpty(inputPrecio.val())) { // Si el input de precio está vacío
@@ -498,7 +505,7 @@ function eventoCeldas(fila) {
 
 							if (getItem(AGREGAR_FILA_TRAS_CONSULTAR_PRODUCTO) == "true") {
 								let ultimaFila = TBODY.find('tr:last');
-								let codigoUltimaFila = ultimaFila.find(`.${CLASE_CODIGO} input`);
+								let codigoUltimaFila = ultimaFila.find(INPUT_CODIGO);
 
 								if (!isEmpty(codigoUltimaFila.val())) {
 									agregarFila();
@@ -514,8 +521,8 @@ function eventoCeldas(fila) {
 							if (respuesta) {
 								$('#btnInsertarProducto').click(); // Pulsar botón de insertar producto
 
-								let codigo = fila.find(`.${CLASE_CODIGO} input`).val();
-								let precio = fila.find(`.${CLASE_PRECIO} input`).val();
+								let codigo = fila.find(INPUT_CODIGO).val();
+								let precio = fila.find(INPUT_CODIGO).val();
 
 								setTimeout(() => { // Esperar a que se cargue la tabla
 									$('#codigoAgregar').val(codigo); // Rellenar código
@@ -524,8 +531,8 @@ function eventoCeldas(fila) {
 								}, 1000);
 							} else {
 								fila.find('input').val(''); // Vaciar input
-								fila.find(`.${CLASE_DESCRIPCION}`).text(''); // Vaciar descripción
-								fila.find(`.${CLASE_CODIGO} input`).focus(); // Asignar foco a código
+								fila.find(CELDA_DESCRIPCION).text(''); // Vaciar descripción
+								fila.find(INPUT_CODIGO).focus(); // Asignar foco a código
 							}
 						});
 					}
@@ -540,13 +547,13 @@ function eventoCeldas(fila) {
 	}
 
 	function vaciarFila(fila) {
-		fila.find(`.${CLASE_DESCRIPCION}`).text('');
-		fila.find(`.${CLASE_PRECIO} input`).val(numerosDecimalesMostrar(0));
-		fila.find(`.${CLASE_UNIDADES} input`).val(1);
+		fila.find(CELDA_DESCRIPCION).text('');
+		fila.find(INPUT_PRECIO).val(numerosDecimalesMostrar(0));
+		fila.find(INPUT_UNIDADES).val(1);
 	}
 
 	// EVENTO CELDA UNIDADES
-	celda = fila.children(`.${CLASE_UNIDADES}`);
+	celda = fila.children(CELDA_UNIDADES);
 	let inputUnidades = celda.children('input');
 
 	inputUnidades.change((e) => {
@@ -565,7 +572,7 @@ function eventoCeldas(fila) {
 
 
 	// EVENTO CELDA PRECIO
-	celda = fila.children(`.${CLASE_PRECIO}`);
+	celda = fila.children(CELDA_PRECIO);
 	let inputPrecio = celda.children('input');
 
 	inputPrecio.change((e) => {
@@ -585,9 +592,9 @@ function eventoCeldas(fila) {
 	});
 
 	function actualizarPrecioProducto() {
-		let codigo = fila.find(`.${CLASE_CODIGO} input`).val();
-		let precio = fila.find(`.${CLASE_PRECIO} input`).val();
-		fila.find(`.${CLASE_PRECIO} input`).val(formatNumber(precio)); // Formatear precio
+		let codigo = fila.find(INPUT_CODIGO).val();
+		let precio = fila.find(INPUT_PRECIO).val();
+		fila.find(INPUT_PRECIO).val(formatNumber(precio)); // Formatear precio
 
 		let datos = `codigo=${codigo}&precio=${formatNumber(precio)}`;
 
@@ -631,8 +638,8 @@ function getProductos(elemento) {
 }
 
 function actualizarTotal() {
-	let inputUnidades = $(`.${CLASE_UNIDADES} input`);
-	let inputPrecios = $(`.${CLASE_PRECIO} input`);
+	let inputUnidades = $(INPUT_UNIDADES);
+	let inputPrecios = $(INPUT_PRECIO);
 	let total = 0;
 
 	inputUnidades.each(function (index, inputUnidad) {
@@ -662,9 +669,9 @@ function imprimirTicket() {
 		let fila = $(element);
 		if (fila.find('input').val() != '' && fila.text() != '') {
 
-			let descripcion = fila.find(`td.${CLASE_DESCRIPCION}`).text();
-			let unidades = fila.find(`td.${CLASE_UNIDADES} input`).val();
-			let precio = numerosDecimales(fila.find(`td.${CLASE_PRECIO} input`).val());
+			let descripcion = fila.find(CELDA_DESCRIPCION).text();
+			let unidades = fila.find(INPUT_UNIDADES).val();
+			let precio = numerosDecimales(fila.find(INPUT_PRECIO).val());
 			let total = precio * unidades;
 
 			url += `unidades[]=${unidades}&descripcion[]=${descripcion}&precio[]=${precio}&total[]=${total}&`;
