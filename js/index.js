@@ -496,8 +496,10 @@ function eventoCeldas(fila) {
 
 							let ultimaFila = TBODY.find('tr:last');
 
-							if (getItem(AGREGAR_FILA_TRAS_CONSULTAR_PRODUCTO) == "true" && fila.is(ultimaFila)) {
+							if (getItem(AGREGAR_FILA_TRAS_CONSULTAR_PRODUCTO) == "true") {
 								agregarFila();
+							} else {
+								inputUnidades.select().focus();
 							}
 						}
 					} else { // Si el producto no existe
