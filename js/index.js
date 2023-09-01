@@ -344,6 +344,12 @@ function eliminarFila() {
 	$(window).scroll();
 }
 
+function vaciarFila(fila) {
+	fila.find(CELDA_DESCRIPCION).text('');
+	fila.find(INPUT_PRECIO).val(numerosDecimalesMostrar(0));
+	fila.find(INPUT_UNIDADES).val(1);
+}
+
 function limpiarTabla() {
 	TOTAL_NAVBAR.val('');
 	TBODY.find('tr:not(tr:last)').remove(); // Elimina todas las filas excepto la última
@@ -371,9 +377,7 @@ function reiniciarContador() {
 
 function eventoCeldas(fila) {
 	// Evento código
-
-	let celda = fila.children(CELDA_CODIGO);
-	let inputCodigo = celda.children('input');
+	let inputCodigo = fila.find(INPUT_CODIGO);
 
 	fila.dblclick((e) => {
 		e.preventDefault();
@@ -504,12 +508,12 @@ function eventoCeldas(fila) {
 							inputPrecio.val(numerosDecimalesMostrar(producto.precio)); // Rellenar con precio del producto
 
 							if (getItem(AGREGAR_FILA_TRAS_CONSULTAR_PRODUCTO) == "true") {
-								let ultimaFila = TBODY.find('tr:last');
-								let codigoUltimaFila = ultimaFila.find(INPUT_CODIGO);
+//								let ultimaFila = TBODY.find('tr:last');
+//								let codigoUltimaFila = ultimaFila.find(INPUT_CODIGO);
 
-								if (!isEmpty(codigoUltimaFila.val())) {
-									agregarFila();
-								}
+//								if (!isEmpty(codigoUltimaFila.val())) {
+								agregarFila();
+//								}
 							} else {
 								inputUnidades.select().focus();
 							}
@@ -546,15 +550,8 @@ function eventoCeldas(fila) {
 		);
 	}
 
-	function vaciarFila(fila) {
-		fila.find(CELDA_DESCRIPCION).text('');
-		fila.find(INPUT_PRECIO).val(numerosDecimalesMostrar(0));
-		fila.find(INPUT_UNIDADES).val(1);
-	}
-
 	// EVENTO CELDA UNIDADES
-	celda = fila.children(CELDA_UNIDADES);
-	let inputUnidades = celda.children('input');
+	let inputUnidades = fila.find(INPUT_UNIDADES);
 
 	inputUnidades.change((e) => {
 		e.preventDefault();
@@ -570,10 +567,8 @@ function eventoCeldas(fila) {
 		actualizarTotal();
 	});
 
-
 	// EVENTO CELDA PRECIO
-	celda = fila.children(CELDA_PRECIO);
-	let inputPrecio = celda.children('input');
+	let inputPrecio = fila.find(INPUT_PRECIO);
 
 	inputPrecio.change((e) => {
 		e.preventDefault();
