@@ -508,12 +508,14 @@ function eventoCeldas(fila) {
 							inputPrecio.val(numerosDecimalesMostrar(producto.precio)); // Rellenar con precio del producto
 
 							if (getItem(AGREGAR_FILA_TRAS_CONSULTAR_PRODUCTO) == "true") {
-//								let ultimaFila = TBODY.find('tr:last');
-//								let codigoUltimaFila = ultimaFila.find(INPUT_CODIGO);
+								let ultimaFila = TBODY.find('tr:last');
+								let codigoUltimaFila = ultimaFila.find(INPUT_CODIGO);
 
-//								if (!isEmpty(codigoUltimaFila.val())) {
-								agregarFila();
-//								}
+								if (isEmpty(codigoUltimaFila.val())) {
+									codigoUltimaFila.select().focus();
+								} else {
+									agregarFila();
+								}
 							} else {
 								inputUnidades.select().focus();
 							}
