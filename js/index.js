@@ -415,7 +415,7 @@ function eventoCeldas(fila) {
 					let codigoBuscado = $(filaBuscada).find(INPUT_CODIGO).val();
 
 					if (codigo == codigoBuscado && !fila.is($(filaBuscada)) && parseInt(codigo) > 4) { // Si el código coincide, no es la misma fila y es mayor que 5
-						celdaUnidades = $(filaBuscada).find(INPUT_CODIGO);
+						celdaUnidades = $(filaBuscada).find(INPUT_UNIDADES);
 						productoEnTabla = true;
 					}
 				});
