@@ -15,6 +15,7 @@ function cargarFormularioConfiguracion() {
 
 		let valor = formConfiguracion.agregarFila.checked;
 		setItem(AGREGAR_FILA_TRAS_CONSULTAR_PRODUCTO, valor);
+		msg('Configuración guardad con éxito', 'primary');
 	});
 
 
@@ -34,5 +35,6 @@ function cargarFormularioConfiguracion() {
 
 		let valor = formConfiguracion.mostrarFamilia.checked;
 		setItem(MOSTRAR_FAMILIA_TABLA, valor);
+		msg('Configuración guardad con éxito', 'primary');
 	});
 }
