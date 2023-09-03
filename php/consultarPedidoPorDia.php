@@ -26,7 +26,7 @@
 		$familias = $_GET['familias'];
 
 		foreach ($familias as $key => $familia) {
-			$cadenaFamilias .= "AND UPPER(producto.familia) != UPPER('".$familia."') "; 
+			$cadenaFamilias .= "AND UPPER(producto.familia) != UPPER('".$familia."') ";
 		}
 	}
 

@@ -98,23 +98,23 @@ function cargarFormularioPedido() {
 		let datos = `fechaInicio=${fechaInicio}&fechaFin=${fechaFin}&horaInicio=${horaInicio}&horaFin=${horaFin}`;
 
 		if (!checkAlimentacion.is(':checked')) {
-			datos += `&familias[]=${checkAlimentacion.val() }`;
+			datos += `&familias[]=${checkAlimentacion.val()}`;
 		}
 
 		if (!checkBebidas.is(':checked')) {
-			datos += `&familias[]=${checkBebidas.val() }`;
+			datos += `&familias[]=${checkBebidas.val()}`;
 		}
 
 		if (!checkDrogueria.is(':checked')) {
-			datos += `&familias[]=${checkDrogueria.val() }`;
+			datos += `&familias[]=${checkDrogueria.val()}`;
 		}
 
 		if (!checkTabaco.is(':checked')) {
-			datos += `&familias[]=${checkTabaco.val() }`;
+			datos += `&familias[]=${checkTabaco.val()}`;
 		}
 
 		if (!checkVarios.is(':checked')) {
-			datos += `&familias[]=${checkVarios.val() }`;
+			datos += `&familias[]=${checkVarios.val()}`;
 		}
 
 		if ($('input[name=opcion]:checked').val() == 'producto') { // Muestra el listado de pedidos
