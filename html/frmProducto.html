@@ -220,7 +220,7 @@
 				</div>
 				<!-- The Modal -->
 				<div class="modal fade" id="modalProducto">
-					<div class="modal-dialog modal-dialog-scrollable">
+					<div class="modal-dialog modal-dialog-scrollable modal-lg">
 						<div class="modal-content">
 
 							<!-- Modal Header -->
@@ -232,47 +232,69 @@
 							<!-- Modal body -->
 							<div class="modal-body">
 								<form class="needs-validation" name="formModalProducto" id="formModalProducto">
-									<div class="form-group">
+									<div class="row">
 										<div class="col-sm">
-											<img id="imgProducto" src="img/productos/img_defecto.png" class="mx-auto d-block img-fluid img-thumbnail" alt="Imagen producto">
-											<input id="fileImgProducto" name="img" class="d-none" type="file" accept="image/*">
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="codigoModalProducto" class="label">Código:</label>
-										<input type="text" class="form-control" id="codigoModalProducto" placeholder="Código..." name="codigo">
-										<div class="valid-feedback">
-											Campo válido
-										</div>
-										<div class="invalid-feedback">
-											Rellene este campo
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label for="descripcionModalProducto" class="label">Descripcion:</label>
-										<textarea type="text" class="form-control" id="descripcionModalProducto" placeholder="Descripcion..." name="descripcion"></textarea>
-										<div class="valid-feedback">
-											Campo válido
-										</div>
-										<div class="invalid-feedback">
-											Rellene este campo
-										</div>
-									</div>
-
-									<div class="form-group">
-										<div class="row">
-											<div class="col-md-9">
-												<label for="precioModalProducto" class="label">Precio:</label>
-												<input type="number" class="form-control" id="precioModalProducto" placeholder="Precio..." name="precio" data-decimals="2" step="0.05">
+											<div class="form-group">
+												<label for="codigoModalProducto" class="label">Código:</label>
+												<input type="text" class="form-control" id="codigoModalProducto" placeholder="Código..." name="codigo">
+												<div class="valid-feedback">
+													Campo válido
+												</div>
+												<div class="invalid-feedback">
+													Rellene este campo
+												</div>
 											</div>
-											<div class="col-md-3">
-												<label for="ivaModalProducto" class="label">IVA:</label>
-												<select id="ivaModalProducto" placeholder="IVA..." name="iva" class="form-select mb-2 me-sm-2" required>
-													<option value="0">Sin IVA</option>
-													<option value="4">4%</option>
-													<option value="10">10%</option>
-													<option value="21">21%</option>
+
+											<div class="form-group">
+												<label for="descripcionModalProducto" class="label">Descripcion:</label>
+												<textarea type="text" class="form-control" id="descripcionModalProducto" placeholder="Descripcion..." name="descripcion"></textarea>
+												<div class="valid-feedback">
+													Campo válido
+												</div>
+												<div class="invalid-feedback">
+													Rellene este campo
+												</div>
+											</div>
+
+											<div class="form-group">
+												<div class="row">
+													<div class="col-md-9">
+														<label for="precioModalProducto" class="label">Precio:</label>
+														<input type="number" class="form-control" id="precioModalProducto" placeholder="Precio..." name="precio" data-decimals="2" step="0.05">
+													</div>
+													<div class="col-md-3">
+														<label for="ivaModalProducto" class="label">IVA:</label>
+														<select id="ivaModalProducto" placeholder="IVA..." name="iva" class="form-select mb-2 me-sm-2" required>
+															<option value="0">Sin IVA</option>
+															<option value="4">4%</option>
+															<option value="10">10%</option>
+															<option value="21">21%</option>
+														</select>
+														<div class="valid-feedback">
+															Campo válido
+														</div>
+														<div class="invalid-feedback">
+															Rellene este campo
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label for="familiaModalProducto" class="label">Familia:</label>
+												<select name="familia" id="familiaModalProducto" class="form-select mb-2 me-sm-2" required></select>
+												<div class="valid-feedback">
+													Campo válido
+												</div>
+												<div class="invalid-feedback">
+													Rellene este campo
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label for="proveedorModalProducto" class="label">Proveedor:</label>
+												<select name="proveedor" id="proveedorModalProducto" class="form-select mb-2 me-sm-2" required="">
+													<option value="1">Ayala</option>
 												</select>
 												<div class="valid-feedback">
 													Campo válido
@@ -281,42 +303,24 @@
 													Rellene este campo
 												</div>
 											</div>
-										</div>
-									</div>
 
-									<div class="form-group">
-										<label for="familiaModalProducto" class="label">Familia:</label>
-										<select name="familia" id="familiaModalProducto" class="form-select mb-2 me-sm-2" required></select>
-										<div class="valid-feedback">
-											Campo válido
-										</div>
-										<div class="invalid-feedback">
-											Rellene este campo
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label for="proveedorModalProducto" class="label">Proveedor:</label>
-										<select name="proveedor" id="proveedorModalProducto" class="form-select mb-2 me-sm-2" required="">
-											<option value="1">Ayala</option>
-										</select>
-										<div class="valid-feedback">
-											Campo válido
-										</div>
-										<div class="invalid-feedback">
-											Rellene este campo
-										</div>
-									</div>
-
-									<div class="form-group">
-										<div class="row">
-											<div class="col-sm">
-												<label for="stockModalProducto" class="label">Stock:</label>
-												<input type="number" class="form-control" id="stockModalProducto" placeholder="Stock..." name="stock" data-decimals="0" step="1">
+											<div class="form-group">
+												<div class="row">
+													<div class="col-sm">
+														<label for="stockModalProducto" class="label">Stock:</label>
+														<input type="number" class="form-control" id="stockModalProducto" placeholder="Stock..." name="stock" data-decimals="0" step="1">
+													</div>
+													<div class="col-sm">
+														<label for="stockMinModalProducto" class="label">Stock min.:</label>
+														<input type="number" class="form-control" id="stockMinModalProducto" placeholder="Stock min..." name="stockMin" data-decimals="0" step="1">
+													</div>
+												</div>
 											</div>
-											<div class="col-sm">
-												<label for="stockMinModalProducto" class="label">Stock min.:</label>
-												<input type="number" class="form-control" id="stockMinModalProducto" placeholder="Stock min..." name="stockMin" data-decimals="0" step="1">
+										</div>
+										<div class="col-sm">
+											<div class="form-group">
+												<img id="imgProducto" src="img/productos/img_defecto.png" class="mx-auto d-block img-fluid img-thumbnail" alt="Imagen producto">
+												<input id="fileImgProducto" name="img" class="d-none" type="file" accept="image/*">
 											</div>
 										</div>
 									</div>
