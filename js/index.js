@@ -7,6 +7,7 @@ const THEAD = TABLA.find('thead');
 const TBODY = TABLA.find('tbody:first');
 const TOTAL = $('#total');
 const TOTAL_NAVBAR = $('#navbarText');
+const AUDIO_ERROR = 'audio/windows-error-sound-effect.mp3';
 
 // Clases de las columnas
 const CLASE_CODIGO = 'col-codigo';
@@ -523,7 +524,7 @@ function eventoCeldas(fila) {
 					} else { // Si el producto no existe
 						vaciarFila(fila); // Limpiar fila
 
-						let audio = new Audio('audio/windows-error-sound-effect.mp3'); // Soniod error
+						let audio = new Audio(AUDIO_ERROR); // Soniod error
 						audio.play();
 
 						msgConfirm('El producto no existe', '¿Desea agregarlo?', (respuesta) => {
