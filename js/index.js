@@ -523,12 +523,15 @@ function eventoCeldas(fila) {
 					} else { // Si el producto no existe
 						vaciarFila(fila); // Limpiar fila
 
+						let audio = new Audio('audio/windows-error-sound-effect.mp3'); // Soniod error
+						audio.play();
+
 						msgConfirm('El producto no existe', '¿Desea agregarlo?', (respuesta) => {
 							if (respuesta) {
 								$('#btnInsertarProducto').click(); // Pulsar botón de insertar producto
 
 								let codigo = fila.find(INPUT_CODIGO).val();
-								let precio = fila.find(INPUT_CODIGO).val();
+								let precio = fila.find(INPUT_PRECIO).val();
 
 								setTimeout(() => { // Esperar a que se cargue la tabla
 									$('#codigoAgregar').val(codigo); // Rellenar código
