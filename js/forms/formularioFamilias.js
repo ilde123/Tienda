@@ -100,7 +100,7 @@ function validarFormularioFamilias() {
 function getFamilias(selector) {
 	$.get("php/getFamilias.php", null,
 		(json) => {
-			$('#familias').empty();
+			$(selector).empty();
 
 			$.each(json, (_index, element) => {
 				let option = $('<option>');
