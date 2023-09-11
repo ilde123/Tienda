@@ -32,6 +32,7 @@ function cargarFormularioExistencias() {
 
 		$.each(productos, (_index, producto) => {
 			let fila = $("<tr>");
+			fila.addClass('context-menu-existencias');
 			fila.data('producto', productos);
 	
 			// PRIMERA CELDA
@@ -46,6 +47,16 @@ function cargarFormularioExistencias() {
 			// TERCERA CELDA
 			celda = $('<td>');
 			celda.attr('scope', 'row').addClass(CLASE_EXISTENCIAS).text(producto.stock);
+
+			let stock = parseInt(producto.stock);
+			let stock_minimo = parseInt(producto.stock_minimo);
+
+			if (stock <= stock_minimo) {
+				celda.addClass('bg-danger');
+			} else if (stock <= Math.ceil(percentage(stock_minimo, 25)) + stock_minimo) {
+				celda.addClass('bg-warning');
+			}
+
 			fila.append(celda);
 
 			// CUARTA CELDA
@@ -65,4 +76,6 @@ function cargarFormularioExistencias() {
 	}
 }
 
-
+function percentage(num, per) {
+	return (parseFloat(num)/100) * parseFloat(per);
+}
