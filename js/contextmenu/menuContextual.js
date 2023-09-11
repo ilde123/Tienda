@@ -204,6 +204,51 @@ $.contextMenu({
 	}
 });
 
+$.contextMenu({
+	selector: '.context-menu-existencias',
+	build: (_$trigger, _e) => {
+
+		return {
+			callback: (key, options, _e) => {
+				
+				// FILA AFECTADA
+				let fila = $(options.$trigger[0]);
+
+				switch (key) {
+					case 'ver':
+						let codigo = fila.find('th').text();
+
+						$('#btnConsultarProducto').click();
+
+						// ABRIR CONSULTAR PRODUCTO
+						setTimeout(() => {
+							$('#codigoConsultar').val(codigo);
+
+							$('#btnBuscarProducto').click();
+
+							setTimeout(() => {
+								$('.btn-ver-producto').click();
+							}, 500);
+						}, 1000);
+						break;
+
+					default:
+						break;
+				}
+			},
+			items: {
+				"ver": { name: "Ver/Modificar", icon: 'fa-cart-arrow-down', accesskey: 'v' },
+				"sep1": "---------",
+				"quit": {
+					name: "Cancelar", icon: () => {
+						return 'context-menu-icon context-menu-icon-quit';
+					}
+				}
+			}
+		};
+	}
+});
+
 function menuContextualTablaConsultarProducto() {
 	document.oncontextmenu = (e) => {
 		e.preventDefault();
