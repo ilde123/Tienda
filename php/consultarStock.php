@@ -1,7 +1,7 @@
 <?php
 	require 'datosDB.php';
 
-	if ($resultado = $conexion->query("SELECT * FROM producto WHERE stock >= stock_minimo")) {
+	if ($resultado = $conexion->query("SELECT * FROM producto WHERE stock >= stock_minimo ORDER BY descripcion")) {
 
 		$datos = [];
 	
