@@ -669,6 +669,11 @@ function autocompletar(productos, inputCodigo, descripcion) {
 		let options = {backdrop: false, keyboard: false, show: true, focus: false};
 		const modalAutocompletar = new bootstrap.Modal('#modalAutocompletar', options);
 
+		document.getElementById('modalAutocompletar').addEventListener('hidden.bs.modal', event => { // Evento hidden modal
+			inputCodigo.val('');
+		  })
+		  
+
 		let codigo = inputCodigo.val();
 
 		if (codigo.length > 2 && (isNaN(parseInt(codigo)))) {
