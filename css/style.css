@@ -331,6 +331,10 @@ i.rotar {
 	cursor: move;
 }
 
+.cursor-pointer {
+	cursor: pointer;
+}
+
 
 body {
 	font-family: "Comic Sans MS", "Comic Sans", 'Comic Neue', cursive;
