@@ -403,14 +403,21 @@ function eventoCeldas(fila) {
 		}
 	});
 
+	let = modalAutocompletarInputDescripcion = $('#modalAutocompletarInputDescripcion');
+
+	modalAutocompletarInputDescripcion.keyup((e) => { 
+		e.preventDefault();
+
+		inputCodigo.val(modalAutocompletarInputDescripcion.val()).keyup();
+	});
+
 	inputCodigo.keyup((e) => { 
 		e.preventDefault();
 
-		let codigo = inputCodigo.val();
+		modalAutocompletarInputDescripcion.val(inputCodigo.val());
 
-		if (codigo.length > 2 && (isNaN(parseInt(codigo)))) {
-			getProductos(inputCodigo); // Abrir modal lista productos
-		}
+		getProductos(inputCodigo); // Abrir modal lista productos
+		
 	});
 
 	inputCodigo.change((e) => {
@@ -625,13 +632,13 @@ function eventoCeldas(fila) {
 	}
 
 	// EVENTO CLICK SOBRE INPUT
-	HTML.find('input').off('click');
+/*	HTML.find('input').off('click');
 	HTML.find('input').on('click', (e) => {
 		e.preventDefault();
 
 		$(e.target).select();
 	});
-
+*/
 //	getProductos('tbody tr:last-child th input');
 }
 
@@ -662,9 +669,14 @@ function autocompletar(productos, inputCodigo, descripcion) {
 		let options = {backdrop: false, keyboard: false, show: true, focus: false};
 		const modalAutocompletar = new bootstrap.Modal('#modalAutocompletar', options);
 
-		modalAutocompletar.show('#modalAutocompletar');
+		let codigo = inputCodigo.val();
+
+		if (codigo.length > 2 && (isNaN(parseInt(codigo)))) {
+			modalAutocompletar.show('#modalAutocompletar');
+		}
 
 		let modalBody = $('#modalBodyAutocompletar');
+		
 
 		modalBody.empty();
 
