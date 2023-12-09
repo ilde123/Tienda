@@ -407,7 +407,6 @@ function eventoCeldas(fila) {
 		e.preventDefault();
 
 		let codigo = inputCodigo.val();
-		consola(codigo)
 
 		if (codigo.length > 2 && (isNaN(parseInt(codigo)))) {
 			getProductos(inputCodigo); // Abrir modal lista productos
