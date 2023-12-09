@@ -403,6 +403,17 @@ function eventoCeldas(fila) {
 		}
 	});
 
+	inputCodigo.keyup((e) => { 
+		e.preventDefault();
+
+		let codigo = inputCodigo.val();
+		consola(codigo)
+
+		if (codigo.length > 2 && (isNaN(parseInt(codigo)))) {
+			getProductos(inputCodigo); // Abrir modal lista productos
+		}
+	});
+
 	inputCodigo.change((e) => {
 		e.preventDefault();
 
@@ -410,7 +421,8 @@ function eventoCeldas(fila) {
 
 		if (!isEmpty(codigo)) { // Si el código no está vacío
 			if (isNaN(parseInt(codigo))) { // Si el código no es un número
-				inputCodigo.val(""); // Vaciar el input de código
+				// Autocompletar productos tabla pedidos
+				// getProductos(); // Abrir modal lista productos
 			} else {
 				let productoEnTabla = false;
 				let celdaUnidades;
@@ -621,21 +633,81 @@ function eventoCeldas(fila) {
 		$(e.target).select();
 	});
 
-	// Autocompletar productos tabla pedidos
-	getProductos('tbody tr:last-child th input');
+//	getProductos('tbody tr:last-child th input');
 }
 
+function getProductos(inputCodigo) {
+	let descripcion = inputCodigo.val();
+	$.get("php/getProductos.php", `descripcion=${descripcion}`,
+		(json) => {
+			autocompletar(json, inputCodigo, descripcion);
+		},
+		"json"
+	);
+}
+/*
 function getProductos(elemento) {
 	$.post("php/getProductos.php", null,
 		(json) => {
 			if (typeof(elemento) == 'string') {
-				autocomplete(document.querySelector(elemento), json);
+				autocompletar(document.querySelector(elemento), json);
 			} else {
-				autocomplete(elemento, json);
+				autocompletar(elemento, json);
 			}
 		},
 		"json"
 	);
+}
+*/
+function autocompletar(productos, inputCodigo, descripcion) {
+		let options = {backdrop: false, keyboard: false, show: true, focus: false};
+		const modalAutocompletar = new bootstrap.Modal('#modalAutocompletar', options);
+
+		modalAutocompletar.show('#modalAutocompletar');
+
+		let modalBody = $('#modalBodyAutocompletar');
+
+		modalBody.empty();
+
+		let lista = $('<ul>');
+		lista.addClass('list-group');
+
+		let i = 0;
+		productos.forEach(producto => {
+			let itemLista = $('<li>');
+			itemLista.addClass('list-group-item cursor-pointer');
+
+			let valorBuscado = (producto.descripcion.toUpperCase().search(descripcion.toUpperCase()));
+
+//			itemLista.text(producto.descripcion.substr(0, descripcion));
+			itemLista.html(`${producto.descripcion.substr(0, valorBuscado)}<strong class="text-primary">${producto.descripcion.substr(valorBuscado, inputCodigo.val().length)}</strong>${producto.descripcion.substr((valorBuscado + inputCodigo.val().length), producto.descripcion.length)}`);
+//			itemLista.text(producto.descripcion.substr((descripcion + inputCodigo.val().length), producto.descripcion.length));
+			itemLista.click((e) => { 
+				e.preventDefault();
+
+				inputCodigo.val(producto.codigo);
+				inputCodigo.change();
+				modalAutocompletar.hide('#modalAutocompletar');
+			});
+			lista.append(itemLista);
+
+			let img = $('<img>');
+			img.attr('src', producto.url_imagen);
+			img.addClass('img-fluid rounded float-end w-25');
+			itemLista.append(img);
+
+			i++;
+		});
+
+		if (i == 0) {
+			msg('Ningún producto coincide con la descripción', 'warning');
+
+			let img = $('<img>');
+			img.attr('src', './img/productos/carritoVacio.png');
+			img.addClass('img-thumbnail img-fluid w-25');
+			lista.append(img);
+		}
+		modalBody.append(lista);
 }
 
 function actualizarTotal() {
