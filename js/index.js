@@ -402,7 +402,7 @@ function eventoCeldas(fila) {
 			}, 1000);
 		}
 	});
-
+/*
 	let = modalAutocompletarInputDescripcion = $('#modalAutocompletarInputDescripcion');
 
 	modalAutocompletarInputDescripcion.keyup((e) => { 
@@ -410,7 +410,7 @@ function eventoCeldas(fila) {
 
 		inputCodigo.val(modalAutocompletarInputDescripcion.val()).keyup();
 	});
-
+/*
 	inputCodigo.keyup((e) => { 
 		e.preventDefault();
 
@@ -419,7 +419,7 @@ function eventoCeldas(fila) {
 		getProductos(inputCodigo); // Abrir modal lista productos
 		
 	});
-
+*/
 	inputCodigo.change((e) => {
 		e.preventDefault();
 
@@ -632,16 +632,16 @@ function eventoCeldas(fila) {
 	}
 
 	// EVENTO CLICK SOBRE INPUT
-/*	HTML.find('input').off('click');
+	HTML.find('input').off('click');
 	HTML.find('input').on('click', (e) => {
 		e.preventDefault();
 
 		$(e.target).select();
 	});
-*/
-//	getProductos('tbody tr:last-child th input');
+	
+	getProductos('tbody tr:last-child th input');
 }
-
+/*
 function getProductos(inputCodigo) {
 	let descripcion = inputCodigo.val();
 	$.get("php/getProductos.php", `descripcion=${descripcion}`,
@@ -651,20 +651,20 @@ function getProductos(inputCodigo) {
 		"json"
 	);
 }
-/*
+ */
 function getProductos(elemento) {
 	$.post("php/getProductos.php", null,
 		(json) => {
 			if (typeof(elemento) == 'string') {
-				autocompletar(document.querySelector(elemento), json);
+				autocomplete(document.querySelector(elemento), json);
 			} else {
-				autocompletar(elemento, json);
+				autocomplete(elemento, json);
 			}
 		},
 		"json"
 	);
 }
-*/
+/*
 function autocompletar(productos, inputCodigo, descripcion) {
 		let options = {backdrop: false, keyboard: false, show: true, focus: false};
 		const modalAutocompletar = new bootstrap.Modal('#modalAutocompletar', options);
@@ -725,7 +725,7 @@ function autocompletar(productos, inputCodigo, descripcion) {
 		}
 		modalBody.append(lista);
 }
-
+*/
 function actualizarTotal() {
 	let inputUnidades = $(INPUT_UNIDADES);
 	let inputPrecios = $(INPUT_PRECIO);

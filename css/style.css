@@ -335,6 +335,9 @@ i.rotar {
 	cursor: pointer;
 }
 
+.w-10 {
+	width: 10%;
+}
 
 body {
 	font-family: "Comic Sans MS", "Comic Sans", 'Comic Neue', cursive;

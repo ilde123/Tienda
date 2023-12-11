@@ -4,48 +4,65 @@ function autocomplete(inp, arr) {
 	let currentFocus;
 	/*execute a function when someone writes in the text field:*/
 	inp.addEventListener("input", function (e) {
-		let listaElementos, elemento, val = this.value;
-		/*close any already open lists of autocompleted values*/
-		closeAllLists();
-		if (!val) { return false; }
-		currentFocus = -1;
-		/*create a DIV element that will contain the items (values):*/
-		listaElementos = document.createElement("DIV");
-		listaElementos.setAttribute("id", this.id + "autocomplete-list");
-		listaElementos.setAttribute("class", "autocomplete-items");
-		/*append the DIV element as a child of the autocomplete container:*/
-		this.parentNode.appendChild(listaElementos);
-		/*for each item in the array...*/
-		for (let i = 0; i < arr.length; i++) {
-			/*check if the item starts with the same letters as the text field value:*/
-			// Comprobamos si el valor de la lista de elementos es igual al valor del input
-			if (arr[i].descripcion.toUpperCase().search(val.toUpperCase()) > -1) {
-				let valorBuscado = (arr[i].descripcion.toUpperCase().search(val.toUpperCase())); //valor de la busqueda
-				/*create a DIV element for each matching element:*/
-				elemento = document.createElement("DIV"); // Creamos un div para cada elemento
-				elemento.classList.add('autocomplete-item');
+		if (inp.value.length > 2) {
+			let listaElementos, elemento, val = this.value;
+			/*close any already open lists of autocompleted values*/
+			closeAllLists();
+			if (!val) { return false; }
+			currentFocus = -1;
+			/*create a DIV element that will contain the items (values):*/
+			listaElementos = document.createElement("div");
+			listaElementos.setAttribute("id", this.id + "autocomplete-list");
+			listaElementos.classList.add("autocomplete-items", "list-group");
+			/*append the DIV element as a child of the autocomplete container:*/
+			this.parentNode.appendChild(listaElementos);
+			/*for each item in the array...*/
+			let contador = 0;
+			for (let i = 0; i < arr.length; i++) {
+				/*check if the item starts with the same letters as the text field value:*/
+				// Comprobamos si el valor de la lista de elementos es igual al valor del input
+				if (arr[i].descripcion.toUpperCase().search(val.toUpperCase()) > -1) {
+					let valorBuscado = (arr[i].descripcion.toUpperCase().search(val.toUpperCase())); //valor de la busqueda
+					/*create a DIV element for each matching element:*/
+					elemento = document.createElement("a"); // Creamos un div para cada elemento
+					elemento.classList.add("autocomplete-item", "list-group-item", "cursor-pointer");
+					/*make the matching letters bold:*/
+					elemento.innerHTML = `<img src="${arr[i].url_imagen}" class="rounded w-10 me-2">`;
+					elemento.innerHTML += arr[i].descripcion.substr(0, valorBuscado);
+					elemento.innerHTML += `<strong class="text-primary">${arr[i].descripcion.substr(valorBuscado, val.length)}</strong>`;
+					elemento.innerHTML += arr[i].descripcion.substr((valorBuscado + val.length), arr[i].descripcion.length);
+	
+					/*insert a input field that will hold the current array item's value:*/
+					elemento.innerHTML += `<input type="hidden" value="${arr[i].codigo}">`;
+					/*execute a function when someone clicks on the item value (DIV element):*/
+					elemento.addEventListener("click", function (e) {
+						/*insert the value for the autocomplete text field:*/
+						inp.value = this.getElementsByTagName("input")[0].value;
+						//inp.value = arr[i].codigo;
+						/*close the list of autocompleted values,
+						(or any other open lists of autocompleted values:*/
+						closeAllLists();
+	
+						let event = new Event('change');
+	
+						setTimeout(() => {
+							inp.dispatchEvent(event);
+						}, 500);
+					});
+					listaElementos.appendChild(elemento);
+					contador++;
+				}
+			}
+
+			if (contador == 0) {
+				elemento = document.createElement("a"); // Creamos un div para cada elemento
+				elemento.classList.add("autocomplete-item", "list-group-item", "cursor-pointer");
 				/*make the matching letters bold:*/
-				elemento.innerHTML = arr[i].descripcion.substr(0, valorBuscado);
-				elemento.innerHTML += `<strong class="text-primary">${arr[i].descripcion.substr(valorBuscado, val.length)}</strong>`;
-				elemento.innerHTML += arr[i].descripcion.substr((valorBuscado + val.length), arr[i].descripcion.length);
-				/*insert a input field that will hold the current array item's value:*/
-				elemento.innerHTML += `<input type="hidden" value="${arr[i].codigo}">`;
-				/*execute a function when someone clicks on the item value (DIV element):*/
-				elemento.addEventListener("click", function (e) {
-					/*insert the value for the autocomplete text field:*/
-					inp.value = this.getElementsByTagName("input")[0].value;
-					//inp.value = arr[i].codigo;
-					/*close the list of autocompleted values,
-					(or any other open lists of autocompleted values:*/
-					closeAllLists();
-
-					let event = new Event('change');
-
-					setTimeout(() => {
-						inp.dispatchEvent(event);
-					}, 500);
-				});
+				elemento.innerHTML = `<img src="img/productos/carritoVacio.png" class="rounded w-10 me-2">`;
+				elemento.innerHTML += "Ningún producto coincide con la busqueda";
 				listaElementos.appendChild(elemento);
+			} else {
+				msg(`${contador} resultados coinciden con la descripción`, 'info');
 			}
 		}
 	});
