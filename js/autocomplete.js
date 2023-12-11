@@ -28,9 +28,9 @@ function autocomplete(inp, arr) {
 					elemento.classList.add("autocomplete-item", "list-group-item", "cursor-pointer");
 					/*make the matching letters bold:*/
 					elemento.innerHTML = `<img src="${arr[i].url_imagen}" class="rounded w-10 me-2">`;
-					elemento.innerHTML += `<p>${arr[i].descripcion.substr(0, valorBuscado)}`;
+					elemento.innerHTML += `${arr[i].descripcion.substr(0, valorBuscado)}`;
 					elemento.innerHTML += `<strong class="text-primary">${arr[i].descripcion.substr(valorBuscado, val.length)}</strong>`;
-					elemento.innerHTML += `${arr[i].descripcion.substr((valorBuscado + val.length), arr[i].descripcion.length)}</p>`;
+					elemento.innerHTML += `${arr[i].descripcion.substr((valorBuscado + val.length), arr[i].descripcion.length)}`;
 //					elemento.innerHTML += `<p>${arr[i].codigo}</p>`;
 	
 					/*insert a input field that will hold the current array item's value:*/
@@ -97,8 +97,8 @@ function autocomplete(inp, arr) {
 	});
 	inp.addEventListener("blur", function (e) {
 		closeAllLists(e.target);
-		inp.value = "";
-		cerrarListaAutocomplete();
+//		inp.value = "";
+//		cerrarListaAutocomplete();
 	});
 	function addActive(x) {
 		/*a function to classify an item as "active":*/
