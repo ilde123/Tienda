@@ -987,29 +987,35 @@ function msg(txt, color) {
 	}, 500);
 }
 
-let intervalNevada = setInterval(() => {
-	nevada();
-}, 500);
+nevada();
 
 function nevada() {
-	let copo = document.createElement('div');
-
-	copo.classList.add('copo-nieve');
-
-	let enteroAnimacion = Math.floor(Math.random() * 6);
-	let enteroOrigen = Math.floor(Math.random() * 100);
-
-	copo.classList.add(`animacion${enteroAnimacion}`);
-	copo.style.left = `${enteroOrigen}%`;
-
 	let html = document.querySelector('html');
+	let body = document.querySelector('body');
+	
+	let intervalNevada = setInterval(() => {
+		let copo;
+		copo = document.createElement('div');
+		
+		copo.classList.add('copo-nieve');
+		
+		let enteroAnimacion = Math.floor(Math.random() * 6);
+		let enteroOrigen = Math.floor(Math.random() * 100);
+		
+		copo.classList.add(`animacion${enteroAnimacion}`);
+		copo.style.left = `${enteroOrigen}%`;
+		html.append(copo);
+	}, 500);
+
+	body.style.backgroundImage = "url(img/fondo_navidad2.png)"; 
+	body.style.backgroundRepeat = "no-repeat";
+	body.style.backgroundSize = "cover";
 
 	html.style.backgroundImage = "url(img/fondo_navidad.png)"; 
 	html.style.backgroundRepeat = "no-repeat";
 	html.style.backgroundSize = "cover";
-	html.style.backgroundPositionY = "90px";
+	html.style.backgroundPositionY = `${BODY.height()}px`;
 
-	html.append(copo);
 }
 
 function consola(txt) {
