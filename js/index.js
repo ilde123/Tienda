@@ -1007,7 +1007,7 @@ function nevada() {
 	html.style.backgroundImage = "url(img/fondo_navidad.png)"; 
 	html.style.backgroundRepeat = "no-repeat";
 	html.style.backgroundSize = "cover";
-	html.style.backgroundPositionY = "350px";
+	html.style.backgroundPositionY = "90px";
 
 	html.append(copo);
 }
