@@ -987,6 +987,31 @@ function msg(txt, color) {
 	}, 500);
 }
 
+let intervalNevada = setInterval(() => {
+	nevada();
+}, 500);
+
+function nevada() {
+	let copo = document.createElement('div');
+
+	copo.classList.add('copo-nieve');
+
+	let enteroAnimacion = Math.floor(Math.random() * 6);
+	let enteroOrigen = Math.floor(Math.random() * 100);
+
+	copo.classList.add(`animacion${enteroAnimacion}`);
+	copo.style.left = `${enteroOrigen}%`;
+
+	let html = document.querySelector('html');
+
+	html.style.backgroundImage = "url(img/fondo_navidad.png)"; 
+	html.style.backgroundRepeat = "no-repeat";
+	html.style.backgroundSize = "cover";
+	html.style.backgroundPositionY = "350px";
+
+	html.append(copo);
+}
+
 function consola(txt) {
 	console.log(txt);
 }

@@ -2,6 +2,72 @@
 
 /* Input Range */
 
+
+
+.copo-nieve {
+	position: absolute;
+	animation-duration: 15s;
+	animation-timing-function: linear;
+	top:0px;
+	border-radius: 100%;
+	width: .5em;
+	height: .5em;
+	background-color: white;
+	border-color: black;
+	border-style: solid;
+	border-width: thin;
+}
+
+.animacion1 {
+	animation-name: nevada1;
+
+}
+
+.animacion2 {
+	animation-name: nevada2;
+
+}
+
+.animacion3 {
+	animation-name: nevada3;
+
+}
+
+.animacion4 {
+	animation-name: nevada4;
+
+}
+
+.animacion5 {
+	animation-name: nevada5;
+
+}
+
+@keyframes nevada1 {
+	0%   {top:0px;}
+	100% {left:99%; top: 99%;}
+}
+
+@keyframes nevada2 {
+	0%   {top:0px;}
+	100% {left:75%; top: 99%;}
+}
+
+@keyframes nevada3 {
+	0%   {top:0px;}
+	100% {left:25%; top: 99%;}
+}
+
+@keyframes nevada4 {
+	0%   {top:0px;}
+	100% {left:50%; top: 99%;}
+}
+
+@keyframes nevada5 {
+	0%   {top:0px;}
+	100% {left:1%; top: 99%;}
+}
+
 .range_container {
 	display: flex;
 	flex-direction: column;
