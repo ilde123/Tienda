@@ -2,7 +2,9 @@
 
 /* Input Range */
 
-
+.col-descripcion {
+	text-shadow: 4px 4px 4px #fff;
+}
 
 .copo-nieve {
 	position: absolute;
