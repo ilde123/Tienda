@@ -20,27 +20,27 @@
 
 .animacion1 {
 	animation-name: nevada1;
-
+	background-image: url(../img/copo1.png);
 }
 
 .animacion2 {
 	animation-name: nevada2;
-
+	background-image: url(../img/copo2.png);
 }
 
 .animacion3 {
 	animation-name: nevada3;
-
+	background-image: url(../img/copo3.png);
 }
 
 .animacion4 {
 	animation-name: nevada4;
-
+	background-image: url(../img/copo4.png);
 }
 
 .animacion5 {
 	animation-name: nevada5;
-
+	background-image: url(../img/copo5.png);
 }
 
 @keyframes nevada1 {
