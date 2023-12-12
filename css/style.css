@@ -45,27 +45,27 @@
 
 @keyframes nevada1 {
 	0%   {top:0px;}
-	100% {left:99%; top: 99%;}
+	100% {left:99%; top: 97%;}
 }
 
 @keyframes nevada2 {
 	0%   {top:0px;}
-	100% {left:75%; top: 99%;}
+	100% {left:75%; top: 97%;}
 }
 
 @keyframes nevada3 {
 	0%   {top:0px;}
-	100% {left:25%; top: 99%;}
+	100% {left:25%; top: 97%;}
 }
 
 @keyframes nevada4 {
 	0%   {top:0px;}
-	100% {left:50%; top: 99%;}
+	100% {left:50%; top: 97%;}
 }
 
 @keyframes nevada5 {
 	0%   {top:0px;}
-	100% {left:1%; top: 99%;}
+	100% {left:3%; top: 997;}
 }
 
 .range_container {
