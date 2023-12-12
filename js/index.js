@@ -1005,6 +1005,10 @@ function nevada() {
 		copo.classList.add(`animacion${enteroAnimacion}`);
 		copo.style.left = `${enteroOrigen}%`;
 		html.append(copo);
+
+		setInterval(() => {
+			copo.remove();
+		}, 15000);
 	}, 500);
 
 	body.style.backgroundImage = "url(img/fondo_navidad2.png)"; 
