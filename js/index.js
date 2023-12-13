@@ -999,10 +999,10 @@ fechaFinNavidad.setDate(31);
 fechaFinNavidad.setMonth(11);
 
 if (fechaHoy.getDate() >= fechaInicioNavidad.getDate() && fechaHoy.getMonth() >= fechaInicioNavidad.getMonth() && fechaHoy.getDate() <= fechaFinNavidad.getDate() && fechaHoy.getMonth() >= fechaFinNavidad.getMonth()) {
-	nevada();
+	navidad();
 }
 
-function nevada() {
+function navidad() {
 	let html = document.querySelector('html');
 	let body = document.querySelector('body');
 
