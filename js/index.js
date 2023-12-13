@@ -1022,13 +1022,14 @@ function navidad() {
 	audioSanta.play();
 
 	setInterval(() => {
-		if (pos <= (-santa.width) * 4) {
+		if (pos <= (-santa.width * 40)) {
 			pos = BODY.width();
+			audioSanta.play();
 		} else {
 			pos--;
 			santa.style.left = `${pos}px`
 		}
-	}, 5);
+	}, 10);
 
 	let intervalNevada = setInterval(() => {
 		let copo;
