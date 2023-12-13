@@ -2,6 +2,11 @@
 
 /* Input Range */
 
+#contenidoFormularios {
+	background-color: #ffffffb2;
+	border-radius: 1%;
+}
+
 .col-descripcion {
 	text-shadow: 0 0 3px #FFF, 0 0 5px #FFF;
 }

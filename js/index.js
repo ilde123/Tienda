@@ -8,6 +8,7 @@ const TBODY = TABLA.find('tbody:first');
 const TOTAL = $('#total');
 const TOTAL_NAVBAR = $('#navbarText');
 const AUDIO_ERROR = 'audio/windows-error-sound-effect.mp3';
+const AUDIO_SANTA = 'audio/santa-claus-merry-christmas-ho-ho-ho.mp3';
 
 // Clases de las columnas
 const CLASE_CODIGO = 'col-codigo';
@@ -1007,7 +1008,28 @@ function nevada() {
 
 	let brand = document.querySelector('#brand');
 	brand.classList.remove('d-none');
-	
+
+	let santa = document.createElement('img');
+	santa.setAttribute('src', 'img/santa.png');
+	santa.classList.add('w-10');
+	santa.style.top = BODY.height() / 2;
+	santa.style.position = "absolute";
+
+	body.append(santa);
+
+	let pos = BODY.width();
+	let audioSanta = new Audio(AUDIO_SANTA); // Soniod error
+	audioSanta.play();
+
+	setInterval(() => {
+		if (pos <= (-santa.width) * 4) {
+			pos = BODY.width();
+		} else {
+			pos--;
+			santa.style.left = `${pos}px`
+		}
+	}, 5);
+
 	let intervalNevada = setInterval(() => {
 		let copo;
 		copo = document.createElement('div');
