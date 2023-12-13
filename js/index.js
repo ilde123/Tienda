@@ -987,11 +987,26 @@ function msg(txt, color) {
 	}, 500);
 }
 
-nevada();
+let fechaHoy = new Date();
+
+let fechaInicioNavidad = new Date();
+fechaInicioNavidad.setDate(9);
+fechaInicioNavidad.setMonth(11)
+
+let fechaFinNavidad = new Date();
+fechaFinNavidad.setDate(31);
+fechaFinNavidad.setMonth(11);
+
+if (fechaHoy.getDate() >= fechaInicioNavidad.getDate() && fechaHoy.getMonth() >= fechaInicioNavidad.getMonth() && fechaHoy.getDate() <= fechaFinNavidad.getDate() && fechaHoy.getMonth() >= fechaFinNavidad.getMonth()) {
+	nevada();
+}
 
 function nevada() {
 	let html = document.querySelector('html');
 	let body = document.querySelector('body');
+
+	let brand = document.querySelector('#brand');
+	brand.classList.remove('d-none');
 	
 	let intervalNevada = setInterval(() => {
 		let copo;
@@ -1014,11 +1029,12 @@ function nevada() {
 	body.style.backgroundImage = "url(img/fondo_navidad2.png)"; 
 	body.style.backgroundRepeat = "no-repeat";
 	body.style.backgroundSize = "cover";
+	body.style.textShadow = "0 0 3px #FFF, 0 0 5px #FFF";
 
 	html.style.backgroundImage = "url(img/fondo_navidad.png)"; 
 	html.style.backgroundRepeat = "no-repeat";
 	html.style.backgroundSize = "cover";
-	html.style.backgroundPositionY = `${BODY.height()}px`;
+	html.style.backgroundPositionY = `${BODY.height() - 250}px`;
 
 }
 
