@@ -1009,27 +1009,54 @@ function navidad() {
 	let brand = document.querySelector('#brand');
 	brand.classList.remove('d-none');
 
-	let santa = document.createElement('img');
-	santa.setAttribute('src', 'img/santa.png');
-	santa.classList.add('w-10');
-	santa.style.top = BODY.height() / 2;
-	santa.style.position = "absolute";
+	santa();
 
-	body.append(santa);
+	function santa() {
+		let santa = document.createElement('img');
+		santa.setAttribute('src', 'img/santa.png');
+		santa.classList.add('w-10');
+		santa.style.top = BODY.height() / 2;
+		santa.style.position = "absolute";
+	
+		body.append(santa);
+	
+		let posX = BODY.width();
+		let posY = BODY.height() / 2;
+		let incremento = 20;
+		let alturaMax = posY - incremento;
+		let alturaMin = posY + (incremento * 2);
+		let direccionY = 'up';
+		let audioSanta = new Audio(AUDIO_SANTA); // Soniod error
+		audioSanta.play();
+	
+		setInterval(() => {
+			if (posX <= (-santa.width * 40)) {
+				posX = BODY.width();
+				audioSanta.play();
+			} else {
+				posX--;
+				santa.style.left = `${posX}px`
+			}
+		}, 10);
 
-	let pos = BODY.width();
-	let audioSanta = new Audio(AUDIO_SANTA); // Soniod error
-	audioSanta.play();
+		setInterval(() => {
+			if (direccionY == 'up') {
+				posY--;
+				santa.style.top = `${posY}px`
+				
+				if (posY < alturaMax) {
+					direccionY = 'down';
+				}
+			} else {
+				posY++;
+				santa.style.top = `${posY}px`
 
-	setInterval(() => {
-		if (pos <= (-santa.width * 40)) {
-			pos = BODY.width();
-			audioSanta.play();
-		} else {
-			pos--;
-			santa.style.left = `${pos}px`
-		}
-	}, 10);
+				if (posY > alturaMin) {
+					direccionY = 'up';
+				}
+			}
+		}, 100);
+	}
 
 	let intervalNevada = setInterval(() => {
 		let copo;
